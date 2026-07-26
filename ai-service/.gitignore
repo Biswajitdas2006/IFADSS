@@ -1,0 +1,43 @@
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+## Virtual environment
+venv/
+.venv/
+env/
+
+## Environment
+.env
+.env.local
+!.env.example
+
+## Jupyter (if used during model experimentation)
+.ipynb_checkpoints/
+
+## Datasets — large raw files shouldn't bloat the repo
+datasets/raw/*
+!datasets/raw/.gitkeep
+
+## Trained models — see note below before finalizing this
+models_store/**/*.joblib
+!models_store/**/metadata.json
+
+## Logs
+*.log
+logs/
+
+## Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+## OS junk
+.DS_Store
+Thumbs.db
+
+## Editor
+.vscode/
+.idea/

@@ -1,0 +1,44 @@
+## .NET Build Output
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+## Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Secrets — never commit real connection strings/passwords
+appsettings.Development.json
+appsettings.Local.json
+.env
+*.env
+!.env.example
+
+## User Secrets (kept outside repo anyway, but exclude if ever misplaced)
+**/secrets.json
+
+## Logs
+logs/
+*.log
+
+## Test results
+TestResults/
+*.trx
+
+## NuGet
+*.nupkg
+**/packages/
+.nuget/
+
+## macOS / Windows junk
+.DS_Store
+Thumbs.db
+
+## Rider
+.idea/
