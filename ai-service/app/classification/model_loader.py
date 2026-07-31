@@ -5,7 +5,7 @@ MODELS_STORE = Path(__file__).resolve().parents[2] / "models_store" / "classifie
  
 _classifier = None
 _active_version = None
- 
+_label_encoder = None
  
 def _resolve_latest() -> str:
     active_file = MODELS_STORE / "ACTIVE_VERSION.txt"
@@ -21,6 +21,11 @@ def load_classifier(version: str = "latest") -> None:
     resolved = _resolve_latest() if version == "latest" else version
     model_path = MODELS_STORE / resolved / "model.joblib"
     _classifier = joblib.load(model_path)
+    encoder_path = MODELS_STORE / resolved / "label_encoder.joblib"
+
+    if encoder_path.exists():
+        global _label_encoder
+        _label_encoder = joblib.load(encoder_path)
     _active_version = resolved
  
  
@@ -32,3 +37,6 @@ def get_classifier():
  
 def get_active_version() -> str:
     return _active_version
+
+def get_label_encoder():
+    return _label_encoder

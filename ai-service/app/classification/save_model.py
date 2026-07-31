@@ -6,10 +6,13 @@ import joblib
 MODELS_STORE = Path(__file__).resolve().parents[2] / "models_store" / "classifier"
  
  
-def save(model, version: str, dataset_version: str, metrics: dict) -> Path:
+def save( model,version: str,dataset_version: str,metrics: dict,label_encoder=None,) -> Path:
     out_dir = MODELS_STORE / version
     out_dir.mkdir(parents=True, exist_ok=True)
+    
     joblib.dump(model, out_dir / "model.joblib")
+    if label_encoder is not None:
+        joblib.dump(label_encoder, out_dir / "label_encoder.joblib")
  
     metadata = {
         "version": version,

@@ -12,8 +12,7 @@ from app.classification.embedding_generator import embed_texts
 SPLITS_DIR = Path(__file__).resolve().parents[2] / "datasets" / "splits"
  
  
-def evaluate(model, x_test, y_test) -> dict:
-    y_pred = model.predict(x_test)
+def evaluate(y_test, y_pred) -> dict:
     return {
         "accuracy": accuracy_score(y_test, y_pred),
         "precision_macro": precision_score(y_test, y_pred, average="macro", zero_division=0),
@@ -21,15 +20,17 @@ def evaluate(model, x_test, y_test) -> dict:
         "f1_macro": f1_score(y_test, y_pred, average="macro", zero_division=0),
         "labels": sorted(y_test.unique().tolist()),
         "confusion_matrix": confusion_matrix(
-            y_test, y_pred, labels=sorted(y_test.unique())
+            y_test,
+            y_pred,
+            labels=sorted(y_test.unique())
         ).tolist(),
     }
- 
  
 if __name__ == "__main__":
     version = "v1.0"
     model_loader.load_classifier(version=version)
     model = model_loader.get_classifier()
+    encoder = model_loader.get_label_encoder()
  
     test_df = pd.read_csv(SPLITS_DIR / version / "test.csv")
     embeddings = embed_texts(test_df["description"].tolist())
@@ -38,7 +39,12 @@ if __name__ == "__main__":
     x_test = build_feature_matrix(emb_df)
     y_test = test_df["category"]
  
-    metrics = evaluate(model, x_test, y_test)
+    y_pred = model.predict(x_test)
+
+    if encoder is not None:
+        y_pred = encoder.inverse_transform(y_pred)
+
+    metrics = evaluate(y_test, y_pred)
     print(json.dumps(metrics, indent=2))
  
     out_path = Path(__file__).resolve().parents[2] / "models_store" / "classifier" / version / "metrics.json"

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import xgboost as xgb
 from pathlib import Path
- 
+from sklearn.preprocessing import LabelEncoder
 from app.classification import save_model
  
 EMBEDDINGS_DIR = Path(__file__).resolve().parents[2] / "datasets" / "embeddings"
@@ -39,9 +39,21 @@ if __name__ == "__main__":
     cut = int(len(shuffled) * 0.85)
     train_df, val_df = shuffled.iloc[:cut], shuffled.iloc[cut:]
  
-    x_train, x_val = build_feature_matrix(train_df), build_feature_matrix(val_df)
-    y_train, y_val = train_df["category"], val_df["category"]
- 
+    x_train = build_feature_matrix(train_df)
+    x_val = build_feature_matrix(val_df)
+
+    encoder = LabelEncoder()
+
+    y_train = encoder.fit_transform(train_df["category"])
+    y_val = encoder.transform(val_df["category"])
+
     model = train_model(x_train, y_train, x_val, y_val)
-    save_model.save(model, version=version, dataset_version=version, metrics={})
+
+    save_model.save(
+        model,
+        version=version,
+        dataset_version=version,
+        metrics={},
+        label_encoder=encoder,
+    )
     print(f"Trained and saved classifier {version}")
