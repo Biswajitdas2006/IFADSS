@@ -552,15 +552,10 @@ def create_splits(
     )
 
     val_df, test_df = train_test_split(
-
         temp_df,
-
         test_size=0.50,
-
         random_state=42,
-
-        stratify=temp_df["category"],
-
+        shuffle=True
     )
 
     split_dir = SPLITS_DIR / version
