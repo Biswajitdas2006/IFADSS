@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.pytest_cache/
+datasets/raw/*.csv
+datasets/processed/*.csv
+datasets/embeddings/*.parquet
+# NOTE: models_store/ is intentionally NOT listed here — it must be committed.
