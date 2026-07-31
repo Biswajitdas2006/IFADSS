@@ -151,70 +151,30 @@ CATEGORY_TAXONOMY = [
 # -------------------------------------------------------
 # Excel Category Mapping
 # -------------------------------------------------------
-
 EXCEL_CATEGORY_MAP = {
 
-    "Mortgage & Rent": "Rent",
-
-    "Bills & Utilities": "Utilities",
-
-    "Internet": "Utilities",
-
-    "Electricity": "Utilities",
-
-    "Gas": "Utilities",
-
-    "Water": "Utilities",
-
-    "Fuel": "Travel",
-
-    "Taxi": "Travel",
-
-    "Transport": "Travel",
-
-    "Restaurants": "Travel",
-
-    "Flights": "Travel",
-
-    "Hotel": "Travel",
-
-    "Salary": "Payroll",
-
-    "Payroll": "Payroll",
-
-    "Office Supplies": "Office Supplies",
-
-    "Software": "Software/Subscriptions",
-
-    "Subscriptions": "Software/Subscriptions",
-
-    "Marketing": "Marketing",
-
-    "Advertising": "Marketing",
-
-    "Consulting": "Professional Fees",
-
-    "Legal": "Professional Fees",
-
-    "Professional Fees": "Professional Fees",
-
-    "Shopping": "Miscellaneous",
-
-    "Groceries": "Miscellaneous",
-
+    "Alcohol & Bars": "Miscellaneous",
+    "Auto Insurance": "Professional Fees",
+    "Coffee Shops": "Miscellaneous",
+    "Credit Card Payment": "Professional Fees",
+    "Electronics & Software": "Software/Subscriptions",
     "Entertainment": "Miscellaneous",
-
-    "Movies & Dvds": "Miscellaneous",
-
-    "Dining": "Miscellaneous",
-
-    "Health": "Miscellaneous",
-
-    "Insurance": "Miscellaneous",
-
-    "Credit Card Payment": "Miscellaneous",
-
-    "Transfer": "Miscellaneous"
+    "Fast Food": "Miscellaneous",
+    "Food & Dining": "Miscellaneous",
+    "Gas & Fuel": "Travel",
+    "Groceries": "Office Supplies",
+    "Haircut": "Miscellaneous",
+    "Home Improvement": "Office Supplies",
+    "Internet": "Utilities",
+    "Mobile Phone": "Utilities",
+    "Mortgage & Rent": "Rent",
+    "Movies & Dvds": "Software/Subscriptions",
+    "Music": "Software/Subscriptions",
+    "Paycheck": "Payroll",
+    "Restaurants": "Miscellaneous",
+    "Shopping": "Office Supplies",
+    "Television": "Utilities",
+    "Utilities": "Utilities",
 
 }
 
@@ -225,36 +185,10 @@ EXCEL_CATEGORY_MAP = {
 INDIAN_CATEGORY_MAP = {
 
     "Shopping": "Office Supplies",
-
-    "EMI": "Miscellaneous",
-
-    "Investment": "Professional Fees",
-
-    "Food": "Travel",
-
-    "Recharge": "Utilities",
-
-    "Electricity": "Utilities",
-
-    "Gas": "Utilities",
-
-    "Water": "Utilities",
-
-    "Fuel": "Travel",
-
-    "Insurance": "Professional Fees",
-
-    "Salary": "Payroll",
-
     "Travel": "Travel",
-
-    "Taxi": "Travel",
-
-    "Subscription": "Software/Subscriptions",
-
-    "Software": "Software/Subscriptions",
-
-    "Marketing": "Marketing"
+    "Food": "Miscellaneous",
+    "Investment": "Professional Fees",
+    "EMI": "Rent",
 
 }
 
@@ -287,7 +221,6 @@ CATEGORY_AMOUNT_RANGE = {
 # -------------------------------------------------------
 # Helper Functions
 # -------------------------------------------------------
-
 def standardize_category(category: str) -> str:
 
     if pd.isna(category):
@@ -295,17 +228,25 @@ def standardize_category(category: str) -> str:
 
     category = str(category).strip()
 
+    # Exact match first
     if category in EXCEL_CATEGORY_MAP:
         return EXCEL_CATEGORY_MAP[category]
 
     if category in INDIAN_CATEGORY_MAP:
         return INDIAN_CATEGORY_MAP[category]
 
-    if category in CATEGORY_TAXONOMY:
-        return category
+    # Fallback: partial match
+    lower = category.lower()
+
+    for key, value in EXCEL_CATEGORY_MAP.items():
+        if key.lower() in lower:
+            return value
+
+    for key, value in INDIAN_CATEGORY_MAP.items():
+        if key.lower() in lower:
+            return value
 
     return "Miscellaneous"
-
 
 def generate_amount(category: str) -> float:
 
