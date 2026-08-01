@@ -6,6 +6,7 @@ using FinancialAutomation.Infrastructure.Logging;
 using FinancialAutomation.Infrastructure.Persistence;
 using FinancialAutomation.Infrastructure.Repositories;
 using FinancialAutomation.Infrastructure.Security;
+using FinancialAutomation.Infrastructure.Storage; // Added
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +33,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Invoice Repositories & Services (Added)
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IInvoiceFileStorage, LocalInvoiceFileStorage>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
 // Security
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -110,9 +116,8 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-
-
 app.UseSerilogRequestLogging();
+
 // Global exception handling
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -126,6 +131,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
+
 // Enable CORS
 app.UseCors("AllowFrontend");
 
