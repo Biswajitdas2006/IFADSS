@@ -24,6 +24,7 @@
     <ProjectReference Include="..\FinancialAutomation.API\FinancialAutomation.API.csproj" />
     <ProjectReference Include="..\FinancialAutomation.Application\FinancialAutomation.Application.csproj" />
     <ProjectReference Include="..\FinancialAutomation.Infrastructure\FinancialAutomation.Infrastructure.csproj" />
+    <ProjectReference Include="..\FinancialAutomation.Domain\FinancialAutomation.Domain.csproj" />
   </ItemGroup>
 
 </Project>
