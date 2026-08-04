@@ -42,3 +42,5 @@ Thumbs.db
 
 ## Rider
 .idea/
+
+FinancialAutomation.API/storage/invoices/
