@@ -8,15 +8,23 @@ namespace FinancialAutomation.Application.Services;
 public class InvoiceService : IInvoiceService
 {
     private static readonly string[] AllowedContentTypes = { "application/pdf", "image/jpeg", "image/png" };
-    private const long MaxFileSizeBytes = 10 * 1024 * 1024; // 10MB, per Document 4 Section 4
+    private const long MaxFileSizeBytes = 10 * 1024 * 1024;
 
     private readonly IInvoiceRepository _invoiceRepository;
+    private readonly ITransactionRepository _transactionRepository;
     private readonly IInvoiceFileStorage _fileStorage;
+    private readonly IFastApiClient _fastApiClient;
 
-    public InvoiceService(IInvoiceRepository invoiceRepository, IInvoiceFileStorage fileStorage)
+    public InvoiceService(
+        IInvoiceRepository invoiceRepository,
+        ITransactionRepository transactionRepository,
+        IInvoiceFileStorage fileStorage,
+        IFastApiClient fastApiClient)
     {
         _invoiceRepository = invoiceRepository;
+        _transactionRepository = transactionRepository;
         _fileStorage = fileStorage;
+        _fastApiClient = fastApiClient;
     }
 
     public async Task<UploadInvoiceResponseDto> UploadAsync(Guid userId, InvoiceFileUpload file, CancellationToken cancellationToken = default)
@@ -35,9 +43,9 @@ public class InvoiceService : IInvoiceService
         var invoice = new Invoice(userId, file.FileName, filePath);
         await _invoiceRepository.AddAsync(invoice, cancellationToken);
 
-        // OCR processing is triggered here once FastApiClient exists (Day 3).
-        // For now the invoice is correctly persisted as Pending and returned immediately,
-        // matching the documented fire-and-forget flow (Document 1, Section 9).
+        // Fire-and-forget OCR processing (Document 1, Section 9) — the upload request
+        // returns 202 immediately; this runs after the response is already sent.
+        _ = ProcessOcrAsync(invoice.Id, filePath, CancellationToken.None);
 
         return new UploadInvoiceResponseDto
         {
@@ -45,6 +53,48 @@ public class InvoiceService : IInvoiceService
             Status = invoice.Status.ToString(),
             UploadedAt = invoice.UploadedAt
         };
+    }
+
+    private async Task ProcessOcrAsync(Guid invoiceId, string filePath, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var ocrResult = await _fastApiClient.Ocr.ExtractAsync(filePath, cancellationToken);
+
+            var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+            if (invoice is null) return; // invoice was deleted mid-processing — nothing to update
+
+            invoice.MarkProcessed(ocrResult.Vendor, ocrResult.Date, ocrResult.TotalAmount, ocrResult.TaxAmount);
+            await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+
+            foreach (var lineItem in ocrResult.LineItems)
+            {
+                var transaction = new Transaction(
+                    userId: invoice.UserId,
+                    description: lineItem.Description,
+                    amount: lineItem.Amount,
+                    transactionDate: ocrResult.Date ?? DateOnly.FromDateTime(DateTime.UtcNow),
+                    invoiceId: invoice.Id);
+
+                await _transactionRepository.AddAsync(transaction, cancellationToken);
+
+                // Classification (TransactionService.ClassifyAsync) happens in Week 5 —
+                // Category stays null on these Transactions until then, exactly as
+                // Document 1, Section 9, step 4 specifies.
+            }
+        }
+        catch (Exception ex)
+        {
+            // Graceful degradation, per Document 1, Section 22.4 —
+            // the invoice stays Pending with a stored failure reason
+            // rather than crashing anything or leaving no trace.
+            var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+            if (invoice is not null)
+            {
+                invoice.MarkFailed(ex.Message);
+                await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+            }
+        }
     }
 
     public async Task<InvoiceDetailDto> GetByIdAsync(Guid userId, Guid invoiceId, CancellationToken cancellationToken = default)

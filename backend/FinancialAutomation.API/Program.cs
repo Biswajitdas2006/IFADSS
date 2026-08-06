@@ -7,6 +7,7 @@ using FinancialAutomation.Infrastructure.Persistence;
 using FinancialAutomation.Infrastructure.Repositories;
 using FinancialAutomation.Infrastructure.Security;
 using FinancialAutomation.Infrastructure.Storage; // Added
+using FinancialAutomation.Infrastructure.ExternalServices; // Added
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -39,10 +40,23 @@ builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IInvoiceFileStorage, LocalInvoiceFileStorage>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
+// FastAPI Configuration (Added)
+builder.Services.Configure<FastApiOptions>(
+    builder.Configuration.GetSection("FastApi"));
+
+builder.Services.AddHttpClient<IFastApiClient, FastApiClient>((sp, client) =>
+{
+    var baseUrl = builder.Configuration["FastApi:BaseUrl"]
+        ?? throw new InvalidOperationException("FastApi:BaseUrl is not configured.");
+
+    client.BaseAddress = new Uri(baseUrl);
+    client.Timeout = TimeSpan.FromSeconds(5); // Document 1, Section 22.4
+});
+
 // Security
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();// new new new new 
 // Application Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 
