@@ -110,6 +110,7 @@ public class InvoiceService : IInvoiceService
             InvoiceDate = invoice.InvoiceDate,
             TotalAmount = invoice.TotalAmount,
             Status = invoice.Status.ToString(),
+            FailureReason = invoice.FailureReason,   // ← new
             Transactions = invoice.Transactions.Select(t => new InvoiceTransactionDto
             {
                 Id = t.Id,
