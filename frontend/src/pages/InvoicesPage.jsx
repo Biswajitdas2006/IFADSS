@@ -3,7 +3,7 @@ import { getInvoices } from '../services/invoiceService';
 import AppLayout from '../components/layout/AppLayout';
 import UploadInvoiceModal from '../components/invoice/UploadInvoiceModal';
 import { theme } from '../styles/theme';
-
+import { Link } from 'react-router-dom';
 const STATUS_STYLES = {
   Processed: { bg: '#E5F5EF', text: theme.colors.success },
   Pending: { bg: '#FEF3E2', text: theme.colors.warning },
@@ -83,9 +83,9 @@ function InvoicesPage() {
                   </span>
                 </td>
                 <td style={styles.tdRight}>
-                  <a href={`/invoices/${inv.id}`} style={styles.actionLink}>
+                  <Link to={`/invoices/${inv.id}`} style={styles.actionLink}>
                     {inv.status === 'Failed' ? 'Review' : 'View'}
-                  </a>
+                  </Link>
                 </td>
               </tr>
             ))}

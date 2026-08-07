@@ -75,10 +75,10 @@ function InvoiceDetailPage() {
         </span>
       </div>
 
-      {invoice.status === 'Pending' && (
-        <div style={styles.pendingBox}>
-          This invoice is still being read by the AI service. This page will update automatically.
-        </div>
+      {invoice.status === 'Failed' && (
+      <div style={styles.failedBox}>
+        <strong>Processing failed.</strong> {invoice.failureReason || 'The AI service could not process this invoice.'}
+      </div>
       )}
 
       <div style={styles.grid}>
@@ -178,6 +178,10 @@ const styles = {
   },
   uncategorized: { fontSize: '13px', color: theme.colors.textMuted, fontStyle: 'italic' },
   emptyCell: { padding: '40px', textAlign: 'center', color: theme.colors.textMuted, fontSize: '14px' },
+  failedBox: {
+  backgroundColor: '#FDECEC', color: theme.colors.error, padding: '12px 16px',
+  borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '20px',
+  },
 };
 
 export default InvoiceDetailPage;
