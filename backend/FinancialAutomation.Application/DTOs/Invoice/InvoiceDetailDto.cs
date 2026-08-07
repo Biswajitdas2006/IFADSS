@@ -7,6 +7,7 @@ public class InvoiceDetailDto
     public DateOnly? InvoiceDate { get; set; }
     public decimal? TotalAmount { get; set; }
     public string Status { get; set; } = string.Empty;
+    public string? FailureReason { get; set; }   // ← new
     public List<InvoiceTransactionDto> Transactions { get; set; } = new();
 }
 
