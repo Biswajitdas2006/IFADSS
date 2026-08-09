@@ -531,35 +531,47 @@ def save_processed_dataset(
 # -------------------------------------------------------
 # Train / Validation / Test Split
 # -------------------------------------------------------
-
 def create_splits(
     df: pd.DataFrame,
     version="v1.0",
 ):
-
     logger.info("Creating dataset splits...")
 
+    # First split: 70% train, 30% temporary
     train_df, temp_df = train_test_split(
-
         df,
-
         test_size=0.30,
-
-        random_state=42,
-
+        random_state=RANDOM_SEED,
         stratify=df["category"],
-
     )
 
-    val_df, test_df = train_test_split(
-        temp_df,
-        test_size=0.50,
-        random_state=42,
-        shuffle=True,
-        stratify=temp_df["category"],
-    )
+    # Second split: 15% validation, 15% test.
+    # Stratification is only safe when every class has enough
+    # samples in the temporary set.
+    temp_counts = temp_df["category"].value_counts()
+
+    if temp_counts.min() >= 2:
+        val_df, test_df = train_test_split(
+            temp_df,
+            test_size=0.50,
+            random_state=RANDOM_SEED,
+            stratify=temp_df["category"],
+        )
+    else:
+        logger.warning(
+            "Some categories have too few samples for stratified "
+            "validation/test splitting. Using random split for "
+            "validation/test."
+        )
+
+        val_df, test_df = train_test_split(
+            temp_df,
+            test_size=0.50,
+            random_state=RANDOM_SEED,
+            shuffle=True,
+        )
+
     split_dir = SPLITS_DIR / version
-
     split_dir.mkdir(
         parents=True,
         exist_ok=True,
@@ -580,21 +592,15 @@ def create_splits(
         index=False,
     )
 
-    logger.info(
-        f"Train : {len(train_df)}"
-    )
+    logger.info(f"Train       : {len(train_df)}")
+    logger.info(f"Validation  : {len(val_df)}")
+    logger.info(f"Test        : {len(test_df)}")
 
-    logger.info(
-        f"Validation : {len(val_df)}"
-    )
-
-    logger.info(
-        f"Test : {len(test_df)}"
-    )
+    logger.info("\nTrain distribution:\n%s", train_df["category"].value_counts())
+    logger.info("\nValidation distribution:\n%s", val_df["category"].value_counts())
+    logger.info("\nTest distribution:\n%s", test_df["category"].value_counts())
 
     return train_df, val_df, test_df
-
-
 # -------------------------------------------------------
 # Summary
 # -------------------------------------------------------
