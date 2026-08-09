@@ -17,15 +17,35 @@ def _resolve_latest() -> str:
  
  
 def load_classifier(version: str = "latest") -> None:
-    global _classifier, _active_version
-    resolved = _resolve_latest() if version == "latest" else version
-    model_path = MODELS_STORE / resolved / "model.joblib"
+    global _classifier, _active_version, _label_encoder
+
+    resolved = (
+        _resolve_latest()
+        if version == "latest"
+        else version
+    )
+
+    model_path = (
+        MODELS_STORE
+        / resolved
+        / "model.joblib"
+    )
+
     _classifier = joblib.load(model_path)
-    encoder_path = MODELS_STORE / resolved / "label_encoder.joblib"
+
+    encoder_path = (
+        MODELS_STORE
+        / resolved
+        / "label_encoder.joblib"
+    )
 
     if encoder_path.exists():
-        global _label_encoder
-        _label_encoder = joblib.load(encoder_path)
+        _label_encoder = joblib.load(
+            encoder_path
+        )
+    else:
+        _label_encoder = None
+
     _active_version = resolved
  
  

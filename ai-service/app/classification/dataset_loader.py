@@ -555,9 +555,9 @@ def create_splits(
         temp_df,
         test_size=0.50,
         random_state=42,
-        shuffle=True
+        shuffle=True,
+        stratify=temp_df["category"],
     )
-
     split_dir = SPLITS_DIR / version
 
     split_dir.mkdir(
