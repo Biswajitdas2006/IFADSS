@@ -32,22 +32,33 @@ from app.xai import shap_explainer
 
 
 def predict_transaction(description: str, amount: float) -> dict:
-    embedding = embedding_generator.embed_texts([description])[0]
 
+    # Generate text embedding
+    embedding = embedding_generator.embed_texts(
+        [description]
+    )[0]
+
+    # Transform amount using the same transformation used during training
     log_amount = np.log1p(amount)
 
+    # Combine embedding + amount
     features = np.concatenate(
         [embedding, [log_amount]]
     ).reshape(1, -1)
 
+    # Load trained classifier
     model = model_loader.get_classifier()
 
+    # Get class probabilities
     proba = model.predict_proba(features)[0]
 
+    # Predicted encoded class index
     predicted_index = int(np.argmax(proba))
 
+    # Get predicted model label
     predicted_label = model.predict(features)[0]
 
+    # Convert encoded label back to category name
     encoder = model_loader.get_label_encoder()
 
     if encoder is not None:
@@ -57,10 +68,12 @@ def predict_transaction(description: str, amount: float) -> dict:
     else:
         category = str(predicted_label)
 
+    # Confidence of predicted class
     confidence = float(
         proba[predicted_index]
     )
 
+    # SHAP explanation
     explanation = shap_explainer.explain(
         model,
         features

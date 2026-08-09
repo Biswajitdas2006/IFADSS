@@ -33,10 +33,8 @@ def explain(model, feature_row: np.ndarray, top_n: int = 5) -> dict:
         ]
     }
 '''
-
 import numpy as np
 import shap
-
 
 _explainer = None
 _explained_model_id = None
@@ -54,54 +52,44 @@ def get_explainer(model):
 
 def explain(model, feature_row: np.ndarray, top_n: int = 5) -> dict:
     """
-    Generate a top-N SHAP explanation for a single transaction.
+    Generate a SHAP explanation for the predicted class.
 
-    The classifier uses:
-        - 384 SentenceTransformer embedding dimensions
-        - 1 amount feature
-
-    Therefore the final feature vector contains 385 features.
+    Supports both:
+    - Older SHAP multiclass output: list of arrays
+    - Newer SHAP multiclass output: 3D numpy array
     """
 
     explainer = get_explainer(model)
 
     shap_values = explainer.shap_values(feature_row)
 
+    # Determine predicted class index
+    probabilities = model.predict_proba(feature_row)[0]
+    predicted_index = int(np.argmax(probabilities))
+
     # ---------------------------------------------------------
-    # Handle SHAP output formats across SHAP versions
+    # Handle different SHAP output formats
     # ---------------------------------------------------------
 
     if isinstance(shap_values, list):
-        # Older SHAP multiclass format:
+        # Older SHAP format:
         # [
-        #   class_0_values,
-        #   class_1_values,
+        #   (samples, features),
+        #   (samples, features),
         #   ...
         # ]
-        predicted_index = int(
-            np.argmax(model.predict_proba(feature_row)[0])
-        )
-
         values = np.asarray(shap_values[predicted_index])[0]
 
     else:
-        # Newer SHAP versions generally return a NumPy array.
         shap_array = np.asarray(shap_values)
 
-        predicted_index = int(
-            np.argmax(model.predict_proba(feature_row)[0])
-        )
-
         if shap_array.ndim == 3:
-            # Shape:
+            # Newer SHAP format for multiclass:
             # (samples, features, classes)
-            #
-            # We have one sample, so select sample 0
-            # and the predicted class.
             values = shap_array[0, :, predicted_index]
 
         elif shap_array.ndim == 2:
-            # Possible shape:
+            # Binary/single-output format:
             # (samples, features)
             values = shap_array[0]
 
@@ -113,18 +101,8 @@ def explain(model, feature_row: np.ndarray, top_n: int = 5) -> dict:
                 f"Unexpected SHAP output shape: {shap_array.shape}"
             )
 
-    # ---------------------------------------------------------
-    # Validate feature count
-    # ---------------------------------------------------------
-
+    # Make sure values are one-dimensional
     values = np.asarray(values).reshape(-1)
-
-    if len(values) != feature_row.shape[1]:
-        raise ValueError(
-            f"SHAP feature count mismatch: "
-            f"SHAP returned {len(values)} values, "
-            f"but feature row contains {feature_row.shape[1]} features."
-        )
 
     # ---------------------------------------------------------
     # Feature names
@@ -136,7 +114,7 @@ def explain(model, feature_row: np.ndarray, top_n: int = 5) -> dict:
     ] + ["amount"]
 
     # ---------------------------------------------------------
-    # Select top-N features by absolute contribution
+    # Select top contributing features
     # ---------------------------------------------------------
 
     top_indices = np.argsort(-np.abs(values))[:top_n]
