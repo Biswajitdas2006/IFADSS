@@ -42,9 +42,8 @@ if __name__ == "__main__":
 
     transactions = pd.read_csv(transactions_path)
 
-    transactions["transactionDate"] = pd.to_datetime(
-        transactions["date"],
-        errors="coerce"
+    transactions = transactions.rename(
+        columns={"date": "transactionDate"}
     )
 
     features, _ = build_features(transactions)
