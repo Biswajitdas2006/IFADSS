@@ -32,10 +32,31 @@ def save(model, version: str, contamination: float) -> Path:
  
 if __name__ == "__main__":
     version = "v1.0"
-    transactions_path = Path(__file__).resolve().parents[2] / "datasets" / "processed" / "transactions_v1.0.csv"
+
+    transactions_path = (
+        Path(__file__).resolve().parents[2]
+        / "datasets"
+        / "processed"
+        / "transactions_v1.0.csv"
+    )
+
     transactions = pd.read_csv(transactions_path)
-    transactions["transactionDate"] = pd.Timestamp.now()  # placeholder if dataset has no real dates
+
+    transactions["transactionDate"] = pd.to_datetime(
+        transactions["date"],
+        errors="coerce"
+    )
+
     features, _ = build_features(transactions)
+
     model = train(features)
-    save(model, version, contamination=0.05)
-    print(f"Trained and saved Isolation Forest {version}")
+
+    save(
+        model,
+        version,
+        contamination=0.05
+    )
+
+    print(
+        f"Trained and saved Isolation Forest {version}"
+    )
