@@ -31,7 +31,7 @@ def save(model, version: str, contamination: float) -> Path:
  
  
 if __name__ == "__main__":
-    version = "v1.0"
+    version = "v1.1"
 
     transactions_path = (
         Path(__file__).resolve().parents[2]
