@@ -1,6 +1,6 @@
 {
   "version": "v1.0",
-  "trained_at": "2026-08-05T14:36:08.085741+00:00",
+  "trained_at": "2026-08-09T18:24:21.969837+00:00",
   "dataset_version": "v1.0",
   "metrics": {},
   "xgboost_params": {
