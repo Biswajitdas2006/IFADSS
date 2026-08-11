@@ -33,7 +33,7 @@ if __name__ == "__main__":
     # Example: aggregate daily CashFlow from a processed transactions CSV.
     tx_path = Path(__file__).resolve().parents[2] / "datasets" / "processed" / "transactions_v1.0.csv"
     df = pd.read_csv(tx_path)
-    df["transactionDate"] = pd.to_datetime(df.get("transactionDate", pd.Timestamp.now()))
+    df["transactionDate"] = pd.to_datetime(df["date"])
     daily = df.groupby(df["transactionDate"].dt.date)["amount"].sum().reset_index()
     daily.columns = ["ds", "y"]
  
