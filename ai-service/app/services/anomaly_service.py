@@ -12,9 +12,15 @@ def scan_transactions(transactions: list[dict]) -> list[dict]:
  
     results = []
     for _, row in scored.iterrows():
+
         if row["anomalyScore"] < ANOMALY_THRESHOLD:
             continue
-        reason, severity = generate_reason(row["features"])
+
+        reason, severity = generate_reason(
+            row["features"],
+            row["anomalyScore"]
+        )
+
         results.append({
             "transactionId": row["id"],
             "anomalyScore": float(row["anomalyScore"]),
