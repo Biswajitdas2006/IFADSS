@@ -15,7 +15,8 @@ has enough real, varied training examples, it should be removed from
 FALLBACK_KEYWORDS (or the whole module retired).
 """
 
-
+# app/classification/keyword_fallback.py — replace the matching logic
+import re
 FALLBACK_KEYWORDS = {
     "Rent": [
         "rent", "lease", "leasing",
@@ -40,22 +41,15 @@ FALLBACK_KEYWORDS = {
 # there's a single obvious place to shrink as real data improves.
 FALLBACK_CATEGORIES = set(FALLBACK_KEYWORDS.keys())
 
-
 def keyword_fallback_category(description: str) -> str | None:
-    """
-    Returns a category name if the description contains a keyword
-    strongly associated with a data-starved category, else None.
-
-    Case-insensitive substring match. Dict order = priority order if
-    a description could match more than one category's keywords.
-    """
     if not description:
         return None
 
     desc_lower = description.lower()
 
     for category, keywords in FALLBACK_KEYWORDS.items():
-        if any(kw in desc_lower for kw in keywords):
-            return category
+        for kw in keywords:
+            if re.search(rf"\b{re.escape(kw)}\b", desc_lower):
+                return category
 
     return None
