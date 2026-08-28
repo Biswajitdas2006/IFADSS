@@ -1,34 +1,12 @@
-'''import numpy as np
-from datetime import date
- 
-from app.classification import model_loader, embedding_generator
-from app.xai import shap_explainer
- 
- 
-def predict_transaction(description: str, amount: float) -> dict:
-    embedding = embedding_generator.embed_texts([description])[0]
-    log_amount = np.log1p(amount)
-    features = np.concatenate([embedding, [log_amount]]).reshape(1, -1)
- 
-    model = model_loader.get_classifier()
-    proba = model.predict_proba(features)[0]
-    predicted_index = int(np.argmax(proba))
-    category = model.classes_[predicted_index]
-    confidence = float(proba[predicted_index])
- 
-    explanation = shap_explainer.explain(model, features)
- 
-    return {
-        "category": str(category),
-        "confidence": confidence,
-        "shapExplanation": explanation,
-    }
-'''
-
 import numpy as np
 
 from app.classification import model_loader, embedding_generator
+from app.classification.keyword_fallback import keyword_fallback_category
 from app.xai import shap_explainer
+
+# Your four live test cases returned 0.30-0.44 confidence when wrong.
+# 0.50 is a starting cutoff -- tune once you see more real traffic.
+FALLBACK_CONFIDENCE_THRESHOLD = 0.50
 
 
 def predict_transaction(description: str, amount: float) -> dict:
@@ -79,8 +57,26 @@ def predict_transaction(description: str, amount: float) -> dict:
         features
     )
 
-    return {
+    result = {
         "category": str(category),
         "confidence": confidence,
         "shapExplanation": explanation,
     }
+
+    # --- Keyword fallback: only consulted when the ML model is
+    # genuinely uncertain. Does not touch the ML pipeline above at all;
+    # it only inspects the output and optionally overrides it. ---
+    if confidence < FALLBACK_CONFIDENCE_THRESHOLD:
+        fallback_category = keyword_fallback_category(description)
+
+        if fallback_category is not None and fallback_category != str(category):
+            result["category"] = fallback_category
+            result["overriddenBy"] = "keyword_fallback"
+            result["originalMlCategory"] = str(category)
+            result["originalMlConfidence"] = confidence
+            # A keyword match isn't a real probability -- report it as
+            # unknown rather than inventing a confidence number.
+            result["confidence"] = None
+            result["needsReview"] = True
+
+    return result
