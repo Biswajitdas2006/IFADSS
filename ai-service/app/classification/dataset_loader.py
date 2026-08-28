@@ -1,99 +1,3 @@
-'''import pandas as pd
-from pathlib import Path
-from sklearn.model_selection import train_test_split
- 
-RAW_DIR = Path(__file__).resolve().parents[2] / "datasets" / "raw"
-PROCESSED_DIR = Path(__file__).resolve().parents[2] / "datasets" / "processed"
-SPLITS_DIR = Path(__file__).resolve().parents[2] / "datasets" / "splits"
- 
-CATEGORY_TAXONOMY = [
-    "Office Supplies", "Travel", "Utilities", "Rent", "Payroll",
-    "Software/Subscriptions", "Marketing", "Professional Fees", "Miscellaneous",
-]
- 
-# Map any external/Kaggle label variants onto our fixed taxonomy here.
-LABEL_REMAP = {
-    "office": "Office Supplies", "supplies": "Office Supplies",
-    "transport": "Travel", "travel": "Travel", "flights": "Travel",
-    "utility": "Utilities", "utilities": "Utilities",
-    "rent": "Rent", "housing": "Rent",
-    "payroll": "Payroll", "salary": "Payroll", "wages": "Payroll",
-    "software": "Software/Subscriptions", "subscription": "Software/Subscriptions",
-    "marketing": "Marketing", "advertising": "Marketing",
-    "professional": "Professional Fees", "legal": "Professional Fees", "consulting": "Professional Fees",
-    "misc": "Miscellaneous", "other": "Miscellaneous",
-}
- 
- 
-def load_raw_datasets() -> pd.DataFrame:
-    frames = []
-    for csv_file in RAW_DIR.glob("*.csv"):
-        df = pd.read_csv(csv_file)
-        frames.append(df)
-    if not frames:
-        raise FileNotFoundError(f"No CSV files found in {RAW_DIR}")
-    return pd.concat(frames, ignore_index=True)
- 
- 
-def _remap_category(raw_label: str) -> str:
-    raw_lower = str(raw_label).strip().lower()
-    if raw_label in CATEGORY_TAXONOMY:
-        return raw_label
-    for key, mapped in LABEL_REMAP.items():
-        if key in raw_lower:
-            return mapped
-    return "Miscellaneous"
- 
- 
-def clean(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.dropna(subset=["description", "amount"]).copy()
-    df["description"] = df["description"].astype(str).str.strip()
-    df = df[df["description"].str.len() > 0]
-    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
-    df = df.dropna(subset=["amount"])
-    df["category"] = df["category"].apply(_remap_category)
-    df = df.drop_duplicates(subset=["description", "amount"])
-    return df.reset_index(drop=True)
- 
- 
-def split(df: pd.DataFrame, seed: int = 42):
-    train_df, temp_df = train_test_split(
-        df, test_size=0.30, stratify=df["category"], random_state=seed
-    )
-    val_df, test_df = train_test_split(
-        temp_df, test_size=0.50, stratify=temp_df["category"], random_state=seed
-    )
-    return train_df.reset_index(drop=True), val_df.reset_index(drop=True), test_df.reset_index(drop=True)
- 
- 
-def save_processed(df: pd.DataFrame, version: str) -> Path:
-    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = PROCESSED_DIR / f"transactions_{version}.csv"
-    df.to_csv(out_path, index=False)
-    return out_path
- 
- 
-def save_splits(train_df, val_df, test_df, version: str) -> Path:
-    out_dir = SPLITS_DIR / version
-    out_dir.mkdir(parents=True, exist_ok=True)
-    train_df.to_csv(out_dir / "train.csv", index=False)
-    val_df.to_csv(out_dir / "val.csv", index=False)
-    test_df.to_csv(out_dir / "test.csv", index=False)
-    return out_dir
- 
- 
-if __name__ == "__main__":
-    version = "v1.0"
-    raw = load_raw_datasets()
-    cleaned = clean(raw)
-    processed_path = save_processed(cleaned, version)
-    train_df, val_df, test_df = split(cleaned)
-    splits_path = save_splits(train_df, val_df, test_df, version)
-    print(f"Processed dataset: {processed_path} ({len(cleaned)} rows)")
-    print(f"Splits written to: {splits_path}")
-    print(cleaned["category"].value_counts())
-'''
-
 from pathlib import Path
 import random
 import logging
@@ -135,7 +39,6 @@ np.random.seed(RANDOM_SEED)
 # -------------------------------------------------------
 
 CATEGORY_TAXONOMY = [
-
     "Office Supplies",
     "Travel",
     "Utilities",
@@ -144,15 +47,27 @@ CATEGORY_TAXONOMY = [
     "Software/Subscriptions",
     "Marketing",
     "Professional Fees",
-    "Miscellaneous"
-
+    "Miscellaneous",
 ]
+
+# -------------------------------------------------------
+# Labels from the Kaggle "Indian transactions" dataset that
+# have NO valid home in our business-expense taxonomy.
+# These are dropped entirely rather than remapped, because
+# forcing them into any of the 9 categories corrupts that
+# category (this is exactly how EMI -> Rent broke Rent).
+# -------------------------------------------------------
+INDIAN_LABELS_TO_DROP = {
+    "EMI",  # personal loan/credit-card/mortgage installments —
+            # semantically unrelated to business Rent; was previously
+            # mis-mapped to "Rent" and is the confirmed root cause of
+            # the Rent-category misclassification investigated above.
+}
 
 # -------------------------------------------------------
 # Excel Category Mapping
 # -------------------------------------------------------
 EXCEL_CATEGORY_MAP = {
-
     "Alcohol & Bars": "Miscellaneous",
     "Auto Insurance": "Professional Fees",
     "Coffee Shops": "Miscellaneous",
@@ -175,21 +90,30 @@ EXCEL_CATEGORY_MAP = {
     "Shopping": "Office Supplies",
     "Television": "Utilities",
     "Utilities": "Utilities",
-
 }
 
 # -------------------------------------------------------
 # Indian Dataset Mapping
+#
+# NOTE: "Shopping" -> "Office Supplies" and "Investment" ->
+# "Professional Fees" have NOT been independently verified the
+# way EMI was (we haven't sampled raw Transaction_Text for these
+# two the way we did for EMI/Rent). They are left as originally
+# written. Before fully trusting the retrained model, run the
+# same sampling check on these two labels:
+#
+#   for lbl in ["Shopping", "Investment"]:
+#       print(lbl, raw[raw["Label"] == lbl]["Transaction_Text"]
+#             .sample(5, random_state=1).tolist())
+#
+# and re-evaluate whether they belong where they currently point.
 # -------------------------------------------------------
-
 INDIAN_CATEGORY_MAP = {
-
-    "Shopping": "Office Supplies",
+    "Shopping": "Office Supplies",     # TODO: verify with raw samples
     "Travel": "Travel",
     "Food": "Miscellaneous",
-    "Investment": "Professional Fees",
-    "EMI": "Rent",
-
+    "Investment": "Professional Fees", # TODO: verify with raw samples
+    # "EMI": "Rent"  <-- REMOVED. See INDIAN_LABELS_TO_DROP above.
 }
 
 # -------------------------------------------------------
@@ -197,45 +121,33 @@ INDIAN_CATEGORY_MAP = {
 # -------------------------------------------------------
 
 CATEGORY_AMOUNT_RANGE = {
-
     "Office Supplies": (20, 500),
-
     "Travel": (50, 3000),
-
     "Utilities": (30, 1000),
-
     "Rent": (1000, 5000),
-
     "Payroll": (500, 10000),
-
     "Software/Subscriptions": (10, 500),
-
     "Marketing": (100, 3000),
-
     "Professional Fees": (200, 5000),
-
-    "Miscellaneous": (20, 1000)
-
+    "Miscellaneous": (20, 1000),
 }
 
 # -------------------------------------------------------
 # Helper Functions
 # -------------------------------------------------------
-def standardize_category(category: str) -> str:
 
+def standardize_category(category: str) -> str:
     if pd.isna(category):
         return "Miscellaneous"
 
     category = str(category).strip()
 
-    # Exact match first
     if category in EXCEL_CATEGORY_MAP:
         return EXCEL_CATEGORY_MAP[category]
 
     if category in INDIAN_CATEGORY_MAP:
         return INDIAN_CATEGORY_MAP[category]
 
-    # Fallback: partial match
     lower = category.lower()
 
     for key, value in EXCEL_CATEGORY_MAP.items():
@@ -248,36 +160,23 @@ def standardize_category(category: str) -> str:
 
     return "Miscellaneous"
 
+
 def generate_amount(category: str) -> float:
-
-    minimum, maximum = CATEGORY_AMOUNT_RANGE.get(
-        category,
-        (20, 1000)
-    )
-
-    return round(
-        random.uniform(minimum, maximum),
-        2
-    )
+    minimum, maximum = CATEGORY_AMOUNT_RANGE.get(category, (20, 1000))
+    return round(random.uniform(minimum, maximum), 2)
 
 
 def normalize_text(text):
-
     if pd.isna(text):
         return ""
+    return str(text).strip().replace("\n", " ").replace("\t", " ")
 
-    return (
-        str(text)
-        .strip()
-        .replace("\n", " ")
-        .replace("\t", " ")
-    )
+
 # -------------------------------------------------------
 # Excel Dataset
 # -------------------------------------------------------
 
 def load_excel_dataset() -> pd.DataFrame:
-
     logger.info("Loading Personal Finance Excel dataset...")
 
     excel_files = list(RAW_DIR.rglob("*.xlsx"))
@@ -286,7 +185,6 @@ def load_excel_dataset() -> pd.DataFrame:
         raise FileNotFoundError("No Excel dataset found.")
 
     excel_path = excel_files[0]
-
     df = pd.read_excel(excel_path)
 
     df = df.rename(
@@ -302,20 +200,11 @@ def load_excel_dataset() -> pd.DataFrame:
     )
 
     df["description"] = df["description"].apply(normalize_text)
-
     df["category"] = df["category"].apply(standardize_category)
-
-    df["amount"] = pd.to_numeric(
-        df["amount"],
-        errors="coerce"
-    )
-
+    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
     df["source"] = "excel"
 
-    logger.info(
-        f"Loaded {len(df)} rows from Excel dataset."
-    )
-
+    logger.info(f"Loaded {len(df)} rows from Excel dataset.")
     return df
 
 
@@ -324,22 +213,16 @@ def load_excel_dataset() -> pd.DataFrame:
 # -------------------------------------------------------
 
 def load_indian_dataset() -> pd.DataFrame:
-
     logger.info("Loading Indian Transaction Dataset...")
 
-    csv_files = sorted(
-        RAW_DIR.rglob("financial_transactions*.csv")
-    )
+    csv_files = sorted(RAW_DIR.rglob("financial_transactions*.csv"))
 
     if len(csv_files) == 0:
-        raise FileNotFoundError(
-            "Indian dataset CSV files not found."
-        )
+        raise FileNotFoundError("Indian dataset CSV files not found.")
 
     frames = []
 
     for file in csv_files:
-
         logger.info(f"Reading {file.name}")
 
         df = pd.read_csv(file)
@@ -351,43 +234,35 @@ def load_indian_dataset() -> pd.DataFrame:
             }
         )
 
-        df["description"] = (
-            df["description"]
-            .astype(str)
-            .apply(normalize_text)
-        )
+        # --- Drop labels that have no valid home in our taxonomy,
+        # BEFORE standardize_category() ever sees them. Doing this
+        # here (not via LABEL_REMAP) means a dropped label can never
+        # silently fall through to "Miscellaneous" as a catch-all. ---
+        before_drop = len(df)
+        df = df[~df["category"].astype(str).str.strip().str.upper().isin(
+            {lbl.upper() for lbl in INDIAN_LABELS_TO_DROP}
+        )]
+        dropped = before_drop - len(df)
+        if dropped:
+            logger.info(
+                f"Dropped {dropped} rows from {file.name} with no valid "
+                f"taxonomy home ({', '.join(INDIAN_LABELS_TO_DROP)})."
+            )
 
-        df["category"] = (
-            df["category"]
-            .astype(str)
-            .apply(standardize_category)
-        )
-
-        df["amount"] = df["category"].apply(
-            generate_amount
-        )
+        df["description"] = df["description"].astype(str).apply(normalize_text)
+        df["category"] = df["category"].astype(str).apply(standardize_category)
+        df["amount"] = df["category"].apply(generate_amount)
 
         df["date"] = pd.NaT
-
         df["transaction_type"] = np.nan
-
         df["account_name"] = np.nan
-
         df["month"] = np.nan
-
         df["source"] = "indian"
 
         frames.append(df)
 
-    merged = pd.concat(
-        frames,
-        ignore_index=True
-    )
-
-    logger.info(
-        f"Loaded {len(merged)} rows from Indian dataset."
-    )
-
+    merged = pd.concat(frames, ignore_index=True)
+    logger.info(f"Loaded {len(merged)} rows from Indian dataset (post-drop).")
     return merged
 
 
@@ -396,83 +271,40 @@ def load_indian_dataset() -> pd.DataFrame:
 # -------------------------------------------------------
 
 def merge_datasets() -> pd.DataFrame:
-
     excel_df = load_excel_dataset()
-
     indian_df = load_indian_dataset()
 
     required_columns = [
-
-        "description",
-        "amount",
-        "category",
-        "date",
-        "transaction_type",
-        "account_name",
-        "month",
-        "source",
-
+        "description", "amount", "category", "date",
+        "transaction_type", "account_name", "month", "source",
     ]
 
     excel_df = excel_df[required_columns]
-
     indian_df = indian_df[required_columns]
 
-    merged = pd.concat(
-
-        [excel_df, indian_df],
-
-        ignore_index=True,
-
-    )
-
-    logger.info(
-        f"Merged dataset contains {len(merged)} rows."
-    )
-
+    merged = pd.concat([excel_df, indian_df], ignore_index=True)
+    logger.info(f"Merged dataset contains {len(merged)} rows.")
     return merged
+
+
 # -------------------------------------------------------
 # Cleaning
 # -------------------------------------------------------
 
 def clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
-
     logger.info("Cleaning merged dataset...")
 
     before = len(df)
 
-    df = df.drop_duplicates(
-        subset=["description", "amount"]
-    )
-
-    df = df.dropna(
-        subset=["description", "amount", "category"]
-    )
-
-    df["description"] = (
-        df["description"]
-        .astype(str)
-        .str.strip()
-    )
-
-    df = df[
-        df["description"].str.len() > 0
-    ]
-
-    df["amount"] = pd.to_numeric(
-        df["amount"],
-        errors="coerce"
-    )
-
-    df = df.dropna(
-        subset=["amount"]
-    )
+    df = df.drop_duplicates(subset=["description", "amount"])
+    df = df.dropna(subset=["description", "amount", "category"])
+    df["description"] = df["description"].astype(str).str.strip()
+    df = df[df["description"].str.len() > 0]
+    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    df = df.dropna(subset=["amount"])
 
     after = len(df)
-
-    logger.info(
-        f"Removed {before-after} invalid rows."
-    )
+    logger.info(f"Removed {before - after} invalid rows.")
 
     return df.reset_index(drop=True)
 
@@ -482,18 +314,28 @@ def clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
 # -------------------------------------------------------
 
 def validate_dataset(df: pd.DataFrame):
-
     logger.info("Running dataset validation...")
 
     assert df["description"].isna().sum() == 0
     assert df["amount"].isna().sum() == 0
     assert df["category"].isna().sum() == 0
 
-    logger.info("Validation passed.")
+    # Guardrail so a future mapping bug this size doesn't slip through
+    # silently again: warn if any category is overwhelmingly dominated
+    # by a single source (a sign one source is quietly hijacking a class).
+    for cat in df["category"].unique():
+        sub = df[df["category"] == cat]
+        top_source_share = sub["source"].value_counts(normalize=True).iloc[0]
+        if top_source_share > 0.95 and len(sub) > 20:
+            logger.warning(
+                f"Category '{cat}' is {top_source_share:.0%} from a single "
+                f"source ({sub['source'].value_counts().idxmax()}) — verify "
+                f"this isn't a mapping bug before trusting this class."
+            )
 
+    logger.info("Validation passed.")
     print("\nCategory Distribution\n")
     print(df["category"].value_counts())
-
     print("\nDataset Shape:", df.shape)
 
 
@@ -501,60 +343,30 @@ def validate_dataset(df: pd.DataFrame):
 # Save Processed Dataset
 # -------------------------------------------------------
 
-def save_processed_dataset(
-    df: pd.DataFrame,
-    version="v1.0",
-):
-
-    PROCESSED_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    output = (
-        PROCESSED_DIR
-        / f"transactions_{version}.csv"
-    )
-
-    df.to_csv(
-        output,
-        index=False,
-    )
-
-    logger.info(
-        f"Saved processed dataset to\n{output}"
-    )
-
+def save_processed_dataset(df: pd.DataFrame, version="v1.0"):
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    output = PROCESSED_DIR / f"transactions_{version}.csv"
+    df.to_csv(output, index=False)
+    logger.info(f"Saved processed dataset to\n{output}")
     return output
 
 
 # -------------------------------------------------------
 # Train / Validation / Test Split
 # -------------------------------------------------------
-def create_splits(
-    df: pd.DataFrame,
-    version="v1.0",
-):
+
+def create_splits(df: pd.DataFrame, version="v1.0"):
     logger.info("Creating dataset splits...")
 
-    # First split: 70% train, 30% temporary
     train_df, temp_df = train_test_split(
-        df,
-        test_size=0.30,
-        random_state=RANDOM_SEED,
-        stratify=df["category"],
+        df, test_size=0.30, random_state=RANDOM_SEED, stratify=df["category"],
     )
 
-    # Second split: 15% validation, 15% test.
-    # Stratification is only safe when every class has enough
-    # samples in the temporary set.
     temp_counts = temp_df["category"].value_counts()
 
     if temp_counts.min() >= 2:
         val_df, test_df = train_test_split(
-            temp_df,
-            test_size=0.50,
-            random_state=RANDOM_SEED,
+            temp_df, test_size=0.50, random_state=RANDOM_SEED,
             stratify=temp_df["category"],
         )
     else:
@@ -563,34 +375,16 @@ def create_splits(
             "validation/test splitting. Using random split for "
             "validation/test."
         )
-
         val_df, test_df = train_test_split(
-            temp_df,
-            test_size=0.50,
-            random_state=RANDOM_SEED,
-            shuffle=True,
+            temp_df, test_size=0.50, random_state=RANDOM_SEED, shuffle=True,
         )
 
     split_dir = SPLITS_DIR / version
-    split_dir.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    split_dir.mkdir(parents=True, exist_ok=True)
 
-    train_df.to_csv(
-        split_dir / "train.csv",
-        index=False,
-    )
-
-    val_df.to_csv(
-        split_dir / "val.csv",
-        index=False,
-    )
-
-    test_df.to_csv(
-        split_dir / "test.csv",
-        index=False,
-    )
+    train_df.to_csv(split_dir / "train.csv", index=False)
+    val_df.to_csv(split_dir / "val.csv", index=False)
+    test_df.to_csv(split_dir / "test.csv", index=False)
 
     logger.info(f"Train       : {len(train_df)}")
     logger.info(f"Validation  : {len(val_df)}")
@@ -601,50 +395,33 @@ def create_splits(
     logger.info("\nTest distribution:\n%s", test_df["category"].value_counts())
 
     return train_df, val_df, test_df
+
+
 # -------------------------------------------------------
 # Summary
 # -------------------------------------------------------
 
 def print_summary(df):
-
     print("\n")
     print("=" * 60)
-
     print("FINAL DATASET SUMMARY")
-
     print("=" * 60)
-
     print(df.head())
-
     print()
-
     print(df.info())
-
     print()
-
     print(df.describe(include="all"))
-
     print("=" * 60)
-if __name__ == "__main__":
 
+
+if __name__ == "__main__":
     VERSION = "v1.0"
 
     merged = merge_datasets()
-
     cleaned = clean_dataset(merged)
-
     validate_dataset(cleaned)
-
-    save_processed_dataset(
-        cleaned,
-        VERSION,
-    )
-
-    create_splits(
-        cleaned,
-        VERSION,
-    )
-
+    save_processed_dataset(cleaned, VERSION)
+    create_splits(cleaned, VERSION)
     print_summary(cleaned)
 
     logger.info("Dataset Loader Completed Successfully.")
