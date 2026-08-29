@@ -1,973 +1,793 @@
 description,amount,category,date,transaction_type,account_name,month,source
-Zomato food delivery - INR 44331 - Ref 669138,756.32,Miscellaneous,,,,,indian
-ETF purchase - INR 33974 - Ref 236913,4788.93,Professional Fees,,,,,indian
-Dominos pizza order - INR 28411 - Ref 375276,670.95,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 16555 - Ref 600071,1632.35,Travel,,,,,indian
-Bakery purchase - INR 787 - Ref 789312,149.52,Miscellaneous,,,,,indian
-eBay online order - INR 46377 - Ref 603736,373.2,Office Supplies,,,,,indian
-McDonald's meal payment - INR 23422 - Ref 658028,492.82,Miscellaneous,,,,,indian
-Car loan EMI - INR 2658 - Ref 624767,2126.51,Rent,,,,,indian
-PPF contribution - INR 36788 - Ref 716792,2966.16,Professional Fees,,,,,indian
-Laptop EMI payment - INR 5233 - Ref 235304,4715.07,Rent,,,,,indian
-Swiggy order payment - INR 31775 - Ref 504545,356.86,Miscellaneous,,,,,indian
-Uber ride payment - INR 30191 - Ref 708832,1174.65,Travel,,,,,indian
-KFC online order - INR 26793 - Ref 130346,461.87,Miscellaneous,,,,,indian
-Mutual fund SIP - INR 1222 - Ref 324550,1043.7,Professional Fees,,,,,indian
-Gold bond investment - INR 8676 - Ref 494843,825.8,Professional Fees,,,,,indian
-PPF contribution - INR 25271 - Ref 549195,1989.69,Professional Fees,,,,,indian
-Cafe coffee purchase - INR 6718 - Ref 387021,795.25,Miscellaneous,,,,,indian
-Retail store shopping - INR 36281 - Ref 451385,309.15,Office Supplies,,,,,indian
-Retirement fund investment - INR 19499 - Ref 910367,4566.56,Professional Fees,,,,,indian
-Lifestyle store purchase - INR 49551 - Ref 995122,39.31,Office Supplies,,,,,indian
-American Tavern,26.59,Miscellaneous,2018-07-24,debit,Platinum Card,2018-07,excel
-Lifestyle store purchase - INR 5550 - Ref 759033,312.31,Office Supplies,,,,,indian
-Grocery food items - INR 8069 - Ref 639847,45.73,Miscellaneous,,,,,indian
-Grocery food items - INR 8034 - Ref 725348,546.77,Miscellaneous,,,,,indian
-Barbershop,30.0,Miscellaneous,2018-02-09,debit,Platinum Card,2018-02,excel
-Electronics purchase - INR 882 - Ref 330109,104.78,Office Supplies,,,,,indian
-Bakery purchase - INR 20209 - Ref 674007,785.5,Miscellaneous,,,,,indian
-Ajio clothing purchase - INR 36923 - Ref 929525,460.28,Office Supplies,,,,,indian
-Rapido bike ride - INR 47139 - Ref 116593,1036.17,Travel,,,,,indian
-Credit card EMI - INR 43757 - Ref 882884,3089.38,Rent,,,,,indian
-MakeMyTrip travel booking - INR 33241 - Ref 587624,1054.75,Travel,,,,,indian
-Myntra fashion order - INR 1370 - Ref 554574,295.98,Office Supplies,,,,,indian
-Personal loan EMI - INR 7980 - Ref 100681,4758.6,Rent,,,,,indian
-Bus ticket purchase - INR 8779 - Ref 939134,135.01,Travel,,,,,indian
-Bike loan EMI - INR 33404 - Ref 279264,4017.78,Rent,,,,,indian
-Hotel dinner bill - INR 26473 - Ref 582407,154.62,Miscellaneous,,,,,indian
-KFC online order - INR 23686 - Ref 637442,471.62,Miscellaneous,,,,,indian
-Mall shopping payment - INR 32542 - Ref 317957,277.05,Office Supplies,,,,,indian
-Rapido bike ride - INR 17280 - Ref 507157,1480.93,Travel,,,,,indian
-Swiggy order payment - INR 20571 - Ref 497475,171.46,Miscellaneous,,,,,indian
-KFC online order - INR 29305 - Ref 543370,162.42,Miscellaneous,,,,,indian
-NPS contribution - INR 18617 - Ref 159312,1989.59,Professional Fees,,,,,indian
-Demat account transfer - INR 21574 - Ref 783498,2383.16,Professional Fees,,,,,indian
-Grocery food items - INR 4154 - Ref 837349,667.96,Miscellaneous,,,,,indian
-Grocery food items - INR 24997 - Ref 748619,189.11,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 43244 - Ref 153214,1916.67,Travel,,,,,indian
-Bus ticket purchase - INR 10984 - Ref 644838,187.36,Travel,,,,,indian
-Credit Card Payment,582.99,Professional Fees,2018-11-29,credit,Silver Card,2018-11,excel
-NPS contribution - INR 6755 - Ref 428998,2673.84,Professional Fees,,,,,indian
-Airport taxi fare - INR 7946 - Ref 496941,971.82,Travel,,,,,indian
-Mobile EMI payment - INR 14839 - Ref 916708,3679.38,Rent,,,,,indian
-IRCTC train ticket - INR 23526 - Ref 841953,251.44,Travel,,,,,indian
-Airport taxi fare - INR 46430 - Ref 490532,736.79,Travel,,,,,indian
-Ola cab booking - INR 27158 - Ref 480278,2648.55,Travel,,,,,indian
-Dominos pizza order - INR 39243 - Ref 482824,690.95,Miscellaneous,,,,,indian
-Rapido bike ride - INR 13835 - Ref 749251,957.17,Travel,,,,,indian
-American Tavern,85.52,Miscellaneous,2018-02-26,debit,Silver Card,2018-02,excel
-Personal loan EMI - INR 39659 - Ref 959831,3092.8,Rent,,,,,indian
-Airport taxi fare - INR 45767 - Ref 611144,489.12,Travel,,,,,indian
-KFC online order - INR 4934 - Ref 148824,130.9,Miscellaneous,,,,,indian
-eBay online order - INR 9333 - Ref 740076,250.03,Office Supplies,,,,,indian
-Gas Company,40.0,Utilities,2018-12-06,debit,Checking,2018-12,excel
-Rapido bike ride - INR 31685 - Ref 655188,2816.64,Travel,,,,,indian
-Bus ticket purchase - INR 41782 - Ref 235832,1830.73,Travel,,,,,indian
-Restaurant dine-in bill - INR 49498 - Ref 963846,528.89,Miscellaneous,,,,,indian
-Hotel stay booking - INR 907 - Ref 383013,724.06,Travel,,,,,indian
-Credit card EMI - INR 48242 - Ref 146292,2463.13,Rent,,,,,indian
-Grocery food items - INR 572 - Ref 853814,517.58,Miscellaneous,,,,,indian
-Bus ticket purchase - INR 38075 - Ref 247778,477.58,Travel,,,,,indian
-Flight ticket booking - INR 49471 - Ref 716248,306.87,Travel,,,,,indian
-Mobile EMI payment - INR 24782 - Ref 811291,4981.69,Rent,,,,,indian
-Metro card recharge - INR 18337 - Ref 809139,2318.47,Travel,,,,,indian
-Personal loan EMI - INR 30571 - Ref 506987,1238.61,Rent,,,,,indian
-ETF purchase - INR 38128 - Ref 735042,4314.13,Professional Fees,,,,,indian
-Myntra fashion order - INR 108 - Ref 122744,247.29,Office Supplies,,,,,indian
-Flight ticket booking - INR 47881 - Ref 469502,2055.15,Travel,,,,,indian
-Mall shopping payment - INR 6823 - Ref 550381,123.21,Office Supplies,,,,,indian
-Demat account transfer - INR 44199 - Ref 412618,578.85,Professional Fees,,,,,indian
-Mall shopping payment - INR 29463 - Ref 560781,368.01,Office Supplies,,,,,indian
-Mall shopping payment - INR 19616 - Ref 140182,102.43,Office Supplies,,,,,indian
-Restaurant dine-in bill - INR 5169 - Ref 283552,465.89,Miscellaneous,,,,,indian
-MakeMyTrip travel booking - INR 38019 - Ref 999655,2222.87,Travel,,,,,indian
-Mall shopping payment - INR 13424 - Ref 193386,250.05,Office Supplies,,,,,indian
-Bike loan EMI - INR 26936 - Ref 920256,2236.21,Rent,,,,,indian
-Ajio clothing purchase - INR 42232 - Ref 707798,448.34,Office Supplies,,,,,indian
-Demat account transfer - INR 16645 - Ref 472608,4296.71,Professional Fees,,,,,indian
-Retail store shopping - INR 13880 - Ref 246271,388.71,Office Supplies,,,,,indian
-Airport taxi fare - INR 12426 - Ref 314001,1640.92,Travel,,,,,indian
-Credit card EMI - INR 29308 - Ref 429585,3021.78,Rent,,,,,indian
-Demat account transfer - INR 9951 - Ref 775572,2232.99,Professional Fees,,,,,indian
-Mutual fund SIP - INR 24285 - Ref 394925,2748.09,Professional Fees,,,,,indian
-ETF purchase - INR 46736 - Ref 286865,262.23,Professional Fees,,,,,indian
-Consumer durable EMI - INR 48900 - Ref 866404,4020.97,Rent,,,,,indian
-Bike loan EMI - INR 42972 - Ref 461640,3614.27,Rent,,,,,indian
-Rapido bike ride - INR 34955 - Ref 398418,624.23,Travel,,,,,indian
-ETF purchase - INR 3912 - Ref 109455,4264.66,Professional Fees,,,,,indian
-Dominos pizza order - INR 9202 - Ref 333320,580.01,Miscellaneous,,,,,indian
-McDonald's meal payment - INR 31973 - Ref 664907,677.22,Miscellaneous,,,,,indian
-Laptop EMI payment - INR 18714 - Ref 170438,3202.3,Rent,,,,,indian
-ETF purchase - INR 39389 - Ref 953152,3922.61,Professional Fees,,,,,indian
-Grocery food items - INR 49020 - Ref 451772,371.62,Miscellaneous,,,,,indian
-Personal loan EMI - INR 27079 - Ref 360994,1162.8,Rent,,,,,indian
-Swiggy order payment - INR 28078 - Ref 664067,684.92,Miscellaneous,,,,,indian
-Car loan EMI - INR 40604 - Ref 842521,1797.44,Rent,,,,,indian
-Amazon online shopping - INR 271 - Ref 995920,171.98,Office Supplies,,,,,indian
-eBay online order - INR 48495 - Ref 666822,278.05,Office Supplies,,,,,indian
-Retail store shopping - INR 46116 - Ref 887671,398.61,Office Supplies,,,,,indian
-Bike loan EMI - INR 36112 - Ref 683419,1885.47,Rent,,,,,indian
-Hotel dinner bill - INR 1617 - Ref 158726,854.42,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 23343 - Ref 902422,1117.25,Travel,,,,,indian
-Restaurant dine-in bill - INR 13186 - Ref 881836,402.18,Miscellaneous,,,,,indian
-PPF contribution - INR 17079 - Ref 477943,646.45,Professional Fees,,,,,indian
-Amazon online shopping - INR 18877 - Ref 752147,46.6,Office Supplies,,,,,indian
-Electronics purchase - INR 47680 - Ref 317890,52.22,Office Supplies,,,,,indian
-Fixed deposit investment - INR 27664 - Ref 538792,3294.29,Professional Fees,,,,,indian
-Retail store shopping - INR 34627 - Ref 743786,174.85,Office Supplies,,,,,indian
-Rapido bike ride - INR 9137 - Ref 213555,2109.82,Travel,,,,,indian
-Grocery Store,10.69,Office Supplies,2018-03-04,debit,Platinum Card,2018-03,excel
-Barbershop,29.0,Miscellaneous,2018-05-17,debit,Silver Card,2018-05,excel
-Bus ticket purchase - INR 6302 - Ref 159142,404.83,Travel,,,,,indian
-Share trading debit - INR 25216 - Ref 133163,1419.09,Professional Fees,,,,,indian
-ETF purchase - INR 6626 - Ref 594132,3826.92,Professional Fees,,,,,indian
-Personal loan EMI - INR 28038 - Ref 660736,2520.04,Rent,,,,,indian
-KFC online order - INR 31626 - Ref 842504,570.42,Miscellaneous,,,,,indian
-Lifestyle store purchase - INR 4047 - Ref 545144,242.2,Office Supplies,,,,,indian
-Amazon online shopping - INR 39524 - Ref 123223,478.14,Office Supplies,,,,,indian
-Share trading debit - INR 38626 - Ref 168444,4462.54,Professional Fees,,,,,indian
-Stock market investment - INR 6012 - Ref 111639,442.82,Professional Fees,,,,,indian
-Cafe coffee purchase - INR 41338 - Ref 623048,899.99,Miscellaneous,,,,,indian
-McDonald's meal payment - INR 13306 - Ref 215369,165.62,Miscellaneous,,,,,indian
-Personal loan EMI - INR 34708 - Ref 567867,3881.15,Rent,,,,,indian
-Dominos pizza order - INR 31749 - Ref 927554,540.5,Miscellaneous,,,,,indian
-Bus ticket purchase - INR 31387 - Ref 696923,588.1,Travel,,,,,indian
-Bike loan EMI - INR 28748 - Ref 381877,3218.16,Rent,,,,,indian
-Hotel dinner bill - INR 42405 - Ref 255346,860.8,Miscellaneous,,,,,indian
-Restaurant dine-in bill - INR 19526 - Ref 985499,903.16,Miscellaneous,,,,,indian
-Zomato food delivery - INR 28687 - Ref 712387,59.52,Miscellaneous,,,,,indian
-Bus ticket purchase - INR 10978 - Ref 113351,2545.0,Travel,,,,,indian
-Swiggy order payment - INR 38813 - Ref 186871,800.22,Miscellaneous,,,,,indian
-Grocery Store,5.39,Office Supplies,2018-07-10,debit,Silver Card,2018-07,excel
-Retail store shopping - INR 37521 - Ref 888384,162.85,Office Supplies,,,,,indian
-Education loan EMI - INR 6440 - Ref 530331,1914.27,Rent,,,,,indian
-Supermarket shopping - INR 39667 - Ref 851689,445.89,Office Supplies,,,,,indian
-Retail store shopping - INR 2008 - Ref 601084,302.59,Office Supplies,,,,,indian
-Amazon,13.13,Office Supplies,2018-03-01,debit,Platinum Card,2018-03,excel
-eBay online order - INR 48332 - Ref 672771,333.91,Office Supplies,,,,,indian
-Metro card recharge - INR 16818 - Ref 512506,379.07,Travel,,,,,indian
-Retirement fund investment - INR 43375 - Ref 835338,3330.79,Professional Fees,,,,,indian
-Education loan EMI - INR 34412 - Ref 326660,1633.51,Rent,,,,,indian
-PPF contribution - INR 23988 - Ref 248239,1333.78,Professional Fees,,,,,indian
-Flight ticket booking - INR 12406 - Ref 243099,1078.69,Travel,,,,,indian
-Dominos pizza order - INR 26419 - Ref 107860,978.77,Miscellaneous,,,,,indian
-Appliance EMI - INR 39223 - Ref 502183,1243.83,Rent,,,,,indian
-Demat account transfer - INR 34953 - Ref 333075,540.12,Professional Fees,,,,,indian
-Uber ride payment - INR 47375 - Ref 421867,546.29,Travel,,,,,indian
-Credit card EMI - INR 46000 - Ref 337173,3463.99,Rent,,,,,indian
-Restaurant dine-in bill - INR 38194 - Ref 163832,601.22,Miscellaneous,,,,,indian
-Cafe coffee purchase - INR 30468 - Ref 485761,539.89,Miscellaneous,,,,,indian
-Demat account transfer - INR 38794 - Ref 591973,1318.37,Professional Fees,,,,,indian
-Grocery food items - INR 11569 - Ref 238194,639.08,Miscellaneous,,,,,indian
-Credit card EMI - INR 41131 - Ref 379887,1882.15,Rent,,,,,indian
-Retirement fund investment - INR 7735 - Ref 543217,724.65,Professional Fees,,,,,indian
-Lifestyle store purchase - INR 24366 - Ref 533171,339.25,Office Supplies,,,,,indian
-NPS contribution - INR 7770 - Ref 395443,4146.16,Professional Fees,,,,,indian
-NPS contribution - INR 29613 - Ref 335770,1478.9,Professional Fees,,,,,indian
-Appliance EMI - INR 27188 - Ref 412099,2394.31,Rent,,,,,indian
-Stock market investment - INR 10427 - Ref 366851,1530.3,Professional Fees,,,,,indian
-Gold bond investment - INR 31288 - Ref 447448,3104.46,Professional Fees,,,,,indian
-Consumer durable EMI - INR 14576 - Ref 368575,2676.9,Rent,,,,,indian
-Supermarket shopping - INR 45431 - Ref 426818,187.91,Office Supplies,,,,,indian
-IRCTC train ticket - INR 21388 - Ref 887796,185.62,Travel,,,,,indian
-Demat account transfer - INR 37694 - Ref 758241,1483.25,Professional Fees,,,,,indian
-Flipkart purchase - INR 12609 - Ref 242704,267.49,Office Supplies,,,,,indian
-Retail store shopping - INR 31106 - Ref 350385,171.77,Office Supplies,,,,,indian
-Grocery Store,11.72,Office Supplies,2019-08-08,debit,Silver Card,2019-08,excel
-Education loan EMI - INR 28469 - Ref 306095,1315.87,Rent,,,,,indian
-Personal loan EMI - INR 3506 - Ref 102034,1808.27,Rent,,,,,indian
-Ola cab booking - INR 4964 - Ref 234520,2219.23,Travel,,,,,indian
-Gold bond investment - INR 32593 - Ref 992297,2561.06,Professional Fees,,,,,indian
-Ajio clothing purchase - INR 17964 - Ref 818779,365.75,Office Supplies,,,,,indian
-Electronics purchase - INR 4646 - Ref 295351,294.88,Office Supplies,,,,,indian
-Shell,41.83,Travel,2019-06-18,debit,Silver Card,2019-06,excel
-Grocery Store,16.06,Office Supplies,2018-03-28,debit,Silver Card,2018-03,excel
-Bakery purchase - INR 1102 - Ref 164824,638.54,Miscellaneous,,,,,indian
-Bus ticket purchase - INR 16123 - Ref 467680,1076.88,Travel,,,,,indian
-MakeMyTrip travel booking - INR 12534 - Ref 132286,2140.78,Travel,,,,,indian
-Lifestyle store purchase - INR 24699 - Ref 240342,130.46,Office Supplies,,,,,indian
-Appliance EMI - INR 33606 - Ref 883439,4338.11,Rent,,,,,indian
-Airport taxi fare - INR 28433 - Ref 683316,2408.15,Travel,,,,,indian
-Gold bond investment - INR 29101 - Ref 328306,1856.36,Professional Fees,,,,,indian
-Airport taxi fare - INR 12906 - Ref 715949,1678.55,Travel,,,,,indian
-KFC online order - INR 33119 - Ref 678696,195.4,Miscellaneous,,,,,indian
-Hotel dinner bill - INR 46698 - Ref 602471,785.22,Miscellaneous,,,,,indian
-Mobile EMI payment - INR 14120 - Ref 503786,4738.33,Rent,,,,,indian
-eBay online order - INR 21649 - Ref 863410,281.34,Office Supplies,,,,,indian
-MakeMyTrip travel booking - INR 33552 - Ref 209536,2590.68,Travel,,,,,indian
-Airport taxi fare - INR 39860 - Ref 198299,1782.18,Travel,,,,,indian
-Hotel dinner bill - INR 45303 - Ref 382415,633.01,Miscellaneous,,,,,indian
-Supermarket shopping - INR 15058 - Ref 909584,256.68,Office Supplies,,,,,indian
-Bike loan EMI - INR 32969 - Ref 143237,1126.28,Rent,,,,,indian
-Electronics purchase - INR 19014 - Ref 258305,67.14,Office Supplies,,,,,indian
-Demat account transfer - INR 35046 - Ref 969781,4539.95,Professional Fees,,,,,indian
-Retail store shopping - INR 47329 - Ref 381279,427.87,Office Supplies,,,,,indian
-Dominos pizza order - INR 21313 - Ref 171429,570.9,Miscellaneous,,,,,indian
-Grocery Store,27.79,Office Supplies,2018-02-01,debit,Platinum Card,2018-02,excel
-Mobile EMI payment - INR 27000 - Ref 912231,4668.45,Rent,,,,,indian
-Car loan EMI - INR 47883 - Ref 898602,4354.7,Rent,,,,,indian
-Mutual fund SIP - INR 39837 - Ref 544490,1798.23,Professional Fees,,,,,indian
-Dominos pizza order - INR 39650 - Ref 463631,810.08,Miscellaneous,,,,,indian
-McDonald's meal payment - INR 49611 - Ref 559812,777.11,Miscellaneous,,,,,indian
-ETF purchase - INR 22119 - Ref 724509,1705.72,Professional Fees,,,,,indian
-Swiggy order payment - INR 11992 - Ref 594899,749.33,Miscellaneous,,,,,indian
-Fixed deposit investment - INR 22671 - Ref 946517,3613.25,Professional Fees,,,,,indian
-Electronics purchase - INR 22999 - Ref 831375,46.05,Office Supplies,,,,,indian
-Cafe coffee purchase - INR 31105 - Ref 416683,309.44,Miscellaneous,,,,,indian
-Restaurant dine-in bill - INR 44533 - Ref 263087,805.07,Miscellaneous,,,,,indian
-Dominos pizza order - INR 1388 - Ref 737962,986.55,Miscellaneous,,,,,indian
-Retirement fund investment - INR 23325 - Ref 663232,3476.76,Professional Fees,,,,,indian
-Airport taxi fare - INR 40881 - Ref 305021,1341.14,Travel,,,,,indian
-Amazon online shopping - INR 27835 - Ref 968790,297.43,Office Supplies,,,,,indian
-Hotel stay booking - INR 33607 - Ref 977787,2338.11,Travel,,,,,indian
-Fixed deposit investment - INR 15964 - Ref 968375,302.52,Professional Fees,,,,,indian
-Grocery food items - INR 43798 - Ref 269907,512.12,Miscellaneous,,,,,indian
-Ajio clothing purchase - INR 42658 - Ref 349797,218.35,Office Supplies,,,,,indian
-Flipkart purchase - INR 1879 - Ref 689236,359.44,Office Supplies,,,,,indian
-Rapido bike ride - INR 29103 - Ref 631575,2460.89,Travel,,,,,indian
-Home loan EMI - INR 1820 - Ref 616425,3391.14,Rent,,,,,indian
-Mobile EMI payment - INR 25590 - Ref 896821,4505.47,Rent,,,,,indian
-Gold bond investment - INR 12020 - Ref 630712,2428.62,Professional Fees,,,,,indian
-Home loan EMI - INR 40290 - Ref 389019,1979.0,Rent,,,,,indian
-Rapido bike ride - INR 40840 - Ref 714388,240.19,Travel,,,,,indian
-Lifestyle store purchase - INR 29923 - Ref 953884,327.63,Office Supplies,,,,,indian
-Grocery Store,57.32,Office Supplies,2018-05-11,debit,Platinum Card,2018-05,excel
-Airport taxi fare - INR 35361 - Ref 608471,1742.96,Travel,,,,,indian
-Grocery Store,5.09,Office Supplies,2018-03-09,debit,Platinum Card,2018-03,excel
-IRCTC train ticket - INR 24757 - Ref 628805,1745.7,Travel,,,,,indian
-Flight ticket booking - INR 10811 - Ref 704345,2481.72,Travel,,,,,indian
-Credit Card Payment,1606.46,Professional Fees,2019-09-18,debit,Checking,2019-09,excel
-Consumer durable EMI - INR 43931 - Ref 716716,3436.2,Rent,,,,,indian
-NPS contribution - INR 31419 - Ref 267629,245.36,Professional Fees,,,,,indian
-Appliance EMI - INR 13301 - Ref 480849,2481.51,Rent,,,,,indian
-Retirement fund investment - INR 33325 - Ref 984507,396.88,Professional Fees,,,,,indian
-Flight ticket booking - INR 38631 - Ref 745518,1935.35,Travel,,,,,indian
-Metro card recharge - INR 21609 - Ref 859684,694.98,Travel,,,,,indian
-Restaurant dine-in bill - INR 49191 - Ref 673330,487.01,Miscellaneous,,,,,indian
-Airport taxi fare - INR 22529 - Ref 369959,171.4,Travel,,,,,indian
-Fixed deposit investment - INR 45281 - Ref 713750,564.78,Professional Fees,,,,,indian
-Restaurant dine-in bill - INR 39052 - Ref 142082,729.91,Miscellaneous,,,,,indian
-Ola cab booking - INR 47999 - Ref 173908,729.52,Travel,,,,,indian
-Swiggy order payment - INR 47392 - Ref 154671,105.63,Miscellaneous,,,,,indian
-Zomato food delivery - INR 4003 - Ref 915409,264.5,Miscellaneous,,,,,indian
-Fixed deposit investment - INR 49116 - Ref 698202,289.43,Professional Fees,,,,,indian
-Mutual fund SIP - INR 16940 - Ref 921390,1819.46,Professional Fees,,,,,indian
-Metro card recharge - INR 16990 - Ref 915783,2347.98,Travel,,,,,indian
-Brunch Restaurant,8.49,Miscellaneous,2018-03-14,debit,Platinum Card,2018-03,excel
-Mall shopping payment - INR 20134 - Ref 162665,280.85,Office Supplies,,,,,indian
-Car loan EMI - INR 32769 - Ref 643231,1392.26,Rent,,,,,indian
-IRCTC train ticket - INR 19379 - Ref 389484,459.58,Travel,,,,,indian
-Mutual fund SIP - INR 9910 - Ref 111406,3684.16,Professional Fees,,,,,indian
-Swiggy order payment - INR 36699 - Ref 540768,743.77,Miscellaneous,,,,,indian
-Electronics purchase - INR 5382 - Ref 954368,238.49,Office Supplies,,,,,indian
-Credit card EMI - INR 11835 - Ref 392980,2158.38,Rent,,,,,indian
-Mobile EMI payment - INR 26031 - Ref 456964,4393.35,Rent,,,,,indian
-Zomato food delivery - INR 42218 - Ref 194027,931.28,Miscellaneous,,,,,indian
-Metro card recharge - INR 4126 - Ref 533496,1541.04,Travel,,,,,indian
-KFC online order - INR 47164 - Ref 808929,489.34,Miscellaneous,,,,,indian
-Car loan EMI - INR 8650 - Ref 288321,4998.29,Rent,,,,,indian
-Myntra fashion order - INR 31996 - Ref 580699,303.49,Office Supplies,,,,,indian
-Grocery Store,30.54,Office Supplies,2019-02-12,debit,Platinum Card,2019-02,excel
-McDonald's meal payment - INR 17892 - Ref 998883,993.54,Miscellaneous,,,,,indian
-Electronics purchase - INR 19817 - Ref 218144,294.09,Office Supplies,,,,,indian
-eBay online order - INR 33466 - Ref 994125,293.31,Office Supplies,,,,,indian
-Credit Card Payment,311.02,Professional Fees,2018-12-18,credit,Platinum Card,2018-12,excel
-MakeMyTrip travel booking - INR 41179 - Ref 974070,1153.98,Travel,,,,,indian
-Ajio clothing purchase - INR 2981 - Ref 138768,301.32,Office Supplies,,,,,indian
-Laptop EMI payment - INR 413 - Ref 544663,4261.52,Rent,,,,,indian
-Hotel dinner bill - INR 27083 - Ref 497287,456.35,Miscellaneous,,,,,indian
-Dominos pizza order - INR 21136 - Ref 696696,547.22,Miscellaneous,,,,,indian
-Retail store shopping - INR 37218 - Ref 400366,221.52,Office Supplies,,,,,indian
-Zomato food delivery - INR 16721 - Ref 993581,501.06,Miscellaneous,,,,,indian
-Bakery purchase - INR 4788 - Ref 306811,777.99,Miscellaneous,,,,,indian
-eBay online order - INR 42727 - Ref 124321,124.83,Office Supplies,,,,,indian
-Amazon,32.5,Office Supplies,2018-05-21,debit,Platinum Card,2018-05,excel
-Metro card recharge - INR 40886 - Ref 783553,2395.18,Travel,,,,,indian
-Demat account transfer - INR 23558 - Ref 702680,3632.94,Professional Fees,,,,,indian
-Amazon online shopping - INR 14310 - Ref 469415,246.45,Office Supplies,,,,,indian
-Amazon online shopping - INR 5303 - Ref 791955,205.95,Office Supplies,,,,,indian
-Starbucks,4.0,Miscellaneous,2018-02-22,debit,Silver Card,2018-02,excel
-Demat account transfer - INR 4508 - Ref 299505,4331.37,Professional Fees,,,,,indian
-Grocery food items - INR 42803 - Ref 442785,974.21,Miscellaneous,,,,,indian
-Electronics purchase - INR 42839 - Ref 653111,251.71,Office Supplies,,,,,indian
-Mobile EMI payment - INR 6022 - Ref 540632,3306.61,Rent,,,,,indian
-Rapido bike ride - INR 11412 - Ref 632827,1546.62,Travel,,,,,indian
-Metro card recharge - INR 25780 - Ref 827995,1837.56,Travel,,,,,indian
-Starbucks,5.2,Miscellaneous,2019-03-23,debit,Platinum Card,2019-03,excel
-MakeMyTrip travel booking - INR 23609 - Ref 546281,1785.51,Travel,,,,,indian
-NPS contribution - INR 21588 - Ref 920601,2738.44,Professional Fees,,,,,indian
-Uber ride payment - INR 3317 - Ref 411751,1521.37,Travel,,,,,indian
-Electronics purchase - INR 33027 - Ref 108837,431.28,Office Supplies,,,,,indian
-Mobile EMI payment - INR 38671 - Ref 422555,1831.14,Rent,,,,,indian
-Consumer durable EMI - INR 33416 - Ref 762187,4506.97,Rent,,,,,indian
-BP,38.63,Travel,2018-06-01,debit,Platinum Card,2018-06,excel
-Uber ride payment - INR 35900 - Ref 205468,2321.4,Travel,,,,,indian
-Hardware Store,15.38,Office Supplies,2018-01-08,debit,Silver Card,2018-01,excel
-Lifestyle store purchase - INR 39960 - Ref 979626,80.08,Office Supplies,,,,,indian
-Mutual fund SIP - INR 48816 - Ref 371088,2673.29,Professional Fees,,,,,indian
-Retail store shopping - INR 16576 - Ref 727271,130.84,Office Supplies,,,,,indian
-Laptop EMI payment - INR 23569 - Ref 130603,2278.35,Rent,,,,,indian
-ETF purchase - INR 26784 - Ref 498896,2105.1,Professional Fees,,,,,indian
-Uber ride payment - INR 18920 - Ref 727252,545.27,Travel,,,,,indian
-Hotel stay booking - INR 49278 - Ref 705523,1998.98,Travel,,,,,indian
-Airport taxi fare - INR 25259 - Ref 206119,1064.36,Travel,,,,,indian
-Movie Theater,20.0,Software/Subscriptions,2018-05-29,debit,Silver Card,2018-05,excel
-Electronics purchase - INR 25775 - Ref 761604,344.82,Office Supplies,,,,,indian
-Education loan EMI - INR 2991 - Ref 571581,1984.86,Rent,,,,,indian
-Appliance EMI - INR 2334 - Ref 444372,1206.48,Rent,,,,,indian
-NPS contribution - INR 2154 - Ref 183595,340.91,Professional Fees,,,,,indian
-Fixed deposit investment - INR 12631 - Ref 684742,4761.43,Professional Fees,,,,,indian
-BP,37.51,Travel,2019-03-22,debit,Platinum Card,2019-03,excel
-Share trading debit - INR 5622 - Ref 199506,2189.32,Professional Fees,,,,,indian
-Education loan EMI - INR 26089 - Ref 248246,3681.94,Rent,,,,,indian
-NPS contribution - INR 43446 - Ref 325895,679.37,Professional Fees,,,,,indian
-Share trading debit - INR 39654 - Ref 451217,3343.2,Professional Fees,,,,,indian
-Retail store shopping - INR 29932 - Ref 638202,377.44,Office Supplies,,,,,indian
-Amazon online shopping - INR 33366 - Ref 258479,342.74,Office Supplies,,,,,indian
-Share trading debit - INR 39940 - Ref 194601,3063.94,Professional Fees,,,,,indian
-Retail store shopping - INR 44628 - Ref 723706,266.65,Office Supplies,,,,,indian
-Grocery food items - INR 15852 - Ref 169806,605.2,Miscellaneous,,,,,indian
-Laptop EMI payment - INR 25755 - Ref 723817,1947.09,Rent,,,,,indian
-Personal loan EMI - INR 33043 - Ref 992214,2309.16,Rent,,,,,indian
-Ola cab booking - INR 36986 - Ref 160608,1161.32,Travel,,,,,indian
-eBay online order - INR 14512 - Ref 710898,243.06,Office Supplies,,,,,indian
-Mutual fund SIP - INR 7094 - Ref 151170,3922.56,Professional Fees,,,,,indian
-Restaurant dine-in bill - INR 44709 - Ref 978092,493.99,Miscellaneous,,,,,indian
-PPF contribution - INR 32197 - Ref 818375,3913.06,Professional Fees,,,,,indian
-Supermarket shopping - INR 30076 - Ref 221413,455.67,Office Supplies,,,,,indian
-Car loan EMI - INR 34954 - Ref 459561,4357.33,Rent,,,,,indian
-Hotel dinner bill - INR 3091 - Ref 597378,586.08,Miscellaneous,,,,,indian
-Bike loan EMI - INR 40927 - Ref 674661,2719.55,Rent,,,,,indian
-Cafe coffee purchase - INR 19974 - Ref 109518,251.54,Miscellaneous,,,,,indian
-Electronics purchase - INR 18399 - Ref 522933,160.56,Office Supplies,,,,,indian
-Airport taxi fare - INR 23812 - Ref 881066,1178.31,Travel,,,,,indian
-Mutual fund SIP - INR 24488 - Ref 754036,4326.25,Professional Fees,,,,,indian
-Swiggy order payment - INR 20815 - Ref 472188,691.0,Miscellaneous,,,,,indian
-Retirement fund investment - INR 1166 - Ref 237825,3510.87,Professional Fees,,,,,indian
-KFC online order - INR 22651 - Ref 892243,190.76,Miscellaneous,,,,,indian
-Demat account transfer - INR 14689 - Ref 279565,721.97,Professional Fees,,,,,indian
-Grocery food items - INR 26864 - Ref 656622,874.98,Miscellaneous,,,,,indian
-Bus ticket purchase - INR 25165 - Ref 796091,1967.75,Travel,,,,,indian
-Retail store shopping - INR 13863 - Ref 420337,473.75,Office Supplies,,,,,indian
-Retirement fund investment - INR 15598 - Ref 120441,3181.43,Professional Fees,,,,,indian
-Electronics purchase - INR 1799 - Ref 813195,65.88,Office Supplies,,,,,indian
-Grocery food items - INR 6615 - Ref 138809,331.25,Miscellaneous,,,,,indian
-Mutual fund SIP - INR 36988 - Ref 693493,3165.62,Professional Fees,,,,,indian
-Mobile EMI payment - INR 28983 - Ref 546166,4985.57,Rent,,,,,indian
-eBay online order - INR 22690 - Ref 694501,171.91,Office Supplies,,,,,indian
-Fixed deposit investment - INR 40989 - Ref 456074,2721.88,Professional Fees,,,,,indian
-Uber ride payment - INR 15404 - Ref 684161,1958.65,Travel,,,,,indian
-Zomato food delivery - INR 13393 - Ref 277713,625.98,Miscellaneous,,,,,indian
-NPS contribution - INR 19150 - Ref 962314,1845.67,Professional Fees,,,,,indian
-Dominos pizza order - INR 7558 - Ref 938588,465.55,Miscellaneous,,,,,indian
-Flight ticket booking - INR 36678 - Ref 975582,1636.37,Travel,,,,,indian
-ETF purchase - INR 45626 - Ref 531550,2956.1,Professional Fees,,,,,indian
-Electronics purchase - INR 598 - Ref 810443,92.82,Office Supplies,,,,,indian
-eBay online order - INR 18696 - Ref 141699,184.48,Office Supplies,,,,,indian
-Appliance EMI - INR 2913 - Ref 243397,1899.47,Rent,,,,,indian
-Grocery Store,47.16,Office Supplies,2018-09-12,debit,Platinum Card,2018-09,excel
-Dominos pizza order - INR 26958 - Ref 584390,810.99,Miscellaneous,,,,,indian
-Dominos pizza order - INR 24371 - Ref 893907,375.35,Miscellaneous,,,,,indian
-Flipkart purchase - INR 13618 - Ref 397759,333.62,Office Supplies,,,,,indian
-Ajio clothing purchase - INR 10303 - Ref 182936,212.78,Office Supplies,,,,,indian
-Retirement fund investment - INR 1106 - Ref 182768,3593.39,Professional Fees,,,,,indian
-Flight ticket booking - INR 29092 - Ref 913602,302.56,Travel,,,,,indian
-Personal loan EMI - INR 49772 - Ref 218288,4356.89,Rent,,,,,indian
-Gold bond investment - INR 20026 - Ref 803069,1361.7,Professional Fees,,,,,indian
-Laptop EMI payment - INR 34691 - Ref 200211,1432.39,Rent,,,,,indian
-Fixed deposit investment - INR 18391 - Ref 965673,1393.17,Professional Fees,,,,,indian
-Hotel stay booking - INR 34325 - Ref 835679,340.89,Travel,,,,,indian
-Lifestyle store purchase - INR 47417 - Ref 997648,497.42,Office Supplies,,,,,indian
-KFC online order - INR 29066 - Ref 374312,567.18,Miscellaneous,,,,,indian
-McDonald's meal payment - INR 45854 - Ref 429138,582.58,Miscellaneous,,,,,indian
-Uber ride payment - INR 24381 - Ref 892546,2049.89,Travel,,,,,indian
-Bike loan EMI - INR 4873 - Ref 771810,2975.18,Rent,,,,,indian
-Car loan EMI - INR 13308 - Ref 286308,3923.05,Rent,,,,,indian
-Stock market investment - INR 17571 - Ref 899546,3900.33,Professional Fees,,,,,indian
-Airport taxi fare - INR 32815 - Ref 157175,1575.06,Travel,,,,,indian
-Personal loan EMI - INR 37693 - Ref 222340,3589.49,Rent,,,,,indian
-Flight ticket booking - INR 1958 - Ref 572440,745.63,Travel,,,,,indian
-Grocery Store,13.36,Office Supplies,2018-09-28,debit,Platinum Card,2018-09,excel
-eBay online order - INR 12123 - Ref 390149,73.41,Office Supplies,,,,,indian
-Dominos pizza order - INR 33217 - Ref 358494,196.22,Miscellaneous,,,,,indian
-Pizza Place,22.66,Miscellaneous,2018-06-16,debit,Platinum Card,2018-06,excel
-Personal loan EMI - INR 19487 - Ref 224087,1336.99,Rent,,,,,indian
-KFC online order - INR 28736 - Ref 782701,673.03,Miscellaneous,,,,,indian
-Bus ticket purchase - INR 6270 - Ref 652639,2234.6,Travel,,,,,indian
-Mutual fund SIP - INR 15165 - Ref 328252,1955.09,Professional Fees,,,,,indian
-Consumer durable EMI - INR 24593 - Ref 102563,1312.94,Rent,,,,,indian
-Appliance EMI - INR 10827 - Ref 985240,3534.65,Rent,,,,,indian
-Phone Company,65.0,Utilities,2019-01-10,debit,Checking,2019-01,excel
-Dominos pizza order - INR 25546 - Ref 265774,416.95,Miscellaneous,,,,,indian
-Metro card recharge - INR 25440 - Ref 151615,2802.72,Travel,,,,,indian
-Consumer durable EMI - INR 7975 - Ref 271943,1957.19,Rent,,,,,indian
-Hotel dinner bill - INR 14329 - Ref 389868,377.2,Miscellaneous,,,,,indian
-Zomato food delivery - INR 41110 - Ref 110554,616.67,Miscellaneous,,,,,indian
-Car loan EMI - INR 35178 - Ref 854773,1230.95,Rent,,,,,indian
-Bakery purchase - INR 20595 - Ref 883094,176.21,Miscellaneous,,,,,indian
-Electronics purchase - INR 8658 - Ref 100177,197.15,Office Supplies,,,,,indian
-Stock market investment - INR 11466 - Ref 490461,2403.65,Professional Fees,,,,,indian
-Retirement fund investment - INR 5401 - Ref 738816,1282.1,Professional Fees,,,,,indian
-Fancy Restaurant,41.24,Miscellaneous,2019-09-03,debit,Silver Card,2019-09,excel
-Bus ticket purchase - INR 32868 - Ref 560512,449.72,Travel,,,,,indian
-Hotel dinner bill - INR 28316 - Ref 811684,276.03,Miscellaneous,,,,,indian
-Bakery purchase - INR 30314 - Ref 676288,454.52,Miscellaneous,,,,,indian
-Consumer durable EMI - INR 7489 - Ref 611599,3309.41,Rent,,,,,indian
-Bakery purchase - INR 29482 - Ref 459929,464.36,Miscellaneous,,,,,indian
-Supermarket shopping - INR 29955 - Ref 248599,58.45,Office Supplies,,,,,indian
-Ajio clothing purchase - INR 14336 - Ref 595006,305.06,Office Supplies,,,,,indian
-Consumer durable EMI - INR 4861 - Ref 422151,1528.76,Rent,,,,,indian
-Bakery purchase - INR 33851 - Ref 242625,520.27,Miscellaneous,,,,,indian
-Home loan EMI - INR 8496 - Ref 874674,4989.08,Rent,,,,,indian
-Gold bond investment - INR 49442 - Ref 638305,3582.24,Professional Fees,,,,,indian
-ETF purchase - INR 27791 - Ref 955123,3901.88,Professional Fees,,,,,indian
-Flight ticket booking - INR 5242 - Ref 312683,786.55,Travel,,,,,indian
-KFC online order - INR 14598 - Ref 670913,866.96,Miscellaneous,,,,,indian
-Consumer durable EMI - INR 8316 - Ref 482822,2872.08,Rent,,,,,indian
-Uber ride payment - INR 16472 - Ref 565214,1546.58,Travel,,,,,indian
-Credit card EMI - INR 24184 - Ref 281228,1925.05,Rent,,,,,indian
-Retirement fund investment - INR 1905 - Ref 844740,3228.96,Professional Fees,,,,,indian
-NPS contribution - INR 1046 - Ref 419317,3156.77,Professional Fees,,,,,indian
-Retirement fund investment - INR 18295 - Ref 408876,4074.1,Professional Fees,,,,,indian
-Stock market investment - INR 13505 - Ref 750807,4581.58,Professional Fees,,,,,indian
-Zomato food delivery - INR 42338 - Ref 268264,970.22,Miscellaneous,,,,,indian
-Stock market investment - INR 25512 - Ref 845167,410.49,Professional Fees,,,,,indian
-Stock market investment - INR 20423 - Ref 889573,3611.62,Professional Fees,,,,,indian
-Share trading debit - INR 37328 - Ref 591607,854.97,Professional Fees,,,,,indian
-KFC online order - INR 3808 - Ref 549708,981.53,Miscellaneous,,,,,indian
-Flipkart purchase - INR 233 - Ref 245188,274.5,Office Supplies,,,,,indian
-Bike loan EMI - INR 24352 - Ref 591866,1737.81,Rent,,,,,indian
-Grocery food items - INR 16540 - Ref 102909,271.52,Miscellaneous,,,,,indian
-American Tavern,34.82,Miscellaneous,2019-05-30,debit,Platinum Card,2019-05,excel
-Dominos pizza order - INR 13881 - Ref 118791,218.27,Miscellaneous,,,,,indian
-Education loan EMI - INR 18596 - Ref 497092,2274.94,Rent,,,,,indian
-PPF contribution - INR 30679 - Ref 570187,4473.93,Professional Fees,,,,,indian
-Restaurant dine-in bill - INR 16891 - Ref 796905,124.34,Miscellaneous,,,,,indian
-Dominos pizza order - INR 26896 - Ref 195254,711.5,Miscellaneous,,,,,indian
-Bike loan EMI - INR 11416 - Ref 555186,2696.84,Rent,,,,,indian
-Mobile EMI payment - INR 29598 - Ref 884912,4416.96,Rent,,,,,indian
-eBay online order - INR 24598 - Ref 782888,450.95,Office Supplies,,,,,indian
-Cafe coffee purchase - INR 31233 - Ref 631535,942.24,Miscellaneous,,,,,indian
-Stock market investment - INR 24015 - Ref 255638,4231.82,Professional Fees,,,,,indian
-Myntra fashion order - INR 38976 - Ref 305952,183.36,Office Supplies,,,,,indian
-Laptop EMI payment - INR 49208 - Ref 933913,1674.42,Rent,,,,,indian
-Metro card recharge - INR 33356 - Ref 293538,1022.15,Travel,,,,,indian
-Demat account transfer - INR 10071 - Ref 186641,3989.83,Professional Fees,,,,,indian
-ETF purchase - INR 14945 - Ref 294011,973.98,Professional Fees,,,,,indian
-Metro card recharge - INR 41840 - Ref 593709,2441.71,Travel,,,,,indian
-Demat account transfer - INR 45456 - Ref 682217,1866.41,Professional Fees,,,,,indian
-Hotel stay booking - INR 48847 - Ref 509943,2692.84,Travel,,,,,indian
-Demat account transfer - INR 42965 - Ref 791618,708.45,Professional Fees,,,,,indian
-Ajio clothing purchase - INR 2011 - Ref 180183,405.41,Office Supplies,,,,,indian
-Bike loan EMI - INR 9566 - Ref 773939,2962.72,Rent,,,,,indian
-Mobile EMI payment - INR 5843 - Ref 576772,1703.55,Rent,,,,,indian
-Bus ticket purchase - INR 19126 - Ref 594892,553.53,Travel,,,,,indian
-Dominos pizza order - INR 35748 - Ref 599462,914.42,Miscellaneous,,,,,indian
-Ola cab booking - INR 24604 - Ref 870497,597.33,Travel,,,,,indian
-Rapido bike ride - INR 3656 - Ref 105980,2169.21,Travel,,,,,indian
-McDonald's meal payment - INR 33350 - Ref 139033,801.88,Miscellaneous,,,,,indian
-Stock market investment - INR 46185 - Ref 716254,2785.17,Professional Fees,,,,,indian
-IRCTC train ticket - INR 30537 - Ref 671338,1742.5,Travel,,,,,indian
-Share trading debit - INR 47351 - Ref 105726,2233.1,Professional Fees,,,,,indian
-Flipkart purchase - INR 42998 - Ref 301777,139.78,Office Supplies,,,,,indian
-Credit card EMI - INR 23354 - Ref 496142,3668.53,Rent,,,,,indian
-Mobile EMI payment - INR 15761 - Ref 538979,2178.86,Rent,,,,,indian
-Restaurant dine-in bill - INR 24468 - Ref 658974,431.2,Miscellaneous,,,,,indian
-Amazon,43.01,Office Supplies,2018-12-19,debit,Platinum Card,2018-12,excel
-Cafe coffee purchase - INR 6166 - Ref 215678,700.73,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 706 - Ref 488427,514.64,Travel,,,,,indian
-Zomato food delivery - INR 28413 - Ref 629015,135.17,Miscellaneous,,,,,indian
-Car loan EMI - INR 8464 - Ref 388357,4559.01,Rent,,,,,indian
-ETF purchase - INR 6453 - Ref 548833,498.95,Professional Fees,,,,,indian
-Stock market investment - INR 20744 - Ref 594647,3681.56,Professional Fees,,,,,indian
-Credit card EMI - INR 25513 - Ref 725018,3449.77,Rent,,,,,indian
-Best Buy,21.39,Software/Subscriptions,2019-05-10,debit,Silver Card,2019-05,excel
-Retail store shopping - INR 13744 - Ref 545941,290.91,Office Supplies,,,,,indian
-Restaurant dine-in bill - INR 14558 - Ref 632768,237.92,Miscellaneous,,,,,indian
-Grocery Store,6.06,Office Supplies,2019-01-15,debit,Silver Card,2019-01,excel
-Electronics purchase - INR 22372 - Ref 942859,168.6,Office Supplies,,,,,indian
-Flipkart purchase - INR 22386 - Ref 453020,188.39,Office Supplies,,,,,indian
-Ola cab booking - INR 2708 - Ref 453455,2012.28,Travel,,,,,indian
-McDonald's meal payment - INR 36168 - Ref 285790,954.95,Miscellaneous,,,,,indian
-Personal loan EMI - INR 20458 - Ref 307362,3391.54,Rent,,,,,indian
-Flight ticket booking - INR 25651 - Ref 517429,1666.22,Travel,,,,,indian
-Bus ticket purchase - INR 29411 - Ref 826293,279.79,Travel,,,,,indian
-Cafe coffee purchase - INR 15225 - Ref 134453,580.33,Miscellaneous,,,,,indian
-Car loan EMI - INR 27124 - Ref 411684,2963.29,Rent,,,,,indian
-KFC online order - INR 19636 - Ref 245919,248.34,Miscellaneous,,,,,indian
-Car loan EMI - INR 7918 - Ref 649125,1320.28,Rent,,,,,indian
-Credit card EMI - INR 18916 - Ref 438981,4154.08,Rent,,,,,indian
-Cafe coffee purchase - INR 30048 - Ref 337053,463.39,Miscellaneous,,,,,indian
-Grocery food items - INR 48441 - Ref 805182,933.69,Miscellaneous,,,,,indian
-Metro card recharge - INR 34528 - Ref 802079,2219.29,Travel,,,,,indian
-Airport taxi fare - INR 47503 - Ref 669533,2650.88,Travel,,,,,indian
-Ola cab booking - INR 36980 - Ref 352537,1382.25,Travel,,,,,indian
-Cafe coffee purchase - INR 36526 - Ref 476481,922.74,Miscellaneous,,,,,indian
-Ajio clothing purchase - INR 35829 - Ref 119312,44.66,Office Supplies,,,,,indian
-Fixed deposit investment - INR 37998 - Ref 497585,3735.77,Professional Fees,,,,,indian
-Electronics purchase - INR 20947 - Ref 107846,101.59,Office Supplies,,,,,indian
-Mall shopping payment - INR 45827 - Ref 108410,55.92,Office Supplies,,,,,indian
+MakeMyTrip travel booking - INR 13491 - Ref 540100,384.67,Travel,,,,,indian
 Brunch Restaurant,39.43,Miscellaneous,2019-08-25,debit,Platinum Card,2019-08,excel
-Hotel stay booking - INR 6868 - Ref 187298,2019.35,Travel,,,,,indian
-Hotel dinner bill - INR 8074 - Ref 530706,327.95,Miscellaneous,,,,,indian
-Uber ride payment - INR 16498 - Ref 570248,1420.64,Travel,,,,,indian
-Stock market investment - INR 19331 - Ref 371338,2789.21,Professional Fees,,,,,indian
-Brunch Restaurant,8.0,Miscellaneous,2018-02-16,debit,Silver Card,2018-02,excel
-Share trading debit - INR 22056 - Ref 635727,807.07,Professional Fees,,,,,indian
-Restaurant dine-in bill - INR 43576 - Ref 642450,48.13,Miscellaneous,,,,,indian
-Car loan EMI - INR 2924 - Ref 360073,1863.81,Rent,,,,,indian
-Lifestyle store purchase - INR 12795 - Ref 665281,166.21,Office Supplies,,,,,indian
-Consumer durable EMI - INR 22132 - Ref 749562,4240.74,Rent,,,,,indian
-Myntra fashion order - INR 18335 - Ref 541645,152.6,Office Supplies,,,,,indian
-PPF contribution - INR 10201 - Ref 154792,1266.01,Professional Fees,,,,,indian
-MakeMyTrip travel booking - INR 16409 - Ref 240453,980.6,Travel,,,,,indian
-Appliance EMI - INR 23904 - Ref 668603,3168.78,Rent,,,,,indian
-Gold bond investment - INR 918 - Ref 271840,2560.26,Professional Fees,,,,,indian
-Share trading debit - INR 13782 - Ref 273258,4758.82,Professional Fees,,,,,indian
-Metro card recharge - INR 22120 - Ref 347848,435.09,Travel,,,,,indian
-Ola cab booking - INR 38700 - Ref 589086,1049.28,Travel,,,,,indian
-Myntra fashion order - INR 9687 - Ref 729312,85.52,Office Supplies,,,,,indian
-Gold bond investment - INR 40816 - Ref 201314,2232.35,Professional Fees,,,,,indian
-Appliance EMI - INR 23936 - Ref 362263,4415.22,Rent,,,,,indian
-Zomato food delivery - INR 4449 - Ref 140889,118.52,Miscellaneous,,,,,indian
-Education loan EMI - INR 36298 - Ref 644089,3288.17,Rent,,,,,indian
-Home loan EMI - INR 49918 - Ref 910980,4332.91,Rent,,,,,indian
-McDonald's meal payment - INR 2250 - Ref 332576,282.01,Miscellaneous,,,,,indian
-Grocery Store,32.07,Office Supplies,2018-03-01,debit,Silver Card,2018-03,excel
-Flight ticket booking - INR 24705 - Ref 437223,2398.56,Travel,,,,,indian
-Hotel stay booking - INR 42974 - Ref 931222,1857.32,Travel,,,,,indian
-Restaurant dine-in bill - INR 16821 - Ref 937351,295.89,Miscellaneous,,,,,indian
-Education loan EMI - INR 5093 - Ref 474606,3637.13,Rent,,,,,indian
-Dominos pizza order - INR 28107 - Ref 788133,198.25,Miscellaneous,,,,,indian
-Lifestyle store purchase - INR 28798 - Ref 960748,31.97,Office Supplies,,,,,indian
-Bike loan EMI - INR 25659 - Ref 584742,3348.14,Rent,,,,,indian
-Car loan EMI - INR 36115 - Ref 275269,2727.14,Rent,,,,,indian
-Bike loan EMI - INR 35926 - Ref 312233,2619.47,Rent,,,,,indian
-Consumer durable EMI - INR 28912 - Ref 558282,2244.49,Rent,,,,,indian
-Myntra fashion order - INR 1390 - Ref 155330,364.06,Office Supplies,,,,,indian
-ETF purchase - INR 24356 - Ref 660826,523.34,Professional Fees,,,,,indian
-Credit Card Payment,89.45,Professional Fees,2018-06-20,credit,Silver Card,2018-06,excel
-Retail store shopping - INR 31128 - Ref 451033,270.15,Office Supplies,,,,,indian
-Hotel dinner bill - INR 5017 - Ref 757980,770.52,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 49655 - Ref 994574,2555.56,Travel,,,,,indian
-Hotel stay booking - INR 17378 - Ref 720479,2175.65,Travel,,,,,indian
-Education loan EMI - INR 6490 - Ref 364000,2946.81,Rent,,,,,indian
-Cafe coffee purchase - INR 27349 - Ref 819037,982.47,Miscellaneous,,,,,indian
-Flipkart purchase - INR 4211 - Ref 326476,45.33,Office Supplies,,,,,indian
-Myntra fashion order - INR 28259 - Ref 841407,188.79,Office Supplies,,,,,indian
-Cafe coffee purchase - INR 24509 - Ref 156415,44.52,Miscellaneous,,,,,indian
-Laptop EMI payment - INR 9788 - Ref 605456,2676.51,Rent,,,,,indian
-Bike loan EMI - INR 1126 - Ref 753610,4956.36,Rent,,,,,indian
-MakeMyTrip travel booking - INR 4369 - Ref 913683,2086.98,Travel,,,,,indian
-KFC online order - INR 4681 - Ref 617199,520.61,Miscellaneous,,,,,indian
-eBay online order - INR 46839 - Ref 231522,447.0,Office Supplies,,,,,indian
-Bus ticket purchase - INR 40953 - Ref 781881,2902.32,Travel,,,,,indian
-Myntra fashion order - INR 12428 - Ref 997569,494.78,Office Supplies,,,,,indian
-Bakery purchase - INR 5556 - Ref 751968,745.85,Miscellaneous,,,,,indian
-Mobile EMI payment - INR 27797 - Ref 576145,4802.22,Rent,,,,,indian
-Retirement fund investment - INR 5554 - Ref 554793,4798.24,Professional Fees,,,,,indian
-NPS contribution - INR 4442 - Ref 779913,637.23,Professional Fees,,,,,indian
-Gold bond investment - INR 26610 - Ref 480791,4000.84,Professional Fees,,,,,indian
-Zomato food delivery - INR 20361 - Ref 611602,20.56,Miscellaneous,,,,,indian
-Laptop EMI payment - INR 39276 - Ref 450535,4469.64,Rent,,,,,indian
-Car loan EMI - INR 6899 - Ref 957612,3762.38,Rent,,,,,indian
-Bus ticket purchase - INR 4117 - Ref 862122,1801.73,Travel,,,,,indian
-Cafe coffee purchase - INR 25268 - Ref 961295,117.81,Miscellaneous,,,,,indian
-Myntra fashion order - INR 38198 - Ref 443538,399.29,Office Supplies,,,,,indian
-ETF purchase - INR 20357 - Ref 718430,3919.87,Professional Fees,,,,,indian
-Dominos pizza order - INR 7817 - Ref 128250,483.22,Miscellaneous,,,,,indian
-Ajio clothing purchase - INR 5854 - Ref 223691,271.83,Office Supplies,,,,,indian
-Demat account transfer - INR 7715 - Ref 524708,968.65,Professional Fees,,,,,indian
-Electronics purchase - INR 6974 - Ref 617839,318.68,Office Supplies,,,,,indian
-Appliance EMI - INR 42839 - Ref 341502,2147.65,Rent,,,,,indian
-Mobile EMI payment - INR 7272 - Ref 478250,4433.42,Rent,,,,,indian
-Cafe coffee purchase - INR 16916 - Ref 369102,287.22,Miscellaneous,,,,,indian
-Appliance EMI - INR 17463 - Ref 560595,3721.59,Rent,,,,,indian
-Airport taxi fare - INR 391 - Ref 688830,1104.71,Travel,,,,,indian
-ETF purchase - INR 13182 - Ref 410496,1127.65,Professional Fees,,,,,indian
-Gold bond investment - INR 8747 - Ref 410632,3207.11,Professional Fees,,,,,indian
-Metro card recharge - INR 10691 - Ref 989120,882.81,Travel,,,,,indian
-Credit Card Payment,575.33,Professional Fees,2019-05-17,credit,Platinum Card,2019-05,excel
-Credit Card Payment,814.5,Professional Fees,2019-07-18,debit,Checking,2019-07,excel
-Personal loan EMI - INR 10599 - Ref 369557,4868.66,Rent,,,,,indian
-Appliance EMI - INR 31888 - Ref 748280,4880.74,Rent,,,,,indian
-Supermarket shopping - INR 24121 - Ref 744985,281.39,Office Supplies,,,,,indian
-Mall shopping payment - INR 895 - Ref 188005,358.47,Office Supplies,,,,,indian
-Bus ticket purchase - INR 4135 - Ref 629003,173.39,Travel,,,,,indian
-Gold bond investment - INR 511 - Ref 804896,4361.83,Professional Fees,,,,,indian
-Shell,28.92,Travel,2019-01-14,debit,Silver Card,2019-01,excel
-Hotel dinner bill - INR 46934 - Ref 164979,935.21,Miscellaneous,,,,,indian
-Bike loan EMI - INR 5979 - Ref 784359,4448.44,Rent,,,,,indian
-Electronics purchase - INR 1804 - Ref 520377,144.16,Office Supplies,,,,,indian
-Cafe coffee purchase - INR 48361 - Ref 517529,202.08,Miscellaneous,,,,,indian
-Lifestyle store purchase - INR 7692 - Ref 304557,352.02,Office Supplies,,,,,indian
-Flight ticket booking - INR 47712 - Ref 455782,1515.35,Travel,,,,,indian
-Hotel dinner bill - INR 46225 - Ref 144252,91.37,Miscellaneous,,,,,indian
-Restaurant dine-in bill - INR 47502 - Ref 331445,994.63,Miscellaneous,,,,,indian
-Share trading debit - INR 8851 - Ref 576942,720.33,Professional Fees,,,,,indian
-Metro card recharge - INR 31664 - Ref 344965,410.37,Travel,,,,,indian
-Personal loan EMI - INR 48552 - Ref 407250,3731.77,Rent,,,,,indian
-Fixed deposit investment - INR 32319 - Ref 365314,3377.07,Professional Fees,,,,,indian
-Stock market investment - INR 2069 - Ref 892890,1528.07,Professional Fees,,,,,indian
-Lifestyle store purchase - INR 14453 - Ref 906358,242.68,Office Supplies,,,,,indian
-Demat account transfer - INR 26573 - Ref 129056,1961.46,Professional Fees,,,,,indian
+Retail store shopping - INR 48381 - Ref 890950,433.81,Office Supplies,,,,,indian
+Gold bond investment - INR 36776 - Ref 290892,1455.5,Professional Fees,,,,,indian
+Rapido bike ride - INR 49278 - Ref 254612,2628.64,Travel,,,,,indian
+Flipkart purchase - INR 20814 - Ref 571544,276.52,Office Supplies,,,,,indian
+Netflix,13.9,Utilities,2019-05-04,debit,Platinum Card,2019-05,excel
+Mall shopping payment - INR 6082 - Ref 111700,162.85,Office Supplies,,,,,indian
+eBay online order - INR 33466 - Ref 994125,292.82,Office Supplies,,,,,indian
+Retirement fund investment - INR 32104 - Ref 586366,2231.06,Professional Fees,,,,,indian
+Flipkart purchase - INR 11556 - Ref 126778,264.38,Office Supplies,,,,,indian
+Mutual fund SIP - INR 48816 - Ref 371088,3387.89,Professional Fees,,,,,indian
+eBay online order - INR 33964 - Ref 767127,370.85,Office Supplies,,,,,indian
+Mutual fund SIP - INR 14408 - Ref 874375,1936.77,Professional Fees,,,,,indian
+Retail store shopping - INR 46116 - Ref 887671,479.22,Office Supplies,,,,,indian
+Demat account transfer - INR 4508 - Ref 299505,1180.44,Professional Fees,,,,,indian
+Flight ticket booking - INR 6457 - Ref 992547,1409.13,Travel,,,,,indian
+Electronics purchase - INR 37557 - Ref 202203,353.12,Office Supplies,,,,,indian
+Swiggy order payment - INR 25090 - Ref 530769,81.04,Miscellaneous,,,,,indian
+IRCTC train ticket - INR 36325 - Ref 663836,2513.58,Travel,,,,,indian
+Swiggy order payment - INR 49968 - Ref 797637,543.33,Miscellaneous,,,,,indian
+KFC online order - INR 689 - Ref 534559,938.42,Miscellaneous,,,,,indian
+Mall shopping payment - INR 6823 - Ref 550381,324.2,Office Supplies,,,,,indian
+Ola cab booking - INR 39643 - Ref 110347,1180.06,Travel,,,,,indian
+Lifestyle store purchase - INR 20041 - Ref 733177,139.16,Office Supplies,,,,,indian
+ETF purchase - INR 33974 - Ref 236913,2034.59,Professional Fees,,,,,indian
+Brewing Company,40.81,Miscellaneous,2019-09-19,debit,Platinum Card,2019-09,excel
+Grocery food items - INR 8069 - Ref 639847,493.54,Miscellaneous,,,,,indian
+Retirement fund investment - INR 43375 - Ref 835338,4146.12,Professional Fees,,,,,indian
+Fixed deposit investment - INR 17081 - Ref 790260,410.27,Professional Fees,,,,,indian
+NPS contribution - INR 18617 - Ref 159312,1309.61,Professional Fees,,,,,indian
+Grocery food items - INR 4154 - Ref 837349,439.81,Miscellaneous,,,,,indian
 BP,38.86,Travel,2018-09-11,debit,Platinum Card,2018-09,excel
-Restaurant dine-in bill - INR 30327 - Ref 663905,641.22,Miscellaneous,,,,,indian
-NPS contribution - INR 5797 - Ref 993875,4624.97,Professional Fees,,,,,indian
-Consumer durable EMI - INR 33525 - Ref 552972,1200.87,Rent,,,,,indian
-Swiggy order payment - INR 47083 - Ref 925537,450.81,Miscellaneous,,,,,indian
-Grocery Store,12.64,Office Supplies,2018-12-08,debit,Platinum Card,2018-12,excel
+Share trading debit - INR 21091 - Ref 401733,692.69,Professional Fees,,,,,indian
+Share trading debit - INR 10991 - Ref 540728,1650.51,Professional Fees,,,,,indian
+Dominos pizza order - INR 9202 - Ref 333320,688.9,Miscellaneous,,,,,indian
+Retirement fund investment - INR 10418 - Ref 871534,3514.95,Professional Fees,,,,,indian
+Dominos pizza order - INR 32716 - Ref 967986,735.36,Miscellaneous,,,,,indian
+Cafe coffee purchase - INR 18188 - Ref 593099,465.62,Miscellaneous,,,,,indian
+NPS contribution - INR 21588 - Ref 920601,326.16,Professional Fees,,,,,indian
+Mutual fund SIP - INR 7471 - Ref 895236,4885.79,Professional Fees,,,,,indian
+eBay online order - INR 34763 - Ref 733945,153.55,Office Supplies,,,,,indian
+Amazon online shopping - INR 271 - Ref 995920,305.06,Office Supplies,,,,,indian
+American Tavern,26.59,Miscellaneous,2018-07-24,debit,Platinum Card,2018-07,excel
+Supermarket shopping - INR 27834 - Ref 731965,197.69,Office Supplies,,,,,indian
+eBay online order - INR 38297 - Ref 661386,90.04,Office Supplies,,,,,indian
+Uber ride payment - INR 16498 - Ref 570248,1917.86,Travel,,,,,indian
+Metro card recharge - INR 31127 - Ref 905179,786.55,Travel,,,,,indian
+MakeMyTrip travel booking - INR 19806 - Ref 989690,1114.45,Travel,,,,,indian
+Ajio clothing purchase - INR 29268 - Ref 100825,370.37,Office Supplies,,,,,indian
+Bus ticket purchase - INR 47443 - Ref 894841,1179.98,Travel,,,,,indian
+Retirement fund investment - INR 43685 - Ref 589014,3006.6,Professional Fees,,,,,indian
+American Tavern,23.47,Miscellaneous,2019-08-03,debit,Platinum Card,2019-08,excel
+Phone Company,89.52,Utilities,2018-02-12,debit,Checking,2018-02,excel
+Restaurant dine-in bill - INR 30052 - Ref 729133,284.68,Miscellaneous,,,,,indian
+Metro card recharge - INR 23396 - Ref 347417,907.21,Travel,,,,,indian
+Supermarket shopping - INR 15058 - Ref 909584,68.84,Office Supplies,,,,,indian
+eBay online order - INR 17177 - Ref 957614,437.53,Office Supplies,,,,,indian
+Lifestyle store purchase - INR 26126 - Ref 587072,404.39,Office Supplies,,,,,indian
+Retirement fund investment - INR 19020 - Ref 487784,4778.32,Professional Fees,,,,,indian
+McDonald's meal payment - INR 2586 - Ref 122466,252.78,Miscellaneous,,,,,indian
+Ajio clothing purchase - INR 33490 - Ref 642237,401.22,Office Supplies,,,,,indian
+ETF purchase - INR 11867 - Ref 726853,2369.8,Professional Fees,,,,,indian
+Rapido bike ride - INR 30206 - Ref 584301,2702.97,Travel,,,,,indian
+Supermarket shopping - INR 45431 - Ref 426818,119.44,Office Supplies,,,,,indian
+Airport taxi fare - INR 6339 - Ref 916416,134.29,Travel,,,,,indian
+Grocery Store,42.23,Office Supplies,2018-05-04,debit,Platinum Card,2018-05,excel
+Myntra fashion order - INR 3276 - Ref 148147,336.85,Office Supplies,,,,,indian
+eBay online order - INR 21649 - Ref 863410,468.44,Office Supplies,,,,,indian
+Uber ride payment - INR 15935 - Ref 678035,2527.68,Travel,,,,,indian
+Ola cab booking - INR 18726 - Ref 398635,2384.57,Travel,,,,,indian
+ETF purchase - INR 39762 - Ref 459705,3300.92,Professional Fees,,,,,indian
+Hotel dinner bill - INR 17519 - Ref 226209,242.18,Miscellaneous,,,,,indian
+Restaurant dine-in bill - INR 10009 - Ref 552944,820.91,Miscellaneous,,,,,indian
+Bus ticket purchase - INR 10978 - Ref 113351,1935.37,Travel,,,,,indian
+Hotel stay booking - INR 14341 - Ref 942494,258.94,Travel,,,,,indian
+Stock market investment - INR 35333 - Ref 754427,3469.07,Professional Fees,,,,,indian
+Swiggy order payment - INR 34504 - Ref 319914,966.4,Miscellaneous,,,,,indian
+McDonald's meal payment - INR 33492 - Ref 222418,648.87,Miscellaneous,,,,,indian
+Flight ticket booking - INR 38631 - Ref 745518,1939.41,Travel,,,,,indian
+Airport taxi fare - INR 28433 - Ref 683316,1045.3,Travel,,,,,indian
+Ola cab booking - INR 38412 - Ref 374136,2345.15,Travel,,,,,indian
+Swiggy order payment - INR 18749 - Ref 840866,356.97,Miscellaneous,,,,,indian
+Stock market investment - INR 7812 - Ref 597858,3529.63,Professional Fees,,,,,indian
+Hotel stay booking - INR 45634 - Ref 371506,1900.97,Travel,,,,,indian
+ETF purchase - INR 28801 - Ref 255558,4190.48,Professional Fees,,,,,indian
+Electronics purchase - INR 17773 - Ref 952387,154.49,Office Supplies,,,,,indian
+Zomato food delivery - INR 13393 - Ref 277713,866.77,Miscellaneous,,,,,indian
+Rapido bike ride - INR 44036 - Ref 508496,2287.21,Travel,,,,,indian
+Hotel stay booking - INR 13141 - Ref 684444,259.03,Travel,,,,,indian
+Credit Card Payment,687.29,Professional Fees,2018-09-04,credit,Platinum Card,2018-09,excel
+KFC online order - INR 33119 - Ref 678696,174.3,Miscellaneous,,,,,indian
+Flipkart purchase - INR 35983 - Ref 566498,320.25,Office Supplies,,,,,indian
+Swiggy order payment - INR 30135 - Ref 961230,385.04,Miscellaneous,,,,,indian
+Electronics purchase - INR 45364 - Ref 275282,119.67,Office Supplies,,,,,indian
+PPF contribution - INR 30245 - Ref 711268,4203.72,Professional Fees,,,,,indian
+Starbucks,4.0,Miscellaneous,2018-02-22,debit,Silver Card,2018-02,excel
+Ola cab booking - INR 17892 - Ref 801711,2394.95,Travel,,,,,indian
+Flipkart purchase - INR 21810 - Ref 545817,354.17,Office Supplies,,,,,indian
+Grocery Store,4.8,Office Supplies,2018-11-13,debit,Platinum Card,2018-11,excel
+Hotel dinner bill - INR 14214 - Ref 336399,429.23,Miscellaneous,,,,,indian
+Amazon online shopping - INR 20587 - Ref 175441,411.43,Office Supplies,,,,,indian
+Lifestyle store purchase - INR 29923 - Ref 953884,469.05,Office Supplies,,,,,indian
+Electronics purchase - INR 16503 - Ref 698858,87.2,Office Supplies,,,,,indian
+Flipkart purchase - INR 31878 - Ref 829324,496.28,Office Supplies,,,,,indian
+Demat account transfer - INR 27020 - Ref 408741,4682.12,Professional Fees,,,,,indian
+Retail store shopping - INR 20499 - Ref 203911,417.78,Office Supplies,,,,,indian
+Credit Card Payment,220.08,Professional Fees,2019-07-06,credit,Silver Card,2019-07,excel
+American Tavern,25.85,Miscellaneous,2018-01-05,debit,Silver Card,2018-01,excel
+Gold bond investment - INR 14365 - Ref 618126,4525.45,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 13319 - Ref 591901,942.32,Miscellaneous,,,,,indian
+City Water Charges,35.0,Utilities,2018-01-16,debit,Checking,2018-01,excel
+Myntra fashion order - INR 1370 - Ref 554574,485.17,Office Supplies,,,,,indian
+Flight ticket booking - INR 39250 - Ref 716147,2211.54,Travel,,,,,indian
+Demat account transfer - INR 42965 - Ref 791618,1348.43,Professional Fees,,,,,indian
+Ajio clothing purchase - INR 20881 - Ref 149387,448.34,Office Supplies,,,,,indian
+eBay online order - INR 9333 - Ref 740076,461.42,Office Supplies,,,,,indian
+McDonald's meal payment - INR 23422 - Ref 658028,120.27,Miscellaneous,,,,,indian
+Grocery food items - INR 26864 - Ref 656622,646.17,Miscellaneous,,,,,indian
+Rapido bike ride - INR 27953 - Ref 526047,1256.97,Travel,,,,,indian
+Ola cab booking - INR 43493 - Ref 352446,2844.03,Travel,,,,,indian
+Airport taxi fare - INR 40329 - Ref 911408,2503.51,Travel,,,,,indian
+Metro card recharge - INR 7414 - Ref 281229,1292.25,Travel,,,,,indian
+Cafe coffee purchase - INR 30273 - Ref 814773,314.03,Miscellaneous,,,,,indian
+Electronics purchase - INR 7595 - Ref 215680,151.88,Office Supplies,,,,,indian
+Fixed deposit investment - INR 47653 - Ref 590320,2298.02,Professional Fees,,,,,indian
+Zomato food delivery - INR 4003 - Ref 915409,227.61,Miscellaneous,,,,,indian
+Demat account transfer - INR 47173 - Ref 172101,3240.01,Professional Fees,,,,,indian
+ETF purchase - INR 20212 - Ref 914740,2563.23,Professional Fees,,,,,indian
+Hotel dinner bill - INR 37399 - Ref 197078,498.76,Miscellaneous,,,,,indian
+Amazon online shopping - INR 35360 - Ref 364172,267.44,Office Supplies,,,,,indian
+ETF purchase - INR 24356 - Ref 660826,1600.7,Professional Fees,,,,,indian
+Metro card recharge - INR 43161 - Ref 650567,2989.36,Travel,,,,,indian
+Hotel dinner bill - INR 37238 - Ref 355648,965.88,Miscellaneous,,,,,indian
+Lifestyle store purchase - INR 8439 - Ref 240600,323.23,Office Supplies,,,,,indian
+Amazon online shopping - INR 27835 - Ref 968790,457.53,Office Supplies,,,,,indian
+NPS contribution - INR 1046 - Ref 419317,2743.12,Professional Fees,,,,,indian
+Retail store shopping - INR 31128 - Ref 451033,476.17,Office Supplies,,,,,indian
+Flipkart purchase - INR 661 - Ref 778508,61.16,Office Supplies,,,,,indian
+Swiggy order payment - INR 49614 - Ref 758203,443.21,Miscellaneous,,,,,indian
+Ajio clothing purchase - INR 25868 - Ref 338864,399.19,Office Supplies,,,,,indian
+Stock market investment - INR 46185 - Ref 716254,3151.09,Professional Fees,,,,,indian
+NPS contribution - INR 14885 - Ref 181508,569.22,Professional Fees,,,,,indian
+American Tavern,41.0,Miscellaneous,2018-04-14,debit,Platinum Card,2018-04,excel
+Hotel stay booking - INR 25143 - Ref 792435,2465.9,Travel,,,,,indian
+Stock market investment - INR 29770 - Ref 779984,1434.87,Professional Fees,,,,,indian
+Metro card recharge - INR 31378 - Ref 921877,889.8,Travel,,,,,indian
+Ola cab booking - INR 24604 - Ref 870497,2751.94,Travel,,,,,indian
+Ajio clothing purchase - INR 17074 - Ref 760542,62.59,Office Supplies,,,,,indian
+Airport taxi fare - INR 550 - Ref 628920,246.71,Travel,,,,,indian
+Flight ticket booking - INR 28528 - Ref 748310,1496.29,Travel,,,,,indian
+Restaurant dine-in bill - INR 47626 - Ref 982048,932.77,Miscellaneous,,,,,indian
+Mutual fund SIP - INR 17408 - Ref 101469,3307.42,Professional Fees,,,,,indian
+Dominos pizza order - INR 17861 - Ref 989634,783.36,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 41073 - Ref 507385,2708.48,Travel,,,,,indian
+PPF contribution - INR 10201 - Ref 154792,3145.77,Professional Fees,,,,,indian
+Credit Card Payment,761.59,Professional Fees,2018-03-05,credit,Silver Card,2018-03,excel
+Gas Company,45.0,Utilities,2018-01-08,debit,Checking,2018-01,excel
+Retail store shopping - INR 2653 - Ref 375670,243.91,Office Supplies,,,,,indian
+PPF contribution - INR 11314 - Ref 708838,4621.58,Professional Fees,,,,,indian
+IRCTC train ticket - INR 23343 - Ref 902422,1765.59,Travel,,,,,indian
+MakeMyTrip travel booking - INR 31588 - Ref 516065,325.03,Travel,,,,,indian
+Share trading debit - INR 25290 - Ref 467705,1871.88,Professional Fees,,,,,indian
+Amazon online shopping - INR 6075 - Ref 108155,97.25,Office Supplies,,,,,indian
+Hotel dinner bill - INR 22903 - Ref 190778,711.43,Miscellaneous,,,,,indian
+Hotel dinner bill - INR 26473 - Ref 582407,149.34,Miscellaneous,,,,,indian
+Mall shopping payment - INR 8142 - Ref 486969,29.71,Office Supplies,,,,,indian
+Bakery purchase - INR 10674 - Ref 448393,382.14,Miscellaneous,,,,,indian
+Ajio clothing purchase - INR 7257 - Ref 340946,483.92,Office Supplies,,,,,indian
+Gold bond investment - INR 33078 - Ref 391762,4925.31,Professional Fees,,,,,indian
+NPS contribution - INR 31419 - Ref 267629,3601.95,Professional Fees,,,,,indian
+PPF contribution - INR 8079 - Ref 606846,4214.24,Professional Fees,,,,,indian
+Lifestyle store purchase - INR 41970 - Ref 762573,466.96,Office Supplies,,,,,indian
+eBay online order - INR 21326 - Ref 120071,121.16,Office Supplies,,,,,indian
+Flight ticket booking - INR 24705 - Ref 437223,2807.38,Travel,,,,,indian
+Hardware Store,38.4,Office Supplies,2018-12-24,debit,Platinum Card,2018-12,excel
+IRCTC train ticket - INR 6557 - Ref 337023,439.92,Travel,,,,,indian
+Flight ticket booking - INR 5499 - Ref 949507,110.12,Travel,,,,,indian
+Share trading debit - INR 39940 - Ref 194601,1186.64,Professional Fees,,,,,indian
+Electronics purchase - INR 43172 - Ref 667915,256.17,Office Supplies,,,,,indian
+Gold bond investment - INR 47003 - Ref 487338,1250.33,Professional Fees,,,,,indian
+Airport taxi fare - INR 5249 - Ref 761735,1353.1,Travel,,,,,indian
+Hotel stay booking - INR 310 - Ref 169046,50.85,Travel,,,,,indian
+Rapido bike ride - INR 46327 - Ref 308457,1212.02,Travel,,,,,indian
+Supermarket shopping - INR 24420 - Ref 132501,143.09,Office Supplies,,,,,indian
+Myntra fashion order - INR 14475 - Ref 770032,462.6,Office Supplies,,,,,indian
+Flipkart purchase - INR 4211 - Ref 326476,211.23,Office Supplies,,,,,indian
+McDonald's meal payment - INR 13137 - Ref 551857,706.86,Miscellaneous,,,,,indian
+Share trading debit - INR 22056 - Ref 635727,316.19,Professional Fees,,,,,indian
+Grocery Store,6.06,Office Supplies,2019-01-15,debit,Silver Card,2019-01,excel
+Airport taxi fare - INR 3951 - Ref 177389,1358.12,Travel,,,,,indian
+eBay online order - INR 23673 - Ref 433433,396.5,Office Supplies,,,,,indian
+Demat account transfer - INR 18932 - Ref 834122,1018.46,Professional Fees,,,,,indian
+Amazon online shopping - INR 33717 - Ref 865560,79.6,Office Supplies,,,,,indian
+Hotel stay booking - INR 3977 - Ref 310971,1343.44,Travel,,,,,indian
+McDonald's meal payment - INR 37456 - Ref 986847,280.16,Miscellaneous,,,,,indian
+Restaurant dine-in bill - INR 49498 - Ref 963846,496.9,Miscellaneous,,,,,indian
+Grocery Store,2.02,Office Supplies,2019-05-14,debit,Silver Card,2019-05,excel
+Zomato food delivery - INR 9566 - Ref 157383,697.95,Miscellaneous,,,,,indian
+Retirement fund investment - INR 18295 - Ref 408876,2412.01,Professional Fees,,,,,indian
+Metro card recharge - INR 1157 - Ref 551415,539.47,Travel,,,,,indian
+Hardware Store,18.45,Office Supplies,2018-01-06,debit,Silver Card,2018-01,excel
+Retirement fund investment - INR 23011 - Ref 387259,3128.37,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 38194 - Ref 163832,626.27,Miscellaneous,,,,,indian
+Demat account transfer - INR 27664 - Ref 523717,4821.89,Professional Fees,,,,,indian
+Fixed deposit investment - INR 18391 - Ref 965673,607.53,Professional Fees,,,,,indian
+PPF contribution - INR 19907 - Ref 546181,4267.05,Professional Fees,,,,,indian
+Cafe coffee purchase - INR 16602 - Ref 484715,838.53,Miscellaneous,,,,,indian
+McDonald's meal payment - INR 13283 - Ref 697544,539.9,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 33769 - Ref 210406,2813.13,Travel,,,,,indian
+MakeMyTrip travel booking - INR 9304 - Ref 793141,2448.81,Travel,,,,,indian
+Fixed deposit investment - INR 40753 - Ref 985871,2556.84,Professional Fees,,,,,indian
+Zomato food delivery - INR 31626 - Ref 810618,682.84,Miscellaneous,,,,,indian
+Demat account transfer - INR 21574 - Ref 783498,3514.92,Professional Fees,,,,,indian
+Fixed deposit investment - INR 28154 - Ref 597305,2092.75,Professional Fees,,,,,indian
+Fixed deposit investment - INR 15964 - Ref 968375,2550.27,Professional Fees,,,,,indian
+Swiggy order payment - INR 33770 - Ref 977995,958.81,Miscellaneous,,,,,indian
+Retail store shopping - INR 29932 - Ref 638202,383.01,Office Supplies,,,,,indian
+Supermarket shopping - INR 23450 - Ref 151398,285.3,Office Supplies,,,,,indian
+Bakery purchase - INR 787 - Ref 789312,328.23,Miscellaneous,,,,,indian
+Hotel dinner bill - INR 35907 - Ref 326769,527.39,Miscellaneous,,,,,indian
+Amazon,42.1,Office Supplies,2019-01-03,debit,Platinum Card,2019-01,excel
+NPS contribution - INR 47288 - Ref 402392,4285.83,Professional Fees,,,,,indian
+KFC online order - INR 29305 - Ref 543370,782.97,Miscellaneous,,,,,indian
+Ola cab booking - INR 9112 - Ref 325340,2445.08,Travel,,,,,indian
+Hardware Store,15.38,Office Supplies,2018-01-08,debit,Silver Card,2018-01,excel
+Electronics purchase - INR 42839 - Ref 653111,76.57,Office Supplies,,,,,indian
+Flight ticket booking - INR 12038 - Ref 526426,229.07,Travel,,,,,indian
+Ola cab booking - INR 32538 - Ref 187065,353.24,Travel,,,,,indian
+McDonald's meal payment - INR 36818 - Ref 919222,164.82,Miscellaneous,,,,,indian
+Grocery Store,82.36,Office Supplies,2018-04-02,debit,Platinum Card,2018-04,excel
+Stock market investment - INR 39608 - Ref 115710,2524.31,Professional Fees,,,,,indian
+Bakery purchase - INR 41869 - Ref 543948,127.46,Miscellaneous,,,,,indian
+Rapido bike ride - INR 11412 - Ref 632827,2924.91,Travel,,,,,indian
+Bus ticket purchase - INR 9567 - Ref 199625,1009.3,Travel,,,,,indian
+KFC online order - INR 29066 - Ref 374312,150.84,Miscellaneous,,,,,indian
+Retirement fund investment - INR 14375 - Ref 491489,3140.73,Professional Fees,,,,,indian
+NPS contribution - INR 19396 - Ref 924229,1511.97,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 16891 - Ref 796905,275.35,Miscellaneous,,,,,indian
+Cafe coffee purchase - INR 40206 - Ref 678934,103.94,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 30178 - Ref 121520,766.43,Travel,,,,,indian
+Ajio clothing purchase - INR 35829 - Ref 119312,187.98,Office Supplies,,,,,indian
+Bus ticket purchase - INR 32309 - Ref 328518,547.48,Travel,,,,,indian
+KFC online order - INR 4681 - Ref 617199,341.56,Miscellaneous,,,,,indian
 Mexican Restaurant,34.33,Miscellaneous,2019-05-27,debit,Platinum Card,2019-05,excel
-Home loan EMI - INR 21269 - Ref 859916,3783.32,Rent,,,,,indian
-NPS contribution - INR 23535 - Ref 898398,1417.52,Professional Fees,,,,,indian
-Demat account transfer - INR 734 - Ref 592775,1356.28,Professional Fees,,,,,indian
-Mobile EMI payment - INR 8432 - Ref 817300,3937.25,Rent,,,,,indian
-Flipkart purchase - INR 33959 - Ref 916689,209.67,Office Supplies,,,,,indian
-Stock market investment - INR 25662 - Ref 716704,3562.69,Professional Fees,,,,,indian
-Flipkart purchase - INR 11556 - Ref 126778,406.96,Office Supplies,,,,,indian
-Mall shopping payment - INR 27678 - Ref 953972,30.82,Office Supplies,,,,,indian
-Hardware Store,68.47,Office Supplies,2018-04-29,debit,Platinum Card,2018-04,excel
-ETF purchase - INR 5380 - Ref 126235,3443.9,Professional Fees,,,,,indian
-Appliance EMI - INR 26636 - Ref 534849,2814.58,Rent,,,,,indian
-Electronics purchase - INR 44476 - Ref 812169,435.12,Office Supplies,,,,,indian
-Metro card recharge - INR 20700 - Ref 826206,1951.78,Travel,,,,,indian
-Hotel stay booking - INR 17794 - Ref 465639,532.37,Travel,,,,,indian
-Stock market investment - INR 37521 - Ref 810126,529.33,Professional Fees,,,,,indian
-Stock market investment - INR 6946 - Ref 336884,4010.72,Professional Fees,,,,,indian
-Rapido bike ride - INR 17721 - Ref 511205,2697.0,Travel,,,,,indian
-Stock market investment - INR 24379 - Ref 401191,2996.05,Professional Fees,,,,,indian
-Flipkart purchase - INR 27469 - Ref 973421,259.93,Office Supplies,,,,,indian
-Dominos pizza order - INR 24956 - Ref 827025,222.7,Miscellaneous,,,,,indian
-Bike loan EMI - INR 14522 - Ref 926647,3254.04,Rent,,,,,indian
-Ola cab booking - INR 10893 - Ref 670116,2414.71,Travel,,,,,indian
-Grocery food items - INR 42872 - Ref 637365,326.33,Miscellaneous,,,,,indian
-Gold bond investment - INR 24593 - Ref 321986,495.87,Professional Fees,,,,,indian
-Starbucks,1.75,Miscellaneous,2019-09-30,debit,Platinum Card,2019-09,excel
-Lifestyle store purchase - INR 16150 - Ref 261390,479.22,Office Supplies,,,,,indian
-NPS contribution - INR 1490 - Ref 576242,1588.46,Professional Fees,,,,,indian
-KFC online order - INR 21902 - Ref 593819,646.16,Miscellaneous,,,,,indian
-Personal loan EMI - INR 8890 - Ref 621779,3358.77,Rent,,,,,indian
+NPS contribution - INR 25498 - Ref 977589,3417.61,Professional Fees,,,,,indian
+Mutual fund SIP - INR 35675 - Ref 245153,1588.46,Professional Fees,,,,,indian
+Retail store shopping - INR 29252 - Ref 193471,131.84,Office Supplies,,,,,indian
+Gold bond investment - INR 12218 - Ref 545646,529.36,Professional Fees,,,,,indian
+Credit Card Payment,582.99,Professional Fees,2018-11-29,credit,Silver Card,2018-11,excel
+Demat account transfer - INR 25383 - Ref 247130,3691.42,Professional Fees,,,,,indian
+Bakery purchase - INR 1102 - Ref 164824,712.82,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 15525 - Ref 311831,624.23,Travel,,,,,indian
+McDonald's meal payment - INR 8054 - Ref 940587,638.43,Miscellaneous,,,,,indian
+Barbershop,19.0,Miscellaneous,2019-08-17,debit,Platinum Card,2019-08,excel
+Hotel dinner bill - INR 38876 - Ref 105521,456.7,Miscellaneous,,,,,indian
+NPS contribution - INR 6755 - Ref 428998,3928.81,Professional Fees,,,,,indian
+Lifestyle store purchase - INR 24366 - Ref 533171,402.15,Office Supplies,,,,,indian
+Metro card recharge - INR 39190 - Ref 483651,907.43,Travel,,,,,indian
+Hotel stay booking - INR 17665 - Ref 482685,2795.94,Travel,,,,,indian
+eBay online order - INR 25556 - Ref 960789,436.56,Office Supplies,,,,,indian
+Supermarket shopping - INR 17227 - Ref 321082,140.64,Office Supplies,,,,,indian
+Ola cab booking - INR 15316 - Ref 395391,739.01,Travel,,,,,indian
+Uber ride payment - INR 44666 - Ref 136005,2453.83,Travel,,,,,indian
+Ola cab booking - INR 19853 - Ref 242640,1255.51,Travel,,,,,indian
+Uber ride payment - INR 35682 - Ref 140655,748.99,Travel,,,,,indian
+Ola cab booking - INR 12802 - Ref 601885,1593.15,Travel,,,,,indian
+Share trading debit - INR 39003 - Ref 607066,1103.52,Professional Fees,,,,,indian
 Irish Restaurant,28.54,Miscellaneous,2018-07-18,debit,Platinum Card,2018-07,excel
-Amazon online shopping - INR 7817 - Ref 344366,372.89,Office Supplies,,,,,indian
-Car loan EMI - INR 42240 - Ref 412252,2768.42,Rent,,,,,indian
-Grocery food items - INR 46905 - Ref 509514,315.53,Miscellaneous,,,,,indian
-PPF contribution - INR 8986 - Ref 160323,2811.8,Professional Fees,,,,,indian
-Zomato food delivery - INR 38342 - Ref 205557,72.02,Miscellaneous,,,,,indian
-Mutual fund SIP - INR 7471 - Ref 895236,2674.17,Professional Fees,,,,,indian
-Supermarket shopping - INR 7622 - Ref 348381,393.69,Office Supplies,,,,,indian
-Credit card EMI - INR 20379 - Ref 569286,4987.84,Rent,,,,,indian
-Demat account transfer - INR 44864 - Ref 449336,4995.14,Professional Fees,,,,,indian
-Mall shopping payment - INR 23924 - Ref 373751,50.22,Office Supplies,,,,,indian
-Myntra fashion order - INR 26471 - Ref 654044,347.78,Office Supplies,,,,,indian
-Personal loan EMI - INR 11727 - Ref 444605,3814.69,Rent,,,,,indian
-Gold bond investment - INR 47003 - Ref 487338,849.47,Professional Fees,,,,,indian
-Hotel dinner bill - INR 15634 - Ref 684052,339.17,Miscellaneous,,,,,indian
-Hotel stay booking - INR 35461 - Ref 488755,785.13,Travel,,,,,indian
-Stock market investment - INR 48434 - Ref 724117,3121.55,Professional Fees,,,,,indian
-Rapido bike ride - INR 11603 - Ref 875290,2572.18,Travel,,,,,indian
-Electronics purchase - INR 7595 - Ref 215680,237.62,Office Supplies,,,,,indian
-Amazon online shopping - INR 24998 - Ref 840911,164.65,Office Supplies,,,,,indian
+NPS contribution - INR 39244 - Ref 453142,461.93,Professional Fees,,,,,indian
+Zomato food delivery - INR 5278 - Ref 343725,500.74,Miscellaneous,,,,,indian
+Electronics purchase - INR 9891 - Ref 417235,226.61,Office Supplies,,,,,indian
+Mall shopping payment - INR 27678 - Ref 953972,316.62,Office Supplies,,,,,indian
+KFC online order - INR 20755 - Ref 634971,771.51,Miscellaneous,,,,,indian
+NPS contribution - INR 3081 - Ref 375643,4081.39,Professional Fees,,,,,indian
+ETF purchase - INR 49408 - Ref 935716,4616.9,Professional Fees,,,,,indian
+Metro card recharge - INR 37282 - Ref 773808,2494.02,Travel,,,,,indian
+Grocery food items - INR 11569 - Ref 238194,58.62,Miscellaneous,,,,,indian
+Stock market investment - INR 47328 - Ref 834466,763.84,Professional Fees,,,,,indian
+Dominos pizza order - INR 33217 - Ref 358494,305.5,Miscellaneous,,,,,indian
+NPS contribution - INR 37341 - Ref 403714,1808.9,Professional Fees,,,,,indian
+Grocery food items - INR 10712 - Ref 900531,818.74,Miscellaneous,,,,,indian
+Myntra fashion order - INR 49626 - Ref 362762,354.86,Office Supplies,,,,,indian
+Cafe coffee purchase - INR 21838 - Ref 195202,282.12,Miscellaneous,,,,,indian
+Credit Card Payment,814.5,Professional Fees,2019-07-18,debit,Checking,2019-07,excel
+Fixed deposit investment - INR 49068 - Ref 955224,4513.66,Professional Fees,,,,,indian
+Grocery Store,15.77,Office Supplies,2019-07-30,debit,Platinum Card,2019-07,excel
+Flipkart purchase - INR 49669 - Ref 298945,284.8,Office Supplies,,,,,indian
+NPS contribution - INR 33526 - Ref 876991,1309.57,Professional Fees,,,,,indian
+Mall shopping payment - INR 23924 - Ref 373751,59.62,Office Supplies,,,,,indian
+Dominos pizza order - INR 25739 - Ref 657477,787.81,Miscellaneous,,,,,indian
+Swiggy order payment - INR 21421 - Ref 588017,668.65,Miscellaneous,,,,,indian
+Fixed deposit investment - INR 12893 - Ref 464746,3724.16,Professional Fees,,,,,indian
+Fixed deposit investment - INR 21945 - Ref 104004,4499.67,Professional Fees,,,,,indian
+Hotel stay booking - INR 24826 - Ref 796007,999.24,Travel,,,,,indian
+Grocery food items - INR 49880 - Ref 969016,110.11,Miscellaneous,,,,,indian
+Dominos pizza order - INR 8391 - Ref 458846,816.88,Miscellaneous,,,,,indian
+Gold bond investment - INR 24593 - Ref 321986,1602.03,Professional Fees,,,,,indian
+KFC online order - INR 22651 - Ref 892243,512.25,Miscellaneous,,,,,indian
+Retail store shopping - INR 34627 - Ref 656845,63.28,Office Supplies,,,,,indian
+Airport taxi fare - INR 34636 - Ref 550102,626.87,Travel,,,,,indian
+Fixed deposit investment - INR 40989 - Ref 456074,2376.66,Professional Fees,,,,,indian
+IRCTC train ticket - INR 44155 - Ref 943554,305.88,Travel,,,,,indian
+Amazon online shopping - INR 33293 - Ref 262330,342.31,Office Supplies,,,,,indian
+Bakery purchase - INR 33900 - Ref 509967,555.09,Miscellaneous,,,,,indian
+Bus ticket purchase - INR 31387 - Ref 696923,512.94,Travel,,,,,indian
+Fixed deposit investment - INR 27664 - Ref 538792,2656.19,Professional Fees,,,,,indian
+Stock market investment - INR 13505 - Ref 750807,796.9,Professional Fees,,,,,indian
+Zomato food delivery - INR 13993 - Ref 752075,346.31,Miscellaneous,,,,,indian
+Amazon online shopping - INR 24998 - Ref 840911,161.56,Office Supplies,,,,,indian
+ETF purchase - INR 45626 - Ref 531550,4141.16,Professional Fees,,,,,indian
+Hotel dinner bill - INR 3476 - Ref 573899,336.15,Miscellaneous,,,,,indian
+Uber ride payment - INR 45970 - Ref 950712,2010.26,Travel,,,,,indian
+Dominos pizza order - INR 43383 - Ref 326930,849.02,Miscellaneous,,,,,indian
+Grocery food items - INR 16540 - Ref 102909,401.06,Miscellaneous,,,,,indian
+Airport taxi fare - INR 34624 - Ref 585620,1812.54,Travel,,,,,indian
+Hotel dinner bill - INR 22089 - Ref 846972,621.69,Miscellaneous,,,,,indian
+Retirement fund investment - INR 44824 - Ref 676897,3636.38,Professional Fees,,,,,indian
+Hotel stay booking - INR 2439 - Ref 509039,2166.21,Travel,,,,,indian
+Ola cab booking - INR 7732 - Ref 431251,2187.52,Travel,,,,,indian
+Myntra fashion order - INR 18335 - Ref 541645,285.61,Office Supplies,,,,,indian
+Uber ride payment - INR 10607 - Ref 797851,2570.01,Travel,,,,,indian
+Share trading debit - INR 26461 - Ref 384686,542.77,Professional Fees,,,,,indian
+Retirement fund investment - INR 15598 - Ref 120441,4754.18,Professional Fees,,,,,indian
+Electronics purchase - INR 48082 - Ref 161279,205.02,Office Supplies,,,,,indian
+Ajio clothing purchase - INR 19561 - Ref 254575,277.05,Office Supplies,,,,,indian
+Electronics purchase - INR 26709 - Ref 859915,204.65,Office Supplies,,,,,indian
+Flight ticket booking - INR 24930 - Ref 695267,441.46,Travel,,,,,indian
+McDonald's meal payment - INR 23166 - Ref 428819,166.23,Miscellaneous,,,,,indian
+Rapido bike ride - INR 38877 - Ref 287501,2377.97,Travel,,,,,indian
+Cafe coffee purchase - INR 44891 - Ref 706360,204.4,Miscellaneous,,,,,indian
+Airport taxi fare - INR 45483 - Ref 811346,1808.83,Travel,,,,,indian
+Zomato food delivery - INR 18785 - Ref 817435,927.34,Miscellaneous,,,,,indian
+Metro card recharge - INR 4309 - Ref 562296,2395.18,Travel,,,,,indian
+Dominos pizza order - INR 7558 - Ref 938588,290.68,Miscellaneous,,,,,indian
+Hotel stay booking - INR 22033 - Ref 852773,1725.11,Travel,,,,,indian
+Flight ticket booking - INR 16060 - Ref 550111,2426.3,Travel,,,,,indian
+Metro card recharge - INR 21454 - Ref 506683,2187.53,Travel,,,,,indian
+Hotel stay booking - INR 19172 - Ref 436445,2928.68,Travel,,,,,indian
+IRCTC train ticket - INR 43190 - Ref 225271,1620.4,Travel,,,,,indian
+Retail store shopping - INR 13863 - Ref 420337,196.2,Office Supplies,,,,,indian
+Ajio clothing purchase - INR 23124 - Ref 616202,118.17,Office Supplies,,,,,indian
+PPF contribution - INR 30679 - Ref 570187,4757.43,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 37948 - Ref 121943,277.2,Miscellaneous,,,,,indian
+Gold bond investment - INR 20083 - Ref 835226,4391.74,Professional Fees,,,,,indian
+Flight ticket booking - INR 1865 - Ref 414428,2376.26,Travel,,,,,indian
+Ola cab booking - INR 27813 - Ref 498449,723.79,Travel,,,,,indian
+Bus ticket purchase - INR 26244 - Ref 190512,2674.81,Travel,,,,,indian
+Grocery food items - INR 22550 - Ref 826227,830.1,Miscellaneous,,,,,indian
+PPF contribution - INR 978 - Ref 227414,2055.89,Professional Fees,,,,,indian
+Demat account transfer - INR 734 - Ref 592775,1452.76,Professional Fees,,,,,indian
+Ajio clothing purchase - INR 10303 - Ref 182936,182.51,Office Supplies,,,,,indian
+Gold bond investment - INR 49442 - Ref 638305,1821.22,Professional Fees,,,,,indian
+Metro card recharge - INR 6816 - Ref 301830,1195.72,Travel,,,,,indian
+Mutual fund SIP - INR 27739 - Ref 919905,711.62,Professional Fees,,,,,indian
+Hotel stay booking - INR 29052 - Ref 409455,1638.43,Travel,,,,,indian
+MakeMyTrip travel booking - INR 12534 - Ref 132286,1411.96,Travel,,,,,indian
+Airport taxi fare - INR 27238 - Ref 852267,1610.09,Travel,,,,,indian
+Bus ticket purchase - INR 35392 - Ref 872639,1684.75,Travel,,,,,indian
+Myntra fashion order - INR 31901 - Ref 728311,73.55,Office Supplies,,,,,indian
+Cafe coffee purchase - INR 36526 - Ref 476481,61.84,Miscellaneous,,,,,indian
+Demat account transfer - INR 37694 - Ref 758241,4442.03,Professional Fees,,,,,indian
+Retirement fund investment - INR 19891 - Ref 566850,3050.86,Professional Fees,,,,,indian
+Electronics purchase - INR 4646 - Ref 295351,481.07,Office Supplies,,,,,indian
+Lifestyle store purchase - INR 47417 - Ref 997648,438.74,Office Supplies,,,,,indian
+Share trading debit - INR 23523 - Ref 168269,1124.4,Professional Fees,,,,,indian
+Mutual fund SIP - INR 39837 - Ref 544490,2524.41,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 26184 - Ref 970866,170.68,Miscellaneous,,,,,indian
+Share trading debit - INR 17414 - Ref 167248,3066.3,Professional Fees,,,,,indian
+KFC online order - INR 45813 - Ref 296202,51.46,Miscellaneous,,,,,indian
+Supermarket shopping - INR 41374 - Ref 288417,228.64,Office Supplies,,,,,indian
+Cafe coffee purchase - INR 30468 - Ref 485761,238.77,Miscellaneous,,,,,indian
+NPS contribution - INR 30224 - Ref 925835,1346.18,Professional Fees,,,,,indian
+Retirement fund investment - INR 42313 - Ref 772076,2440.15,Professional Fees,,,,,indian
+KFC online order - INR 4304 - Ref 889045,31.61,Miscellaneous,,,,,indian
+Demat account transfer - INR 26573 - Ref 129056,1331.86,Professional Fees,,,,,indian
+Cafe coffee purchase - INR 27349 - Ref 819037,376.08,Miscellaneous,,,,,indian
+Supermarket shopping - INR 39667 - Ref 851689,438.92,Office Supplies,,,,,indian
+Grocery food items - INR 11203 - Ref 713463,279.23,Miscellaneous,,,,,indian
+Ola cab booking - INR 34006 - Ref 694315,2497.81,Travel,,,,,indian
+Grocery Store,5.39,Office Supplies,2018-07-10,debit,Silver Card,2018-07,excel
+Demat account transfer - INR 23847 - Ref 195622,709.45,Professional Fees,,,,,indian
+Shell,41.83,Travel,2019-06-18,debit,Silver Card,2019-06,excel
+Mutual fund SIP - INR 15165 - Ref 328252,1873.8,Professional Fees,,,,,indian
+NPS contribution - INR 26813 - Ref 127689,698.96,Professional Fees,,,,,indian
+Uber ride payment - INR 43707 - Ref 414176,1713.75,Travel,,,,,indian
+Grocery food items - INR 6615 - Ref 138809,731.08,Miscellaneous,,,,,indian
+Flipkart purchase - INR 49637 - Ref 146411,67.94,Office Supplies,,,,,indian
+Myntra fashion order - INR 18353 - Ref 869864,287.34,Office Supplies,,,,,indian
+Supermarket shopping - INR 44511 - Ref 239661,385.94,Office Supplies,,,,,indian
+Share trading debit - INR 11846 - Ref 415388,1192.54,Professional Fees,,,,,indian
+Cafe coffee purchase - INR 13750 - Ref 327761,148.1,Miscellaneous,,,,,indian
+Cafe coffee purchase - INR 38803 - Ref 995924,399.8,Miscellaneous,,,,,indian
+NPS contribution - INR 6573 - Ref 852782,2123.4,Professional Fees,,,,,indian
+IRCTC train ticket - INR 43636 - Ref 492293,613.76,Travel,,,,,indian
+Bakery purchase - INR 14950 - Ref 261068,124.42,Miscellaneous,,,,,indian
+Bakery purchase - INR 41304 - Ref 607976,580.82,Miscellaneous,,,,,indian
+Mutual fund SIP - INR 5203 - Ref 873919,3450.48,Professional Fees,,,,,indian
+American Tavern,34.82,Miscellaneous,2019-05-30,debit,Platinum Card,2019-05,excel
+Myntra fashion order - INR 28259 - Ref 841407,24.51,Office Supplies,,,,,indian
+Lifestyle store purchase - INR 4047 - Ref 545144,248.75,Office Supplies,,,,,indian
+American Tavern,34.38,Miscellaneous,2018-07-30,debit,Silver Card,2018-07,excel
+Myntra fashion order - INR 41579 - Ref 725583,145.35,Office Supplies,,,,,indian
+MakeMyTrip travel booking - INR 49696 - Ref 785356,1087.69,Travel,,,,,indian
+Grocery food items - INR 2497 - Ref 174174,268.7,Miscellaneous,,,,,indian
+Airport taxi fare - INR 47503 - Ref 669533,1132.24,Travel,,,,,indian
+IRCTC train ticket - INR 6621 - Ref 486701,922.18,Travel,,,,,indian
+Dominos pizza order - INR 1678 - Ref 233928,664.76,Miscellaneous,,,,,indian
+Share trading debit - INR 37286 - Ref 336311,4745.67,Professional Fees,,,,,indian
+ETF purchase - INR 5380 - Ref 126235,2039.92,Professional Fees,,,,,indian
+Mall shopping payment - INR 3603 - Ref 874539,93.16,Office Supplies,,,,,indian
+Stock market investment - INR 17849 - Ref 591558,3530.22,Professional Fees,,,,,indian
+IRCTC train ticket - INR 41309 - Ref 838780,1525.77,Travel,,,,,indian
+Stock market investment - INR 33516 - Ref 590356,4374.18,Professional Fees,,,,,indian
+Airport taxi fare - INR 31425 - Ref 720970,1132.98,Travel,,,,,indian
+Credit Card Payment,277.99,Professional Fees,2019-01-21,credit,Silver Card,2019-01,excel
+Hotel dinner bill - INR 29153 - Ref 295197,628.25,Miscellaneous,,,,,indian
+eBay online order - INR 22690 - Ref 694501,184.48,Office Supplies,,,,,indian
+Hotel stay booking - INR 41893 - Ref 215429,2823.86,Travel,,,,,indian
+Hotel dinner bill - INR 46934 - Ref 164979,198.25,Miscellaneous,,,,,indian
+Mutual fund SIP - INR 8165 - Ref 590849,2846.07,Professional Fees,,,,,indian
+Amazon online shopping - INR 37865 - Ref 817208,61.09,Office Supplies,,,,,indian
+Uber ride payment - INR 32783 - Ref 395532,291.62,Travel,,,,,indian
+Swiggy order payment - INR 9797 - Ref 998780,309.24,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 45956 - Ref 123819,2943.41,Travel,,,,,indian
+Ajio clothing purchase - INR 42658 - Ref 349797,415.67,Office Supplies,,,,,indian
+eBay online order - INR 2478 - Ref 427202,272.39,Office Supplies,,,,,indian
+Hotel dinner bill - INR 46225 - Ref 144252,125.93,Miscellaneous,,,,,indian
+Fixed deposit investment - INR 22671 - Ref 946517,3707.66,Professional Fees,,,,,indian
+McDonald's meal payment - INR 38453 - Ref 617038,939.24,Miscellaneous,,,,,indian
+Metro card recharge - INR 25864 - Ref 383576,390.51,Travel,,,,,indian
+Flight ticket booking - INR 7424 - Ref 306092,2608.54,Travel,,,,,indian
+Stock market investment - INR 4504 - Ref 628091,3774.41,Professional Fees,,,,,indian
+MakeMyTrip travel booking - INR 36162 - Ref 399713,1942.2,Travel,,,,,indian
+eBay online order - INR 21008 - Ref 500193,460.59,Office Supplies,,,,,indian
+Grocery Store,12.64,Office Supplies,2018-12-08,debit,Platinum Card,2018-12,excel
+Restaurant dine-in bill - INR 34052 - Ref 402402,976.26,Miscellaneous,,,,,indian
+Bakery purchase - INR 42536 - Ref 643797,277.73,Miscellaneous,,,,,indian
+Demat account transfer - INR 20813 - Ref 603744,1110.92,Professional Fees,,,,,indian
+Lifestyle store purchase - INR 39960 - Ref 979626,450.02,Office Supplies,,,,,indian
+Credit Card Payment,305.27,Professional Fees,2019-03-14,debit,Checking,2019-03,excel
+ETF purchase - INR 41579 - Ref 366275,4374.54,Professional Fees,,,,,indian
+Uber ride payment - INR 7419 - Ref 272824,408.02,Travel,,,,,indian
+Ola cab booking - INR 34523 - Ref 991208,2164.73,Travel,,,,,indian
+PPF contribution - INR 8986 - Ref 160323,2575.86,Professional Fees,,,,,indian
+Mall shopping payment - INR 32571 - Ref 726726,481.8,Office Supplies,,,,,indian
+Lifestyle store purchase - INR 49551 - Ref 995122,137.05,Office Supplies,,,,,indian
+eBay online order - INR 10905 - Ref 560092,366.08,Office Supplies,,,,,indian
+Zomato food delivery - INR 41110 - Ref 110554,729.7,Miscellaneous,,,,,indian
+Ajio clothing purchase - INR 4646 - Ref 809681,125.27,Office Supplies,,,,,indian
+Myntra fashion order - INR 16846 - Ref 927352,434.04,Office Supplies,,,,,indian
+Electronics purchase - INR 19817 - Ref 218144,332.04,Office Supplies,,,,,indian
+Hotel dinner bill - INR 14329 - Ref 389868,553.24,Miscellaneous,,,,,indian
+Grocery food items - INR 29065 - Ref 611796,768.9,Miscellaneous,,,,,indian
+Ajio clothing purchase - INR 5854 - Ref 223691,328.52,Office Supplies,,,,,indian
+Metro card recharge - INR 16818 - Ref 512506,1488.11,Travel,,,,,indian
+eBay online order - INR 20263 - Ref 868641,126.33,Office Supplies,,,,,indian
+Uber ride payment - INR 6320 - Ref 699620,2277.57,Travel,,,,,indian
+Myntra fashion order - INR 7207 - Ref 994405,408.01,Office Supplies,,,,,indian
+Hotel stay booking - INR 907 - Ref 383013,1358.85,Travel,,,,,indian
+Retail store shopping - INR 7034 - Ref 670775,440.85,Office Supplies,,,,,indian
+Retirement fund investment - INR 19499 - Ref 910367,4288.47,Professional Fees,,,,,indian
+Retail store shopping - INR 44628 - Ref 723706,20.33,Office Supplies,,,,,indian
+Hotel dinner bill - INR 30387 - Ref 644866,896.74,Miscellaneous,,,,,indian
+McDonald's meal payment - INR 45854 - Ref 429138,39.0,Miscellaneous,,,,,indian
+NPS contribution - INR 13655 - Ref 817156,1502.29,Professional Fees,,,,,indian
+ETF purchase - INR 4557 - Ref 775294,1979.38,Professional Fees,,,,,indian
+Share trading debit - INR 13782 - Ref 273258,1463.92,Professional Fees,,,,,indian
+Share trading debit - INR 10356 - Ref 123703,4115.77,Professional Fees,,,,,indian
+eBay online order - INR 16703 - Ref 635044,67.69,Office Supplies,,,,,indian
+eBay online order - INR 39472 - Ref 157389,106.13,Office Supplies,,,,,indian
+Swiggy order payment - INR 38813 - Ref 186871,553.67,Miscellaneous,,,,,indian
+Demat account transfer - INR 1048 - Ref 493238,1195.24,Professional Fees,,,,,indian
+Stock market investment - INR 20744 - Ref 594647,4121.08,Professional Fees,,,,,indian
+Myntra fashion order - INR 2901 - Ref 216207,91.79,Office Supplies,,,,,indian
 Conoco,33.67,Travel,2018-07-26,debit,Silver Card,2018-07,excel
-Laptop EMI payment - INR 29891 - Ref 529965,2632.46,Rent,,,,,indian
-Bakery purchase - INR 24594 - Ref 410169,479.85,Miscellaneous,,,,,indian
-Consumer durable EMI - INR 461 - Ref 372269,3303.57,Rent,,,,,indian
-Bike loan EMI - INR 30693 - Ref 539920,4310.09,Rent,,,,,indian
-Gold bond investment - INR 33078 - Ref 391762,4175.79,Professional Fees,,,,,indian
-MakeMyTrip travel booking - INR 45956 - Ref 123819,2380.45,Travel,,,,,indian
-Hotel stay booking - INR 11356 - Ref 623298,2795.94,Travel,,,,,indian
-Stock market investment - INR 47328 - Ref 834466,2159.82,Professional Fees,,,,,indian
-Flipkart purchase - INR 49669 - Ref 298945,27.21,Office Supplies,,,,,indian
-Bus ticket purchase - INR 1771 - Ref 341255,2617.92,Travel,,,,,indian
-Bike loan EMI - INR 23666 - Ref 517247,2760.74,Rent,,,,,indian
-Ola cab booking - INR 23052 - Ref 291589,1274.08,Travel,,,,,indian
-Cafe coffee purchase - INR 32318 - Ref 521064,637.61,Miscellaneous,,,,,indian
-Gold bond investment - INR 14365 - Ref 618126,3450.48,Professional Fees,,,,,indian
-IRCTC train ticket - INR 19681 - Ref 159387,264.14,Travel,,,,,indian
-Retirement fund investment - INR 33229 - Ref 455531,1001.42,Professional Fees,,,,,indian
-Hotel dinner bill - INR 36912 - Ref 689199,319.27,Miscellaneous,,,,,indian
-Retail store shopping - INR 48381 - Ref 890950,88.53,Office Supplies,,,,,indian
-Stock market investment - INR 39355 - Ref 111754,2049.14,Professional Fees,,,,,indian
-Bike loan EMI - INR 43073 - Ref 667594,4377.71,Rent,,,,,indian
-Ola cab booking - INR 22021 - Ref 795729,2219.21,Travel,,,,,indian
-Credit card EMI - INR 1856 - Ref 421070,4334.98,Rent,,,,,indian
-Bike loan EMI - INR 48868 - Ref 574216,1285.54,Rent,,,,,indian
-Supermarket shopping - INR 27834 - Ref 731965,287.34,Office Supplies,,,,,indian
-Retirement fund investment - INR 10418 - Ref 871534,2362.42,Professional Fees,,,,,indian
-Airport taxi fare - INR 11619 - Ref 525632,506.68,Travel,,,,,indian
-Myntra fashion order - INR 3276 - Ref 148147,472.83,Office Supplies,,,,,indian
-Stock market investment - INR 35333 - Ref 754427,3025.62,Professional Fees,,,,,indian
-Education loan EMI - INR 32237 - Ref 327973,3633.62,Rent,,,,,indian
-Credit card EMI - INR 7606 - Ref 158602,1135.3,Rent,,,,,indian
-Ola cab booking - INR 16853 - Ref 251965,637.43,Travel,,,,,indian
-Stock market investment - INR 1846 - Ref 179753,2099.03,Professional Fees,,,,,indian
-ETF purchase - INR 39762 - Ref 459705,1680.99,Professional Fees,,,,,indian
-Metro card recharge - INR 41725 - Ref 636113,2626.73,Travel,,,,,indian
-Share trading debit - INR 12102 - Ref 932038,3070.0,Professional Fees,,,,,indian
-McDonald's meal payment - INR 16796 - Ref 428314,924.24,Miscellaneous,,,,,indian
-Laptop EMI payment - INR 13836 - Ref 350911,2007.99,Rent,,,,,indian
-Mutual fund SIP - INR 8165 - Ref 590849,2191.45,Professional Fees,,,,,indian
-KFC online order - INR 7040 - Ref 366645,627.79,Miscellaneous,,,,,indian
-Share trading debit - INR 39003 - Ref 607066,3308.64,Professional Fees,,,,,indian
-Supermarket shopping - INR 28097 - Ref 993956,438.46,Office Supplies,,,,,indian
-Fixed deposit investment - INR 49068 - Ref 955224,4682.12,Professional Fees,,,,,indian
-Restaurant dine-in bill - INR 22188 - Ref 393404,633.92,Miscellaneous,,,,,indian
-Airport taxi fare - INR 34995 - Ref 692332,437.06,Travel,,,,,indian
-Amazon online shopping - INR 36414 - Ref 900599,89.78,Office Supplies,,,,,indian
-Ola cab booking - INR 47843 - Ref 871940,963.08,Travel,,,,,indian
-Zomato food delivery - INR 5278 - Ref 343725,736.17,Miscellaneous,,,,,indian
-Credit card EMI - INR 40129 - Ref 937237,3821.06,Rent,,,,,indian
-Retail store shopping - INR 18782 - Ref 958604,474.62,Office Supplies,,,,,indian
-Lifestyle store purchase - INR 47525 - Ref 591775,360.92,Office Supplies,,,,,indian
-NPS contribution - INR 11865 - Ref 949748,3003.13,Professional Fees,,,,,indian
-Education loan EMI - INR 38050 - Ref 208427,2288.85,Rent,,,,,indian
-Consumer durable EMI - INR 21813 - Ref 173297,1031.88,Rent,,,,,indian
-Phone Company,89.54,Utilities,2018-11-13,debit,Checking,2018-11,excel
-Demat account transfer - INR 27664 - Ref 523717,4046.35,Professional Fees,,,,,indian
-eBay online order - INR 23673 - Ref 433433,264.24,Office Supplies,,,,,indian
-Grocery food items - INR 2799 - Ref 977206,325.9,Miscellaneous,,,,,indian
-Myntra fashion order - INR 31760 - Ref 369700,210.63,Office Supplies,,,,,indian
-Demat account transfer - INR 19162 - Ref 232739,4940.73,Professional Fees,,,,,indian
-Myntra fashion order - INR 49626 - Ref 362762,112.68,Office Supplies,,,,,indian
-Fixed deposit investment - INR 12893 - Ref 464746,763.12,Professional Fees,,,,,indian
-PPF contribution - INR 8079 - Ref 606846,3741.19,Professional Fees,,,,,indian
-Mall shopping payment - INR 32401 - Ref 867994,269.48,Office Supplies,,,,,indian
-Supermarket shopping - INR 13726 - Ref 612274,216.79,Office Supplies,,,,,indian
-Car loan EMI - INR 2614 - Ref 392769,3646.85,Rent,,,,,indian
-NPS contribution - INR 25498 - Ref 977589,4952.76,Professional Fees,,,,,indian
-Lifestyle store purchase - INR 8773 - Ref 750954,132.92,Office Supplies,,,,,indian
-Supermarket shopping - INR 41374 - Ref 288417,418.58,Office Supplies,,,,,indian
-Retirement fund investment - INR 46571 - Ref 617904,4306.16,Professional Fees,,,,,indian
-Mobile EMI payment - INR 47830 - Ref 387934,3886.24,Rent,,,,,indian
-Lifestyle store purchase - INR 36379 - Ref 657719,330.02,Office Supplies,,,,,indian
-Laptop EMI payment - INR 9300 - Ref 505045,3994.15,Rent,,,,,indian
-Laptop EMI payment - INR 40277 - Ref 292680,1228.66,Rent,,,,,indian
-Ola cab booking - INR 2306 - Ref 218709,996.6,Travel,,,,,indian
-Metro card recharge - INR 25141 - Ref 716578,1255.51,Travel,,,,,indian
-Home loan EMI - INR 40249 - Ref 680551,3158.67,Rent,,,,,indian
-Cafe coffee purchase - INR 10822 - Ref 420188,161.19,Miscellaneous,,,,,indian
-Mutual fund SIP - INR 34660 - Ref 331846,1379.77,Professional Fees,,,,,indian
-Myntra fashion order - INR 36929 - Ref 486613,165.88,Office Supplies,,,,,indian
-Grocery food items - INR 34337 - Ref 202035,44.07,Miscellaneous,,,,,indian
-PPF contribution - INR 978 - Ref 227414,2925.35,Professional Fees,,,,,indian
-NPS contribution - INR 33526 - Ref 876991,3017.21,Professional Fees,,,,,indian
-Appliance EMI - INR 26911 - Ref 442999,4725.92,Rent,,,,,indian
-Zomato food delivery - INR 31626 - Ref 810618,64.4,Miscellaneous,,,,,indian
-Stock market investment - INR 4504 - Ref 628091,347.15,Professional Fees,,,,,indian
-Credit card EMI - INR 8482 - Ref 960719,2518.78,Rent,,,,,indian
-Share trading debit - INR 6355 - Ref 711941,785.0,Professional Fees,,,,,indian
-MakeMyTrip travel booking - INR 49168 - Ref 806320,2561.32,Travel,,,,,indian
-IRCTC train ticket - INR 24020 - Ref 106393,1998.26,Travel,,,,,indian
-Demat account transfer - INR 39666 - Ref 166029,4803.7,Professional Fees,,,,,indian
-eBay online order - INR 21008 - Ref 500193,225.68,Office Supplies,,,,,indian
-eBay online order - INR 20263 - Ref 868641,350.31,Office Supplies,,,,,indian
-Swiggy order payment - INR 4321 - Ref 194803,695.46,Miscellaneous,,,,,indian
-Consumer durable EMI - INR 20261 - Ref 421691,2351.75,Rent,,,,,indian
-NPS contribution - INR 6573 - Ref 852782,1744.53,Professional Fees,,,,,indian
-McDonald's meal payment - INR 13137 - Ref 551857,400.87,Miscellaneous,,,,,indian
-Home loan EMI - INR 8425 - Ref 420521,2137.98,Rent,,,,,indian
-Retail store shopping - INR 25153 - Ref 290837,191.35,Office Supplies,,,,,indian
-KFC online order - INR 32136 - Ref 281795,513.82,Miscellaneous,,,,,indian
-Demat account transfer - INR 23847 - Ref 195622,291.58,Professional Fees,,,,,indian
-Mall shopping payment - INR 39011 - Ref 979595,102.26,Office Supplies,,,,,indian
-Credit card EMI - INR 38973 - Ref 762008,3762.46,Rent,,,,,indian
-Appliance EMI - INR 2597 - Ref 195763,1197.24,Rent,,,,,indian
-Rapido bike ride - INR 2863 - Ref 989652,887.84,Travel,,,,,indian
-Credit Card Payment,942.76,Professional Fees,2018-06-25,credit,Platinum Card,2018-06,excel
-Grocery food items - INR 7253 - Ref 614493,764.79,Miscellaneous,,,,,indian
-Amazon online shopping - INR 157 - Ref 516090,147.3,Office Supplies,,,,,indian
-MakeMyTrip travel booking - INR 36146 - Ref 224058,2978.69,Travel,,,,,indian
-Ajio clothing purchase - INR 19561 - Ref 254575,299.31,Office Supplies,,,,,indian
-Laptop EMI payment - INR 28091 - Ref 794587,2111.4,Rent,,,,,indian
-Grocery food items - INR 10712 - Ref 900531,551.33,Miscellaneous,,,,,indian
+Gas Company,65.0,Utilities,2018-02-07,debit,Checking,2018-02,excel
+KFC online order - INR 30174 - Ref 665185,91.37,Miscellaneous,,,,,indian
+Grocery Store,58.79,Office Supplies,2019-01-10,debit,Silver Card,2019-01,excel
+Hotel dinner bill - INR 40553 - Ref 765949,448.75,Miscellaneous,,,,,indian
+Share trading debit - INR 43918 - Ref 659343,1978.59,Professional Fees,,,,,indian
+Flight ticket booking - INR 1732 - Ref 494734,454.63,Travel,,,,,indian
+Bakery purchase - INR 45799 - Ref 220018,236.85,Miscellaneous,,,,,indian
+Gold bond investment - INR 46076 - Ref 863704,2016.12,Professional Fees,,,,,indian
+Grocery food items - INR 42872 - Ref 637365,298.46,Miscellaneous,,,,,indian
+Share trading debit - INR 2391 - Ref 406767,814.13,Professional Fees,,,,,indian
+ETF purchase - INR 17463 - Ref 528534,2625.71,Professional Fees,,,,,indian
+Flipkart purchase - INR 13618 - Ref 397759,215.13,Office Supplies,,,,,indian
+Zomato food delivery - INR 4449 - Ref 140889,152.99,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 32952 - Ref 454057,1748.88,Travel,,,,,indian
+Electronics purchase - INR 42737 - Ref 617260,289.07,Office Supplies,,,,,indian
+Retail store shopping - INR 37877 - Ref 990688,163.48,Office Supplies,,,,,indian
+Retail store shopping - INR 25153 - Ref 290837,343.5,Office Supplies,,,,,indian
+Restaurant dine-in bill - INR 35439 - Ref 311591,967.73,Miscellaneous,,,,,indian
+BP,30.64,Travel,2019-06-28,debit,Silver Card,2019-06,excel
+IRCTC train ticket - INR 8368 - Ref 631114,1944.9,Travel,,,,,indian
+Cafe coffee purchase - INR 19974 - Ref 109518,249.15,Miscellaneous,,,,,indian
+Dominos pizza order - INR 28107 - Ref 788133,152.94,Miscellaneous,,,,,indian
+Demat account transfer - INR 38794 - Ref 591973,2871.67,Professional Fees,,,,,indian
+Brewing Company,14.4,Miscellaneous,2019-04-22,debit,Silver Card,2019-04,excel
+Stock market investment - INR 6012 - Ref 111639,3229.29,Professional Fees,,,,,indian
+McDonald's meal payment - INR 26325 - Ref 840006,573.2,Miscellaneous,,,,,indian
+Cafe coffee purchase - INR 9648 - Ref 254872,587.6,Miscellaneous,,,,,indian
+Electronics purchase - INR 598 - Ref 810443,22.41,Office Supplies,,,,,indian
+Retirement fund investment - INR 10421 - Ref 783729,4620.98,Professional Fees,,,,,indian
+Mutual fund SIP - INR 16260 - Ref 662117,2299.87,Professional Fees,,,,,indian
+Dominos pizza order - INR 48772 - Ref 598861,315.73,Miscellaneous,,,,,indian
+Bakery purchase - INR 4788 - Ref 306811,134.97,Miscellaneous,,,,,indian
+Amazon online shopping - INR 48250 - Ref 723648,259.44,Office Supplies,,,,,indian
+Myntra fashion order - INR 31703 - Ref 119281,493.7,Office Supplies,,,,,indian
+Ajio clothing purchase - INR 36923 - Ref 929525,398.76,Office Supplies,,,,,indian
+Ajio clothing purchase - INR 25627 - Ref 268874,400.41,Office Supplies,,,,,indian
+Mutual fund SIP - INR 24488 - Ref 754036,532.22,Professional Fees,,,,,indian
+IRCTC train ticket - INR 39105 - Ref 672417,1130.74,Travel,,,,,indian
+Zomato food delivery - INR 31544 - Ref 966455,709.37,Miscellaneous,,,,,indian
+Rapido bike ride - INR 48031 - Ref 343292,1288.51,Travel,,,,,indian
+Demat account transfer - INR 6339 - Ref 283330,1618.6,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 13202 - Ref 456365,183.57,Miscellaneous,,,,,indian
+KFC online order - INR 21902 - Ref 593819,59.06,Miscellaneous,,,,,indian
+Electronics purchase - INR 8658 - Ref 100177,88.77,Office Supplies,,,,,indian
+Hotel stay booking - INR 5598 - Ref 286253,1829.99,Travel,,,,,indian
+Grocery food items - INR 43798 - Ref 269907,683.98,Miscellaneous,,,,,indian
+Mall shopping payment - INR 895 - Ref 188005,428.67,Office Supplies,,,,,indian
+Flight ticket booking - INR 33042 - Ref 374731,2486.18,Travel,,,,,indian
+Flight ticket booking - INR 1958 - Ref 572440,193.33,Travel,,,,,indian
+Supermarket shopping - INR 41461 - Ref 605915,471.41,Office Supplies,,,,,indian
+Stock market investment - INR 2069 - Ref 892890,3004.05,Professional Fees,,,,,indian
+Demat account transfer - INR 16645 - Ref 472608,3288.31,Professional Fees,,,,,indian
+Grocery food items - INR 25326 - Ref 473752,792.33,Miscellaneous,,,,,indian
+Electronics purchase - INR 26360 - Ref 924496,409.52,Office Supplies,,,,,indian
+PPF contribution - INR 3818 - Ref 996073,1449.39,Professional Fees,,,,,indian
+Shell,35.65,Travel,2018-08-30,debit,Platinum Card,2018-08,excel
+Bakery purchase - INR 18674 - Ref 804019,762.04,Miscellaneous,,,,,indian
+Ola cab booking - INR 33756 - Ref 263827,2034.75,Travel,,,,,indian
+Mexican Restaurant,28.0,Miscellaneous,2019-07-19,debit,Platinum Card,2019-07,excel
+Credit Card Payment,575.33,Professional Fees,2019-05-17,credit,Platinum Card,2019-05,excel
+MakeMyTrip travel booking - INR 33552 - Ref 209536,2752.22,Travel,,,,,indian
+NPS contribution - INR 20507 - Ref 199501,1367.92,Professional Fees,,,,,indian
+Uber ride payment - INR 3317 - Ref 411751,437.06,Travel,,,,,indian
+MakeMyTrip travel booking - INR 22524 - Ref 795012,269.33,Travel,,,,,indian
+Amazon online shopping - INR 157 - Ref 516090,246.88,Office Supplies,,,,,indian
+Supermarket shopping - INR 19479 - Ref 541485,425.85,Office Supplies,,,,,indian
+Hotel dinner bill - INR 29407 - Ref 924663,640.12,Miscellaneous,,,,,indian
+IRCTC train ticket - INR 2996 - Ref 477783,1709.92,Travel,,,,,indian
+ETF purchase - INR 14945 - Ref 294011,4505.75,Professional Fees,,,,,indian
+Ola cab booking - INR 6173 - Ref 440387,2807.54,Travel,,,,,indian
+Gold bond investment - INR 32593 - Ref 992297,1291.65,Professional Fees,,,,,indian
+Stock market investment - INR 17571 - Ref 899546,1725.72,Professional Fees,,,,,indian
+Electronics purchase - INR 21639 - Ref 287296,481.72,Office Supplies,,,,,indian
+Electronics purchase - INR 3038 - Ref 175577,219.14,Office Supplies,,,,,indian
+Amazon online shopping - INR 25745 - Ref 737052,87.09,Office Supplies,,,,,indian
+eBay online order - INR 21839 - Ref 940301,233.97,Office Supplies,,,,,indian
+Credit Card Payment,89.45,Professional Fees,2018-06-20,credit,Silver Card,2018-06,excel
+Gold bond investment - INR 26610 - Ref 480791,757.13,Professional Fees,,,,,indian
+Gold bond investment - INR 11149 - Ref 686691,2926.22,Professional Fees,,,,,indian
+Dominos pizza order - INR 47410 - Ref 361011,662.29,Miscellaneous,,,,,indian
+Hotel dinner bill - INR 31412 - Ref 497273,178.02,Miscellaneous,,,,,indian
+Myntra fashion order - INR 12428 - Ref 997569,292.44,Office Supplies,,,,,indian
+Retail store shopping - INR 16576 - Ref 727271,225.59,Office Supplies,,,,,indian
+Amazon,13.13,Office Supplies,2018-03-01,debit,Platinum Card,2018-03,excel
+Lifestyle store purchase - INR 206 - Ref 979580,99.83,Office Supplies,,,,,indian
+Hotel stay booking - INR 11641 - Ref 575911,1943.0,Travel,,,,,indian
+Credit Card Payment,1606.46,Professional Fees,2019-09-18,debit,Checking,2019-09,excel
+Stock market investment - INR 24253 - Ref 687616,1279.36,Professional Fees,,,,,indian
+Uber ride payment - INR 17377 - Ref 295710,2747.7,Travel,,,,,indian
+IRCTC train ticket - INR 36489 - Ref 117821,300.7,Travel,,,,,indian
+Uber ride payment - INR 24579 - Ref 183835,2923.95,Travel,,,,,indian
+PPF contribution - INR 23988 - Ref 248239,4588.01,Professional Fees,,,,,indian
+Fixed deposit investment - INR 32319 - Ref 365314,4263.11,Professional Fees,,,,,indian
+Ola cab booking - INR 4450 - Ref 456422,597.97,Travel,,,,,indian
+Stock market investment - INR 337 - Ref 152925,2094.81,Professional Fees,,,,,indian
+Ola cab booking - INR 24799 - Ref 422924,1820.1,Travel,,,,,indian
+Bus ticket purchase - INR 33796 - Ref 812680,933.17,Travel,,,,,indian
+Zomato food delivery - INR 41736 - Ref 144257,380.66,Miscellaneous,,,,,indian
+Grocery Store,7.87,Office Supplies,2018-09-11,debit,Platinum Card,2018-09,excel
+Metro card recharge - INR 42244 - Ref 596985,2991.07,Travel,,,,,indian
+Hotel stay booking - INR 12028 - Ref 693328,1965.76,Travel,,,,,indian
+Grocery Store,30.54,Office Supplies,2019-02-12,debit,Platinum Card,2019-02,excel
+Myntra fashion order - INR 332 - Ref 234459,296.8,Office Supplies,,,,,indian
+Demat account transfer - INR 22540 - Ref 637387,937.78,Professional Fees,,,,,indian
+McDonald's meal payment - INR 19295 - Ref 344014,48.37,Miscellaneous,,,,,indian
+Flipkart purchase - INR 49731 - Ref 480100,296.11,Office Supplies,,,,,indian
+Uber ride payment - INR 35827 - Ref 241897,1160.17,Travel,,,,,indian
+Flipkart purchase - INR 1083 - Ref 744113,142.83,Office Supplies,,,,,indian
+Electronics purchase - INR 6632 - Ref 901514,276.15,Office Supplies,,,,,indian
+Dominos pizza order - INR 34072 - Ref 452167,810.41,Miscellaneous,,,,,indian
+Flight ticket booking - INR 2668 - Ref 947634,565.66,Travel,,,,,indian
+Fixed deposit investment - INR 12631 - Ref 684742,1521.56,Professional Fees,,,,,indian
+PPF contribution - INR 31166 - Ref 279410,3149.5,Professional Fees,,,,,indian
+McDonald's meal payment - INR 13306 - Ref 215369,200.68,Miscellaneous,,,,,indian
+Bus ticket purchase - INR 20600 - Ref 397917,2920.09,Travel,,,,,indian
+Electronics purchase - INR 18399 - Ref 522933,365.38,Office Supplies,,,,,indian
+NPS contribution - INR 36206 - Ref 378331,2564.6,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 47502 - Ref 331445,386.82,Miscellaneous,,,,,indian
+Gold bond investment - INR 623 - Ref 818895,4665.01,Professional Fees,,,,,indian
+Hardware Store,31.2,Office Supplies,2018-10-08,debit,Silver Card,2018-10,excel
+eBay online order - INR 46839 - Ref 231522,361.47,Office Supplies,,,,,indian
+Lifestyle store purchase - INR 46435 - Ref 718959,498.82,Office Supplies,,,,,indian
+Uber ride payment - INR 7990 - Ref 974936,2095.64,Travel,,,,,indian
+Amazon online shopping - INR 14310 - Ref 469415,273.52,Office Supplies,,,,,indian
+Hotel dinner bill - INR 8074 - Ref 530706,78.7,Miscellaneous,,,,,indian
+Share trading debit - INR 39654 - Ref 451217,1018.46,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 44709 - Ref 978092,798.72,Miscellaneous,,,,,indian
+McDonald's meal payment - INR 39298 - Ref 303648,460.22,Miscellaneous,,,,,indian
+PPF contribution - INR 35503 - Ref 102783,2345.93,Professional Fees,,,,,indian
+Mutual fund SIP - INR 1222 - Ref 324550,495.87,Professional Fees,,,,,indian
+Cafe coffee purchase - INR 14360 - Ref 733082,314.49,Miscellaneous,,,,,indian
+Ajio clothing purchase - INR 10756 - Ref 363449,235.44,Office Supplies,,,,,indian
+Amazon,16.04,Office Supplies,2019-03-26,debit,Platinum Card,2019-03,excel
+IRCTC train ticket - INR 2389 - Ref 357367,2712.36,Travel,,,,,indian
 Food Truck,24.4,Office Supplies,2018-11-10,debit,Platinum Card,2018-11,excel
-Retail store shopping - INR 13979 - Ref 348302,465.01,Office Supplies,,,,,indian
-Credit Card Payment,117.65,Professional Fees,2019-08-05,credit,Silver Card,2019-08,excel
-Uber ride payment - INR 2441 - Ref 402734,976.84,Travel,,,,,indian
-Electronics purchase - INR 6632 - Ref 901514,92.66,Office Supplies,,,,,indian
-Hotel stay booking - INR 30173 - Ref 324800,838.61,Travel,,,,,indian
-Share trading debit - INR 25576 - Ref 886714,2554.86,Professional Fees,,,,,indian
-Hotel dinner bill - INR 35907 - Ref 326769,326.19,Miscellaneous,,,,,indian
-Retirement fund investment - INR 33290 - Ref 383369,2411.46,Professional Fees,,,,,indian
-Ajio clothing purchase - INR 29231 - Ref 313117,270.22,Office Supplies,,,,,indian
-Lifestyle store purchase - INR 46435 - Ref 718959,228.69,Office Supplies,,,,,indian
-Metro card recharge - INR 18960 - Ref 474698,145.53,Travel,,,,,indian
-Hotel stay booking - INR 34751 - Ref 386972,2275.53,Travel,,,,,indian
-Metro card recharge - INR 45219 - Ref 393496,1502.4,Travel,,,,,indian
-Credit card EMI - INR 46103 - Ref 937229,4983.33,Rent,,,,,indian
-Mutual fund SIP - INR 42575 - Ref 276731,3909.67,Professional Fees,,,,,indian
-Credit card EMI - INR 49975 - Ref 521126,1344.86,Rent,,,,,indian
-Mutual fund SIP - INR 18246 - Ref 427346,4139.62,Professional Fees,,,,,indian
-MakeMyTrip travel booking - INR 41073 - Ref 507385,450.31,Travel,,,,,indian
-Retirement fund investment - INR 43685 - Ref 589014,4311.63,Professional Fees,,,,,indian
-McDonald's meal payment - INR 15334 - Ref 891879,933.21,Miscellaneous,,,,,indian
-Ajio clothing purchase - INR 28628 - Ref 477817,298.14,Office Supplies,,,,,indian
-Rapido bike ride - INR 8994 - Ref 150766,1076.38,Travel,,,,,indian
-Mobile EMI payment - INR 49455 - Ref 613641,2904.16,Rent,,,,,indian
-Amazon online shopping - INR 37865 - Ref 817208,158.34,Office Supplies,,,,,indian
-Swiggy order payment - INR 36364 - Ref 533885,234.89,Miscellaneous,,,,,indian
-Swiggy order payment - INR 7854 - Ref 998391,678.31,Miscellaneous,,,,,indian
-Lifestyle store purchase - INR 22706 - Ref 886871,469.05,Office Supplies,,,,,indian
-Flight ticket booking - INR 18998 - Ref 133193,2108.0,Travel,,,,,indian
-Credit card EMI - INR 40450 - Ref 105541,1372.21,Rent,,,,,indian
-Mall shopping payment - INR 27014 - Ref 556733,453.35,Office Supplies,,,,,indian
-Retirement fund investment - INR 40681 - Ref 714422,207.59,Professional Fees,,,,,indian
-Metro card recharge - INR 615 - Ref 748393,2473.7,Travel,,,,,indian
-Cafe coffee purchase - INR 36955 - Ref 948445,850.93,Miscellaneous,,,,,indian
-Mall shopping payment - INR 20564 - Ref 238700,273.52,Office Supplies,,,,,indian
-Electronics purchase - INR 43172 - Ref 667915,145.57,Office Supplies,,,,,indian
-Dominos pizza order - INR 17990 - Ref 462894,284.58,Miscellaneous,,,,,indian
-Stock market investment - INR 17849 - Ref 591558,4907.31,Professional Fees,,,,,indian
-Credit card EMI - INR 23717 - Ref 453084,4218.35,Rent,,,,,indian
-Flight ticket booking - INR 44420 - Ref 597833,2051.01,Travel,,,,,indian
-Appliance EMI - INR 22496 - Ref 995710,2079.07,Rent,,,,,indian
-Stock market investment - INR 10815 - Ref 402667,4417.72,Professional Fees,,,,,indian
-IRCTC train ticket - INR 5983 - Ref 632286,261.35,Travel,,,,,indian
-Share trading debit - INR 37286 - Ref 336311,3558.15,Professional Fees,,,,,indian
-Dominos pizza order - INR 8391 - Ref 458846,49.66,Miscellaneous,,,,,indian
-Dominos pizza order - INR 34967 - Ref 531801,901.9,Miscellaneous,,,,,indian
-eBay online order - INR 10905 - Ref 560092,247.72,Office Supplies,,,,,indian
-Zomato food delivery - INR 28134 - Ref 578393,971.13,Miscellaneous,,,,,indian
-Hardware Store,22.37,Office Supplies,2018-05-06,debit,Platinum Card,2018-05,excel
-Car loan EMI - INR 6049 - Ref 560812,4903.29,Rent,,,,,indian
-Bakery purchase - INR 27077 - Ref 875561,535.87,Miscellaneous,,,,,indian
-Mall shopping payment - INR 13022 - Ref 340085,294.69,Office Supplies,,,,,indian
-Airport taxi fare - INR 40249 - Ref 624315,2866.1,Travel,,,,,indian
-Hotel dinner bill - INR 16135 - Ref 592344,894.34,Miscellaneous,,,,,indian
-Myntra fashion order - INR 31703 - Ref 119281,203.2,Office Supplies,,,,,indian
-Starbucks,3.0,Miscellaneous,2018-01-24,debit,Platinum Card,2018-01,excel
-Rapido bike ride - INR 17808 - Ref 906565,894.27,Travel,,,,,indian
-Hotel dinner bill - INR 3297 - Ref 162348,545.83,Miscellaneous,,,,,indian
-Amazon,50.21,Office Supplies,2018-01-20,debit,Platinum Card,2018-01,excel
-Flipkart purchase - INR 35649 - Ref 884735,159.77,Office Supplies,,,,,indian
-Flipkart purchase - INR 19230 - Ref 969033,151.79,Office Supplies,,,,,indian
-Bike loan EMI - INR 47196 - Ref 363806,3640.66,Rent,,,,,indian
-Stock market investment - INR 29770 - Ref 779984,2339.74,Professional Fees,,,,,indian
-Lifestyle store purchase - INR 6718 - Ref 222536,282.58,Office Supplies,,,,,indian
-Cafe coffee purchase - INR 8203 - Ref 308007,829.19,Miscellaneous,,,,,indian
-Laptop EMI payment - INR 2527 - Ref 143243,4898.62,Rent,,,,,indian
-Laptop EMI payment - INR 49390 - Ref 110971,4845.88,Rent,,,,,indian
-Cafe coffee purchase - INR 1177 - Ref 441742,636.0,Miscellaneous,,,,,indian
-Ajio clothing purchase - INR 12184 - Ref 817747,245.31,Office Supplies,,,,,indian
-Mutual fund SIP - INR 17408 - Ref 101469,842.64,Professional Fees,,,,,indian
-Shell,36.51,Travel,2018-11-05,debit,Platinum Card,2018-11,excel
-Fixed deposit investment - INR 28154 - Ref 597305,3294.49,Professional Fees,,,,,indian
-ETF purchase - INR 2999 - Ref 620156,3767.88,Professional Fees,,,,,indian
-Flipkart purchase - INR 35983 - Ref 566498,220.24,Office Supplies,,,,,indian
+Amazon online shopping - INR 18877 - Ref 752147,236.92,Office Supplies,,,,,indian
+eBay online order - INR 43926 - Ref 918733,388.71,Office Supplies,,,,,indian
+Gold bond investment - INR 40430 - Ref 426774,3909.67,Professional Fees,,,,,indian
+Grocery Store,32.07,Office Supplies,2018-03-01,debit,Silver Card,2018-03,excel
+Restaurant dine-in bill - INR 8745 - Ref 939831,885.76,Miscellaneous,,,,,indian
+Airport taxi fare - INR 16874 - Ref 873106,2734.29,Travel,,,,,indian
+Flight ticket booking - INR 10597 - Ref 171216,596.19,Travel,,,,,indian
+KFC online order - INR 6154 - Ref 907674,671.94,Miscellaneous,,,,,indian
+Gold bond investment - INR 31288 - Ref 447448,1758.89,Professional Fees,,,,,indian
+Cafe coffee purchase - INR 25465 - Ref 890083,851.05,Miscellaneous,,,,,indian
+Flipkart purchase - INR 30238 - Ref 552054,460.28,Office Supplies,,,,,indian
+Swiggy order payment - INR 17739 - Ref 965457,951.25,Miscellaneous,,,,,indian
+Restaurant dine-in bill - INR 16821 - Ref 937351,652.35,Miscellaneous,,,,,indian
+Zomato food delivery - INR 42218 - Ref 194027,91.09,Miscellaneous,,,,,indian
+Grocery food items - INR 15852 - Ref 169806,998.92,Miscellaneous,,,,,indian
+IRCTC train ticket - INR 7622 - Ref 962680,1672.79,Travel,,,,,indian
+IRCTC train ticket - INR 26264 - Ref 114942,950.31,Travel,,,,,indian
+Stock market investment - INR 26310 - Ref 115519,3456.73,Professional Fees,,,,,indian
+Flight ticket booking - INR 16288 - Ref 333845,2641.28,Travel,,,,,indian
+Hotel stay booking - INR 19493 - Ref 350444,1592.05,Travel,,,,,indian
+eBay online order - INR 46363 - Ref 140520,152.2,Office Supplies,,,,,indian
+Pizza Place,20.52,Miscellaneous,2018-05-05,debit,Platinum Card,2018-05,excel
+Bakery purchase - INR 29482 - Ref 459929,399.25,Miscellaneous,,,,,indian
+Demat account transfer - INR 34347 - Ref 855185,2274.65,Professional Fees,,,,,indian
+Retail store shopping - INR 13880 - Ref 246271,310.02,Office Supplies,,,,,indian
+Electronics purchase - INR 34837 - Ref 952110,214.0,Office Supplies,,,,,indian
+ETF purchase - INR 13182 - Ref 410496,1921.96,Professional Fees,,,,,indian
+Uber ride payment - INR 26086 - Ref 296366,1011.66,Travel,,,,,indian
+Ola cab booking - INR 12302 - Ref 155663,253.19,Travel,,,,,indian
+Flight ticket booking - INR 655 - Ref 451528,91.53,Travel,,,,,indian
+Airport taxi fare - INR 5710 - Ref 419410,1479.8,Travel,,,,,indian
+IRCTC train ticket - INR 49571 - Ref 178060,2454.88,Travel,,,,,indian
+Retirement fund investment - INR 26805 - Ref 253990,2596.66,Professional Fees,,,,,indian
+Retail store shopping - INR 38453 - Ref 318265,247.92,Office Supplies,,,,,indian
+Retirement fund investment - INR 21223 - Ref 887700,3869.52,Professional Fees,,,,,indian
+Grocery Store,7.02,Office Supplies,2018-06-14,debit,Platinum Card,2018-06,excel
+Airport taxi fare - INR 4589 - Ref 565040,426.5,Travel,,,,,indian
+Share trading debit - INR 8851 - Ref 576942,3244.34,Professional Fees,,,,,indian
+Grocery food items - INR 8034 - Ref 725348,785.69,Miscellaneous,,,,,indian
+Swiggy order payment - INR 21651 - Ref 330040,814.95,Miscellaneous,,,,,indian
+Hotel stay booking - INR 20447 - Ref 605887,2936.08,Travel,,,,,indian
+Gold bond investment - INR 31968 - Ref 274399,3922.47,Professional Fees,,,,,indian
+Ajio clothing purchase - INR 41318 - Ref 346890,377.92,Office Supplies,,,,,indian
+IRCTC train ticket - INR 16051 - Ref 370859,611.12,Travel,,,,,indian
+McDonald's meal payment - INR 17356 - Ref 406105,544.04,Miscellaneous,,,,,indian
+Amazon,32.5,Office Supplies,2018-05-21,debit,Platinum Card,2018-05,excel
+Grocery food items - INR 29005 - Ref 322833,615.1,Miscellaneous,,,,,indian
+Retail store shopping - INR 2718 - Ref 283030,223.32,Office Supplies,,,,,indian
+Flipkart purchase - INR 32238 - Ref 840275,141.59,Office Supplies,,,,,indian
+Dominos pizza order - INR 37271 - Ref 171302,994.79,Miscellaneous,,,,,indian
+Electronics purchase - INR 22372 - Ref 942859,90.83,Office Supplies,,,,,indian
+Retail store shopping - INR 14587 - Ref 524608,188.74,Office Supplies,,,,,indian
+Shell,41.07,Travel,2018-08-15,debit,Platinum Card,2018-08,excel
+Metro card recharge - INR 36018 - Ref 825181,560.06,Travel,,,,,indian
+Bakery purchase - INR 22951 - Ref 412233,778.65,Miscellaneous,,,,,indian
+Restaurant dine-in bill - INR 43484 - Ref 840065,411.21,Miscellaneous,,,,,indian
+Amazon online shopping - INR 29702 - Ref 181618,329.43,Office Supplies,,,,,indian
 Amazon,49.72,Office Supplies,2018-05-03,debit,Platinum Card,2018-05,excel
-Retirement fund investment - INR 39606 - Ref 110288,3287.88,Professional Fees,,,,,indian
-MakeMyTrip travel booking - INR 18674 - Ref 981642,1342.4,Travel,,,,,indian
-Appliance EMI - INR 27157 - Ref 279712,3590.54,Rent,,,,,indian
-Flight ticket booking - INR 10343 - Ref 500837,1523.81,Travel,,,,,indian
-Electronics purchase - INR 45364 - Ref 275282,63.63,Office Supplies,,,,,indian
-Rapido bike ride - INR 14231 - Ref 483802,325.03,Travel,,,,,indian
-Amazon online shopping - INR 25745 - Ref 737052,324.94,Office Supplies,,,,,indian
-Grocery food items - INR 39340 - Ref 452202,471.78,Miscellaneous,,,,,indian
-Amazon online shopping - INR 20587 - Ref 175441,414.41,Office Supplies,,,,,indian
-Bus ticket purchase - INR 20600 - Ref 397917,1253.73,Travel,,,,,indian
-Rapido bike ride - INR 22628 - Ref 646126,165.16,Travel,,,,,indian
-Bus ticket purchase - INR 1592 - Ref 499803,1773.32,Travel,,,,,indian
-Hotel stay booking - INR 1532 - Ref 863345,2664.91,Travel,,,,,indian
-Grocery food items - INR 21394 - Ref 680343,412.76,Miscellaneous,,,,,indian
-Retail store shopping - INR 29252 - Ref 193471,405.09,Office Supplies,,,,,indian
-Demat account transfer - INR 18932 - Ref 834122,3621.01,Professional Fees,,,,,indian
-McDonald's meal payment - INR 8839 - Ref 481000,769.25,Miscellaneous,,,,,indian
-ETF purchase - INR 41579 - Ref 366275,3056.2,Professional Fees,,,,,indian
-Bus ticket purchase - INR 9764 - Ref 625267,1646.99,Travel,,,,,indian
-Myntra fashion order - INR 20148 - Ref 778927,264.26,Office Supplies,,,,,indian
-Grocery Store,23.0,Office Supplies,2019-06-05,debit,Platinum Card,2019-06,excel
-Airport taxi fare - INR 34046 - Ref 544686,396.78,Travel,,,,,indian
-Supermarket shopping - INR 19479 - Ref 541485,101.65,Office Supplies,,,,,indian
-Flight ticket booking - INR 24930 - Ref 695267,1558.97,Travel,,,,,indian
-Mall shopping payment - INR 41828 - Ref 204075,423.94,Office Supplies,,,,,indian
-Grocery food items - INR 37710 - Ref 948427,769.15,Miscellaneous,,,,,indian
-ETF purchase - INR 5437 - Ref 633257,1970.77,Professional Fees,,,,,indian
-Supermarket shopping - INR 41461 - Ref 605915,89.67,Office Supplies,,,,,indian
-Education loan EMI - INR 45461 - Ref 896814,2899.3,Rent,,,,,indian
-Retirement fund investment - INR 4557 - Ref 768627,1559.68,Professional Fees,,,,,indian
-Hotel stay booking - INR 21784 - Ref 949639,2646.37,Travel,,,,,indian
-Flight ticket booking - INR 49151 - Ref 557373,2110.52,Travel,,,,,indian
-NPS contribution - INR 8859 - Ref 896241,1215.28,Professional Fees,,,,,indian
-Gold bond investment - INR 27970 - Ref 657157,4856.7,Professional Fees,,,,,indian
-Education loan EMI - INR 45562 - Ref 103479,2377.06,Rent,,,,,indian
-Lifestyle store purchase - INR 41970 - Ref 762573,420.91,Office Supplies,,,,,indian
-Airport taxi fare - INR 2409 - Ref 116311,1135.13,Travel,,,,,indian
-McDonald's meal payment - INR 39386 - Ref 180403,684.81,Miscellaneous,,,,,indian
-Share trading debit - INR 17414 - Ref 167248,3307.07,Professional Fees,,,,,indian
-Hotel dinner bill - INR 32605 - Ref 824229,149.86,Miscellaneous,,,,,indian
-NPS contribution - INR 30203 - Ref 551333,2051.43,Professional Fees,,,,,indian
-Credit card EMI - INR 17402 - Ref 452939,1410.57,Rent,,,,,indian
-Share trading debit - INR 10991 - Ref 540728,2354.75,Professional Fees,,,,,indian
-eBay online order - INR 16703 - Ref 635044,184.85,Office Supplies,,,,,indian
-Cafe coffee purchase - INR 19927 - Ref 115739,406.14,Miscellaneous,,,,,indian
-Flipkart purchase - INR 39885 - Ref 753234,48.14,Office Supplies,,,,,indian
-Rapido bike ride - INR 3573 - Ref 412935,1359.39,Travel,,,,,indian
-Retail store shopping - INR 4833 - Ref 267366,432.87,Office Supplies,,,,,indian
-MakeMyTrip travel booking - INR 20371 - Ref 110030,2780.48,Travel,,,,,indian
-Mobile EMI payment - INR 33317 - Ref 716192,2059.52,Rent,,,,,indian
-KFC online order - INR 4304 - Ref 889045,104.49,Miscellaneous,,,,,indian
-Car loan EMI - INR 29078 - Ref 971855,4182.63,Rent,,,,,indian
-Grocery food items - INR 38224 - Ref 514106,932.25,Miscellaneous,,,,,indian
-eBay online order - INR 34763 - Ref 733945,232.69,Office Supplies,,,,,indian
-Flight ticket booking - INR 10526 - Ref 271996,422.35,Travel,,,,,indian
-Education loan EMI - INR 18229 - Ref 667813,3621.75,Rent,,,,,indian
-McDonald's meal payment - INR 17356 - Ref 406105,284.55,Miscellaneous,,,,,indian
-KFC online order - INR 9055 - Ref 387794,756.51,Miscellaneous,,,,,indian
-BP,37.98,Travel,2018-04-13,debit,Platinum Card,2018-04,excel
-Demat account transfer - INR 34347 - Ref 855185,2927.12,Professional Fees,,,,,indian
-Restaurant dine-in bill - INR 15870 - Ref 467930,621.0,Miscellaneous,,,,,indian
-ETF purchase - INR 13920 - Ref 382472,3300.92,Professional Fees,,,,,indian
-Electronics purchase - INR 48082 - Ref 161279,82.26,Office Supplies,,,,,indian
-Supermarket shopping - INR 47015 - Ref 599423,383.5,Office Supplies,,,,,indian
-Electronics purchase - INR 21889 - Ref 163978,134.24,Office Supplies,,,,,indian
-Mall shopping payment - INR 8142 - Ref 486969,420.02,Office Supplies,,,,,indian
-McDonald's meal payment - INR 1381 - Ref 988803,745.61,Miscellaneous,,,,,indian
-Share trading debit - INR 46658 - Ref 340063,2182.61,Professional Fees,,,,,indian
-Retirement fund investment - INR 19891 - Ref 566850,4469.25,Professional Fees,,,,,indian
-Lifestyle store purchase - INR 25150 - Ref 152703,163.68,Office Supplies,,,,,indian
-Flipkart purchase - INR 21810 - Ref 545817,322.18,Office Supplies,,,,,indian
-Personal loan EMI - INR 21016 - Ref 863890,4577.97,Rent,,,,,indian
-Supermarket shopping - INR 7635 - Ref 809209,182.12,Office Supplies,,,,,indian
-Rapido bike ride - INR 6322 - Ref 381107,2270.41,Travel,,,,,indian
-Laptop EMI payment - INR 36284 - Ref 328667,1380.9,Rent,,,,,indian
-Grocery food items - INR 25326 - Ref 473752,275.89,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 5268 - Ref 471803,109.69,Travel,,,,,indian
-Retail store shopping - INR 46561 - Ref 817080,382.37,Office Supplies,,,,,indian
-Hotel dinner bill - INR 14214 - Ref 336399,519.33,Miscellaneous,,,,,indian
-Swiggy order payment - INR 6610 - Ref 677408,845.56,Miscellaneous,,,,,indian
-Retail store shopping - INR 6736 - Ref 338986,175.07,Office Supplies,,,,,indian
-IRCTC train ticket - INR 5758 - Ref 896174,2712.36,Travel,,,,,indian
-Lifestyle store purchase - INR 28522 - Ref 980595,321.91,Office Supplies,,,,,indian
-Ola cab booking - INR 30159 - Ref 348245,1150.74,Travel,,,,,indian
-Education loan EMI - INR 33653 - Ref 525825,1346.95,Rent,,,,,indian
-Electronics purchase - INR 26709 - Ref 859915,314.52,Office Supplies,,,,,indian
-Credit card EMI - INR 40611 - Ref 224596,2528.83,Rent,,,,,indian
-Retirement fund investment - INR 33796 - Ref 234464,4364.12,Professional Fees,,,,,indian
-Car loan EMI - INR 37287 - Ref 187421,3104.77,Rent,,,,,indian
-PPF contribution - INR 13040 - Ref 210759,606.81,Professional Fees,,,,,indian
-NPS contribution - INR 14885 - Ref 181508,3294.49,Professional Fees,,,,,indian
-PPF contribution - INR 19907 - Ref 546181,2196.58,Professional Fees,,,,,indian
-Rapido bike ride - INR 34396 - Ref 618930,2564.14,Travel,,,,,indian
-Retirement fund investment - INR 32104 - Ref 586366,3966.17,Professional Fees,,,,,indian
-Laptop EMI payment - INR 47429 - Ref 612213,3582.22,Rent,,,,,indian
-Ola cab booking - INR 684 - Ref 540030,2991.66,Travel,,,,,indian
-Ola cab booking - INR 15316 - Ref 395391,2706.57,Travel,,,,,indian
-MakeMyTrip travel booking - INR 33897 - Ref 513902,1741.79,Travel,,,,,indian
-MakeMyTrip travel booking - INR 9167 - Ref 830235,2458.93,Travel,,,,,indian
-Uber ride payment - INR 36291 - Ref 721435,1980.07,Travel,,,,,indian
-Uber ride payment - INR 20330 - Ref 103532,2464.21,Travel,,,,,indian
-Retirement fund investment - INR 14375 - Ref 491489,2628.61,Professional Fees,,,,,indian
-Dominos pizza order - INR 4197 - Ref 456439,25.08,Miscellaneous,,,,,indian
-IRCTC train ticket - INR 9133 - Ref 937375,1202.66,Travel,,,,,indian
-Airport taxi fare - INR 27358 - Ref 407886,142.02,Travel,,,,,indian
-Uber ride payment - INR 1715 - Ref 898043,1152.09,Travel,,,,,indian
-Mobile EMI payment - INR 17184 - Ref 908046,3856.57,Rent,,,,,indian
+Grocery food items - INR 8067 - Ref 134737,351.67,Miscellaneous,,,,,indian
+Flight ticket booking - INR 43637 - Ref 202679,813.02,Travel,,,,,indian
+PPF contribution - INR 19189 - Ref 430217,3780.49,Professional Fees,,,,,indian
+Restaurant dine-in bill - INR 49191 - Ref 673330,284.58,Miscellaneous,,,,,indian
+Swiggy order payment - INR 4321 - Ref 194803,957.07,Miscellaneous,,,,,indian
+KFC online order - INR 31626 - Ref 842504,158.6,Miscellaneous,,,,,indian
+Airport taxi fare - INR 44485 - Ref 431972,283.72,Travel,,,,,indian
+Grocery food items - INR 42724 - Ref 970454,971.66,Miscellaneous,,,,,indian
+Dominos pizza order - INR 26419 - Ref 107860,333.2,Miscellaneous,,,,,indian
+Hotel dinner bill - INR 37992 - Ref 543594,945.71,Miscellaneous,,,,,indian
+Amazon online shopping - INR 24175 - Ref 277918,446.92,Office Supplies,,,,,indian
+Swiggy order payment - INR 22790 - Ref 264063,309.44,Miscellaneous,,,,,indian
+NPS contribution - INR 5797 - Ref 993875,267.91,Professional Fees,,,,,indian
+BP,39.44,Travel,2018-05-24,debit,Silver Card,2018-05,excel
+Mall shopping payment - INR 45827 - Ref 108410,403.07,Office Supplies,,,,,indian
+Metro card recharge - INR 25440 - Ref 151615,1441.71,Travel,,,,,indian
+Flight ticket booking - INR 35363 - Ref 405783,2622.34,Travel,,,,,indian
+Flight ticket booking - INR 3044 - Ref 289639,1887.12,Travel,,,,,indian
+IRCTC train ticket - INR 45212 - Ref 836841,1763.97,Travel,,,,,indian
+Retirement fund investment - INR 7735 - Ref 543217,1018.72,Professional Fees,,,,,indian
+KFC online order - INR 36783 - Ref 487267,318.72,Miscellaneous,,,,,indian
+Electronics purchase - INR 47680 - Ref 317890,89.87,Office Supplies,,,,,indian
+Zomato food delivery - INR 20361 - Ref 611602,863.56,Miscellaneous,,,,,indian
+Dominos pizza order - INR 40407 - Ref 184211,918.56,Miscellaneous,,,,,indian
+Flipkart purchase - INR 43985 - Ref 766250,314.27,Office Supplies,,,,,indian
+Cafe coffee purchase - INR 19927 - Ref 115739,453.32,Miscellaneous,,,,,indian
+Brewing Company,47.4,Miscellaneous,2018-09-01,debit,Platinum Card,2018-09,excel
+Bakery purchase - INR 10349 - Ref 479025,778.08,Miscellaneous,,,,,indian
+Cafe coffee purchase - INR 44400 - Ref 711338,216.83,Miscellaneous,,,,,indian
+NPS contribution - INR 4986 - Ref 876509,986.4,Professional Fees,,,,,indian
+Demat account transfer - INR 16800 - Ref 508253,2111.82,Professional Fees,,,,,indian
+KFC online order - INR 31494 - Ref 579992,711.12,Miscellaneous,,,,,indian
+Retail store shopping - INR 24030 - Ref 481034,221.41,Office Supplies,,,,,indian
+Restaurant dine-in bill - INR 20448 - Ref 443424,810.97,Miscellaneous,,,,,indian
+Fixed deposit investment - INR 37998 - Ref 497585,3767.88,Professional Fees,,,,,indian
+Dominos pizza order - INR 13881 - Ref 118791,809.66,Miscellaneous,,,,,indian
+Demat account transfer - INR 37360 - Ref 786958,4909.44,Professional Fees,,,,,indian
+Ola cab booking - INR 16075 - Ref 382991,2900.48,Travel,,,,,indian
+Ola cab booking - INR 31427 - Ref 540910,1853.36,Travel,,,,,indian
+Hotel dinner bill - INR 16135 - Ref 592344,238.75,Miscellaneous,,,,,indian
+Lifestyle store purchase - INR 28522 - Ref 980595,418.57,Office Supplies,,,,,indian
+Gold bond investment - INR 20026 - Ref 803069,4696.01,Professional Fees,,,,,indian
+Retail store shopping - INR 38015 - Ref 656679,371.81,Office Supplies,,,,,indian
+Gold bond investment - INR 37646 - Ref 211762,470.93,Professional Fees,,,,,indian
+Barbershop,30.0,Miscellaneous,2018-02-09,debit,Platinum Card,2018-02,excel
+Mutual fund SIP - INR 27622 - Ref 418756,4045.51,Professional Fees,,,,,indian
+Metro card recharge - INR 28298 - Ref 163419,1389.39,Travel,,,,,indian
+Hotel stay booking - INR 30902 - Ref 830566,2998.74,Travel,,,,,indian
+Hotel stay booking - INR 34562 - Ref 944807,298.53,Travel,,,,,indian
+Stock market investment - INR 35345 - Ref 656795,579.05,Professional Fees,,,,,indian
+Hotel dinner bill - INR 3297 - Ref 162348,769.05,Miscellaneous,,,,,indian
+Bus ticket purchase - INR 19126 - Ref 594892,383.14,Travel,,,,,indian
+MakeMyTrip travel booking - INR 26476 - Ref 872788,184.11,Travel,,,,,indian
+Electronics purchase - INR 33027 - Ref 108837,151.33,Office Supplies,,,,,indian
+Gold bond investment - INR 918 - Ref 271840,234.65,Professional Fees,,,,,indian
+Zomato food delivery - INR 16721 - Ref 993581,267.23,Miscellaneous,,,,,indian
+Retirement fund investment - INR 5763 - Ref 457887,885.34,Professional Fees,,,,,indian
+Cafe coffee purchase - INR 46467 - Ref 375293,608.21,Miscellaneous,,,,,indian
+NPS contribution - INR 37618 - Ref 580236,1786.7,Professional Fees,,,,,indian
+Brewing Company,12.71,Miscellaneous,2018-10-28,debit,Platinum Card,2018-10,excel
+Retail store shopping - INR 36758 - Ref 141811,85.78,Office Supplies,,,,,indian
+IRCTC train ticket - INR 17494 - Ref 460509,1410.73,Travel,,,,,indian
+eBay online order - INR 18763 - Ref 441274,319.07,Office Supplies,,,,,indian
+Cafe coffee purchase - INR 15225 - Ref 134453,563.81,Miscellaneous,,,,,indian
+Hotel stay booking - INR 37201 - Ref 770713,1878.29,Travel,,,,,indian
+Cafe coffee purchase - INR 32318 - Ref 521064,503.22,Miscellaneous,,,,,indian
+Electronics purchase - INR 18682 - Ref 546656,455.18,Office Supplies,,,,,indian
+Gold bond investment - INR 15009 - Ref 509787,3402.24,Professional Fees,,,,,indian
+Retirement fund investment - INR 33229 - Ref 455531,1483.16,Professional Fees,,,,,indian
 Credit Card Payment,421.96,Professional Fees,2018-11-20,credit,Platinum Card,2018-11,excel
-IRCTC train ticket - INR 37743 - Ref 574355,1106.76,Travel,,,,,indian
-McDonald's meal payment - INR 36818 - Ref 919222,255.66,Miscellaneous,,,,,indian
-BP,24.01,Travel,2019-02-11,debit,Platinum Card,2019-02,excel
-Ola cab booking - INR 26443 - Ref 494833,1592.11,Travel,,,,,indian
-Swiggy order payment - INR 22292 - Ref 193788,223.54,Miscellaneous,,,,,indian
-Amazon online shopping - INR 22559 - Ref 120999,89.45,Office Supplies,,,,,indian
-Ola cab booking - INR 16636 - Ref 751244,210.89,Travel,,,,,indian
-eBay online order - INR 21326 - Ref 120071,27.54,Office Supplies,,,,,indian
-Bakery purchase - INR 35376 - Ref 388394,591.08,Miscellaneous,,,,,indian
+Uber ride payment - INR 26970 - Ref 409929,2239.69,Travel,,,,,indian
+Belgian Restaurant,38.32,Miscellaneous,2018-03-31,debit,Platinum Card,2018-03,excel
+Grocery food items - INR 34337 - Ref 202035,762.14,Miscellaneous,,,,,indian
+Share trading debit - INR 20155 - Ref 664928,2401.86,Professional Fees,,,,,indian
+Stock market investment - INR 25662 - Ref 716704,2777.15,Professional Fees,,,,,indian
+PPF contribution - INR 17079 - Ref 477943,2540.39,Professional Fees,,,,,indian
+Demat account transfer - INR 22321 - Ref 335363,2453.11,Professional Fees,,,,,indian
+Demat account transfer - INR 10231 - Ref 895725,3772.21,Professional Fees,,,,,indian
+Bus ticket purchase - INR 17024 - Ref 899641,539.24,Travel,,,,,indian
+Lifestyle store purchase - INR 22706 - Ref 886871,49.27,Office Supplies,,,,,indian
+Hotel stay booking - INR 7996 - Ref 620651,708.75,Travel,,,,,indian
+IRCTC train ticket - INR 16555 - Ref 600071,1541.91,Travel,,,,,indian
+Restaurant dine-in bill - INR 8197 - Ref 223162,937.61,Miscellaneous,,,,,indian
+Grocery food items - INR 9102 - Ref 937941,157.94,Miscellaneous,,,,,indian
+McDonald's meal payment - INR 27404 - Ref 854241,883.99,Miscellaneous,,,,,indian
+KFC online order - INR 3904 - Ref 105972,925.82,Miscellaneous,,,,,indian
+Lifestyle store purchase - INR 14328 - Ref 242415,317.2,Office Supplies,,,,,indian
+Retail store shopping - INR 31106 - Ref 350385,44.28,Office Supplies,,,,,indian
+Retirement fund investment - INR 23325 - Ref 663232,1316.59,Professional Fees,,,,,indian
+ETF purchase - INR 22936 - Ref 634693,653.63,Professional Fees,,,,,indian
+Flipkart purchase - INR 1879 - Ref 689236,386.91,Office Supplies,,,,,indian
+eBay online order - INR 5205 - Ref 302192,274.9,Office Supplies,,,,,indian
+Ajio clothing purchase - INR 33602 - Ref 148058,288.25,Office Supplies,,,,,indian
+Mall shopping payment - INR 48451 - Ref 999704,233.22,Office Supplies,,,,,indian
+Flight ticket booking - INR 47165 - Ref 445992,611.71,Travel,,,,,indian
+MakeMyTrip travel booking - INR 16288 - Ref 604613,98.48,Travel,,,,,indian
+Credit Card Payment,758.07,Professional Fees,2019-05-03,debit,Checking,2019-05,excel
+Lifestyle store purchase - INR 29426 - Ref 905790,136.99,Office Supplies,,,,,indian
+Flipkart purchase - INR 4611 - Ref 481823,385.37,Office Supplies,,,,,indian
+Flipkart purchase - INR 6960 - Ref 466796,121.47,Office Supplies,,,,,indian
+Supermarket shopping - INR 29888 - Ref 852297,289.59,Office Supplies,,,,,indian
+Dominos pizza order - INR 31686 - Ref 189820,695.46,Miscellaneous,,,,,indian
+ETF purchase - INR 21416 - Ref 296462,632.4,Professional Fees,,,,,indian
+Rapido bike ride - INR 8846 - Ref 601386,2382.76,Travel,,,,,indian
+Cafe coffee purchase - INR 17613 - Ref 558696,582.41,Miscellaneous,,,,,indian
+eBay online order - INR 32522 - Ref 498032,278.7,Office Supplies,,,,,indian
+Rapido bike ride - INR 1918 - Ref 187568,2840.62,Travel,,,,,indian
+Myntra fashion order - INR 13936 - Ref 757076,361.16,Office Supplies,,,,,indian
+Bus ticket purchase - INR 24532 - Ref 665596,1219.21,Travel,,,,,indian
+Stock market investment - INR 41047 - Ref 372624,545.96,Professional Fees,,,,,indian
+Bakery purchase - INR 27809 - Ref 996570,516.48,Miscellaneous,,,,,indian
+MakeMyTrip travel booking - INR 31255 - Ref 174578,1998.26,Travel,,,,,indian
+Mall shopping payment - INR 13424 - Ref 193386,232.65,Office Supplies,,,,,indian
+Retail store shopping - INR 37521 - Ref 888384,420.78,Office Supplies,,,,,indian
+Brewing Company,19.5,Miscellaneous,2018-03-17,debit,Silver Card,2018-03,excel
+Retail store shopping - INR 34627 - Ref 743786,361.7,Office Supplies,,,,,indian
+Dominos pizza order - INR 39277 - Ref 985667,832.38,Miscellaneous,,,,,indian
+Supermarket shopping - INR 31713 - Ref 685385,433.19,Office Supplies,,,,,indian
+Mutual fund SIP - INR 42109 - Ref 880697,3660.46,Professional Fees,,,,,indian
+Gold bond investment - INR 35491 - Ref 847039,1666.21,Professional Fees,,,,,indian
+Ajio clothing purchase - INR 17964 - Ref 818779,277.61,Office Supplies,,,,,indian
+Rapido bike ride - INR 41439 - Ref 327647,550.27,Travel,,,,,indian
+Retirement fund investment - INR 39606 - Ref 110288,3541.15,Professional Fees,,,,,indian
