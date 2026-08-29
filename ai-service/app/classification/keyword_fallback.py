@@ -13,27 +13,35 @@ Miscellaneous, Travel) happens to sit nearest in embedding space.
 This is a stopgap, not a permanent design. Once each category below
 has enough real, varied training examples, it should be removed from
 FALLBACK_KEYWORDS (or the whole module retired).
+
+Matching uses word-boundary regex (not plain substring) so short
+keywords like "rent" don't false-positive inside unrelated words
+like "rental" -- confirmed via edge-case testing on 2026-08-29.
 """
 
-# app/classification/keyword_fallback.py — replace the matching logic
 import re
+
 FALLBACK_KEYWORDS = {
     "Rent": [
-        "rent", "lease", "leasing",
+        "rent", "lease", "leasing", "landlord", "tenancy",
     ],
     "Payroll": [
         "payroll", "salary", "salaries", "wages", "wage", "stipend",
+        "compensation", "disbursement to staff", "staff disbursement",
     ],
     "Utilities": [
-        "electricity", "water bill", "internet bill", "broadband",
+        "electricity", "electric bill", "power bill", "grid provider",
+        "water bill", "internet bill", "broadband",
         "telecom", "phone bill", "mobile bill",
         "utility", "utilities",
-        # "hosting" removed from here
     ],
     "Software/Subscriptions": [
-        "subscription", "workspace", "saas", "renewal",
+        "subscription", "workspace", "saas", "renewal", "renewal fee",
         "license fee", "licence fee", "software license",
-        "hosting",  # moved here — cloud/server hosting is a software service, not a physical utility
+        "hosting",
+        # common SaaS/software brand names seen in real invoices
+        "creative cloud", "adobe", "zoom", "slack", "microsoft 365",
+        "google workspace", "dropbox", "notion", "figma",
     ],
 }
 
@@ -41,7 +49,16 @@ FALLBACK_KEYWORDS = {
 # there's a single obvious place to shrink as real data improves.
 FALLBACK_CATEGORIES = set(FALLBACK_KEYWORDS.keys())
 
+
 def keyword_fallback_category(description: str) -> str | None:
+    """
+    Returns a category name if the description contains a keyword
+    strongly associated with a data-starved category, else None.
+
+    Word-boundary regex match, case-insensitive. Multi-word keywords
+    (e.g. "creative cloud") match as a phrase. Dict order = priority
+    order if a description could match more than one category.
+    """
     if not description:
         return None
 
