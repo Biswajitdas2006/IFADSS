@@ -71,17 +71,25 @@ def parse_fields(ocr_lines: list[dict]) -> dict:
                 consumed_indices.add(i)
                 break
 
-    # ---- Total: "grand total" / "amount due" / "balance due" prioritized
-    # over bare "total", since "total" alone matches unrelated lines like
-    # "Total items: 1" that appear earlier in the document ----
+    # ---- Total: take the MAXIMUM value found next to a strong keyword
+    # ("grand total"/"amount due"/"balance due"), not just the first one.
+    # NOTE: some source PDFs contain more than one invoice concatenated
+    # together (confirmed via a real test file with two "Grand Total"
+    # occurrences) -- taking the max is a deliberate choice to surface
+    # the largest, most likely-final total rather than assuming document
+    # order. Only falls back to a bare "total" match if no strong keyword
+    # was found anywhere in the document. ----
+    strong_totals = []
     for i, line in enumerate(ocr_lines):
         lower = line["text"].lower()
         if any(k in lower for k in STRONG_TOTAL_KEYWORDS):
             amt = _find_amount_near(ocr_lines, i)
             if amt is not None:
-                total_amount = amt
+                strong_totals.append(amt)
                 consumed_indices.add(i)
-                break
+
+    if strong_totals:
+        total_amount = max(strong_totals)
 
     if total_amount is None:
         for i, line in enumerate(ocr_lines):
@@ -118,11 +126,12 @@ def parse_fields(ocr_lines: list[dict]) -> dict:
         tax_amount = round(sum(tax_amounts_found), 2)
 
     # ---- Line items: everything not already consumed by vendor/date/total/tax.
-    # NOTE: known limitation, not fixed here -- invoices whose summary table
-    # repeats values also present in an item table will produce duplicate
-    # line items, since this only reads text in OCR order, not table
-    # structure. Proper fix needs bounding-box row-grouping (see extract_text's
-    # 'box' field) -- scoped as a follow-up, not solved in this pass. ----
+    # KNOWN LIMITATION (not fixed here): invoices whose summary table repeats
+    # values also present in an item table, or PDFs containing multiple
+    # concatenated invoices, will still produce duplicate/extra line items,
+    # since this reads text in OCR order, not table/document structure.
+    # Proper fix needs bounding-box row-grouping (see extract_text's 'box'
+    # field) and/or document-boundary detection -- scoped as a follow-up. ----
     line_items = []
     for i, line in enumerate(ocr_lines):
         if i in consumed_indices:
