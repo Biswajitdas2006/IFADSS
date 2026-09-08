@@ -4,8 +4,9 @@ from datetime import datetime
 from app.ocr import converter, preprocess, extractor
 
 DATE_PATTERNS = [r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}", r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}"]
-TOTAL_KEYWORDS = ["grand total", "amount due", "balance due", "total"]
-TAX_KEYWORDS = ["sgst", "cgst", "gst", "vat", "tax"]
+STRONG_TOTAL_KEYWORDS = ["grand total", "amount due", "balance due"]
+WEAK_TOTAL_KEYWORDS = ["total"]
+TAX_KEYWORDS = ["sgst", "cgst", "vat"]  # bare "gst"/"tax" removed — was false-matching inside "GSTIN"
 VENDOR_ANCHORS = ["sold by", "seller", "from:", "billed by"]
 
 # Amounts formatted as ₹748.00, $748.00, 748.00, or 1,234.56
@@ -58,13 +59,11 @@ def parse_fields(ocr_lines: list[dict]) -> dict:
     for i, line in enumerate(ocr_lines):
         lower = line["text"].lower()
         if any(a in lower for a in VENDOR_ANCHORS):
-            # Strip the anchor phrase itself, keep the rest as the vendor name
             cleaned = re.split(r"sold by|seller|from:|billed by", line["text"], flags=re.IGNORECASE)[-1]
             vendor_name = cleaned.strip(" :,")
             consumed_indices.add(i)
             break
 
-    # Fallback: original "first substantial line" heuristic, only if no anchor found
     if vendor_name is None:
         for i, line in enumerate(ocr_lines[:3]):
             if len(line["text"]) > 3:
@@ -72,7 +71,29 @@ def parse_fields(ocr_lines: list[dict]) -> dict:
                 consumed_indices.add(i)
                 break
 
-    # ---- Date, Total, Tax ----
+    # ---- Total: "grand total" / "amount due" / "balance due" prioritized
+    # over bare "total", since "total" alone matches unrelated lines like
+    # "Total items: 1" that appear earlier in the document ----
+    for i, line in enumerate(ocr_lines):
+        lower = line["text"].lower()
+        if any(k in lower for k in STRONG_TOTAL_KEYWORDS):
+            amt = _find_amount_near(ocr_lines, i)
+            if amt is not None:
+                total_amount = amt
+                consumed_indices.add(i)
+                break
+
+    if total_amount is None:
+        for i, line in enumerate(ocr_lines):
+            lower = line["text"].lower()
+            if any(k in lower for k in WEAK_TOTAL_KEYWORDS):
+                amt = _find_amount_near(ocr_lines, i)
+                if amt is not None:
+                    total_amount = amt
+                    consumed_indices.add(i)
+                    break
+
+    # ---- Date + Tax ----
     for i, line in enumerate(ocr_lines):
         text = line["text"]
         lower = text.lower()
@@ -87,33 +108,28 @@ def parse_fields(ocr_lines: list[dict]) -> dict:
                         consumed_indices.add(i)
                     break
 
-        if total_amount is None and any(k in lower for k in TOTAL_KEYWORDS):
-            amt = _find_amount_near(ocr_lines, i)
-            if amt is not None:
-                total_amount = amt
-                consumed_indices.add(i)
-
         if any(k in lower for k in TAX_KEYWORDS):
             amt = _find_amount_near(ocr_lines, i)
             if amt is not None:
                 tax_amounts_found.append(amt)
                 consumed_indices.add(i)
 
-    # SGST + CGST are separate line items that should be summed into one tax figure
     if tax_amounts_found:
         tax_amount = round(sum(tax_amounts_found), 2)
 
-    # ---- Line items: only lines NOT already consumed by vendor/date/total/tax,
-    # and only pair a line with the amount that appears in the SAME line
-    # (kept strict here — proper item-table row grouping would need box
-    # coordinates, not just text order; flagged as a follow-up below) ----
+    # ---- Line items: everything not already consumed by vendor/date/total/tax.
+    # NOTE: known limitation, not fixed here -- invoices whose summary table
+    # repeats values also present in an item table will produce duplicate
+    # line items, since this only reads text in OCR order, not table
+    # structure. Proper fix needs bounding-box row-grouping (see extract_text's
+    # 'box' field) -- scoped as a follow-up, not solved in this pass. ----
     line_items = []
     for i, line in enumerate(ocr_lines):
         if i in consumed_indices:
             continue
         text = line["text"]
         lower = text.lower()
-        if any(k in lower for k in TOTAL_KEYWORDS + TAX_KEYWORDS):
+        if any(k in lower for k in STRONG_TOTAL_KEYWORDS + WEAK_TOTAL_KEYWORDS + TAX_KEYWORDS):
             continue
         amt = _extract_amount(text)
         if amt is not None:
