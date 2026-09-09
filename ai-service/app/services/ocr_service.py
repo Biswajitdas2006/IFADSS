@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-
+import numpy as np
 from app.ocr import converter, preprocess, extractor
 
 DATE_PATTERNS = [r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}", r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}"]
@@ -157,6 +157,11 @@ def run_ocr_extraction(file_path: str) -> dict:
     images = converter.pdf_to_images(file_path)
     all_lines = []
     for img in images:
-        processed = preprocess.preprocess_image(img)
-        all_lines.extend(extractor.extract_text(processed))
+        img_array = np.array(img)  # PaddleOCR 3.x handles orientation/unwarping
+                                     # internally (PP-LCNet_x1_0_doc_ori, UVDoc) --
+                                     # custom OpenCV deskew/denoise in preprocess.py
+                                     # was corrupting page layout before OCR ever
+                                     # saw it. Confirmed via direct A/B test:
+                                     # 2026-09-07.
+        all_lines.extend(extractor.extract_text(img_array))
     return parse_fields(all_lines)
