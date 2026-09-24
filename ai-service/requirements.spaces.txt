@@ -1,0 +1,11 @@
+transformers==4.44.2
+sentence-transformers==3.0.1
+paddleocr==3.7.0
+paddlepaddle
+xgboost
+prophet
+fastapi
+uvicorn
+pdf2image
+shap
+scikit-learn
