@@ -4,6 +4,7 @@ import numpy as np
 from app.ocr import converter, preprocess, extractor
 
 DATE_PATTERNS = [r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}", r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}"]
+DATE_LIKE_PATTERN = re.compile(r"\b\d{1,4}[/-]\d{1,2}[/-]\d{1,4}\b")
 STRONG_TOTAL_KEYWORDS = ["grand total", "amount due", "balance due"]
 WEAK_TOTAL_KEYWORDS = ["total"]
 TAX_KEYWORDS = ["sgst", "cgst", "vat"]  # bare "gst"/"tax" removed — was false-matching inside "GSTIN"
@@ -21,8 +22,12 @@ def _try_parse_date(text: str):
             continue
     return None
 
+# app/services/ocr_service.py — tighten amount extraction to exclude date-shaped text
 
 def _extract_amount(text: str):
+    # Don't treat numbers inside a date string as amounts
+    if DATE_LIKE_PATTERN.search(text):
+        return None
     match = re.search(AMOUNT_PATTERN, text)
     if match:
         return float(match.group(1).replace(",", ""))
