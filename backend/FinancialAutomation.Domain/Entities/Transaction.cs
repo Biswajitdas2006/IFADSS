@@ -37,17 +37,17 @@ public class Transaction : BaseEntity
         InvoiceId = invoiceId;
     }
 
-    public void ApplyAiCategory(string category, decimal confidence, string? shapExplanationJson)
+   public void ApplyAiCategory(string category, decimal? confidence, string? shapExplanationJson)
     {
-        if (string.IsNullOrWhiteSpace(category))
-            throw new ArgumentException("Category cannot be empty.", nameof(category));
-        if (confidence < 0 || confidence > 1)
-            throw new ArgumentOutOfRangeException(nameof(confidence), "Confidence must be between 0 and 1.");
+    if (string.IsNullOrWhiteSpace(category))
+        throw new ArgumentException("Category cannot be empty.", nameof(category));
+    if (confidence is < 0 or > 1)
+        throw new ArgumentOutOfRangeException(nameof(confidence), "Confidence must be between 0 and 1.");
 
-        Category = category;
-        CategoryConfidence = confidence;
-        ShapExplanationJson = shapExplanationJson;
-        OverriddenByUser = false;
+    Category = category;
+    CategoryConfidence = confidence is null ? null : Math.Round(confidence.Value, 4); // DB: DECIMAL(5,4)
+    ShapExplanationJson = shapExplanationJson;
+    OverriddenByUser = false;
     }
 
     public void OverrideCategory(string category)
@@ -56,6 +56,7 @@ public class Transaction : BaseEntity
             throw new ArgumentException("Category cannot be empty.", nameof(category));
 
         Category = category;
+        CategoryConfidence = 1.0m;   // ← add this line
         OverriddenByUser = true;
     }
 }
