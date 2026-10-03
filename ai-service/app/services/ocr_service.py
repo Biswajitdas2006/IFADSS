@@ -14,7 +14,7 @@ from app.ocr import converter, extractor
 
 DATE_PATTERNS = [
     r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}",
-    r"\d{4}[.-]\d{1,2}[.-]\d{1,2}",
+    r"\d{4}[.-]\d{1,2}[.-]\d{1,4}",
     r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}",
 ]
 
@@ -80,8 +80,6 @@ LINE_ITEM_EXCLUDED_KEYWORDS = [
     "amount in words",
     "reverse charge",
     "service accounting code",
-    "hsn",
-    "sac",
 ]
 
 METADATA_KEYWORDS = [
@@ -151,7 +149,6 @@ def _clean_ocr_text(text: str) -> str:
     if not text:
         return ""
 
-    # Remove OCR currency garbage only from beginning.
     text = re.sub(
         r"^[\{\}\[\]¿ÀR₹$€£¥]+\s*",
         "",
@@ -462,10 +459,12 @@ def _group_into_rows(
 
         if best_row is not None:
             best_row.append(detection)
+
         else:
             rows.append([detection])
 
     for row in rows:
+
         row.sort(
             key=lambda item: (
                 item["geometry"]["left"]
@@ -582,10 +581,6 @@ def _find_vendor(
             anchor_x = anchor_geo["left"]
             anchor_y = anchor_geo["center_y"]
 
-            # ------------------------------------------------
-            # Same-row vendor.
-            # ------------------------------------------------
-
             current_row_candidates = []
 
             for candidate in row:
@@ -634,10 +629,6 @@ def _find_vendor(
                 )
 
                 return current_row_candidates[0][1]
-
-            # ------------------------------------------------
-            # Vendor below Sold By.
-            # ------------------------------------------------
 
             candidates = []
 
@@ -1240,7 +1231,7 @@ def _clean_description(
         text,
     )
 
-    # PaddleOCR sometimes produces:
+    # OCR correction:
     # S lim -> Slim
     text = re.sub(
         r"\bS\s+lim\b",
@@ -1268,6 +1259,10 @@ def _clean_description(
 
     return _normalize_text(text)
 
+
+# ============================================================
+# LINE ITEM VALIDATION
+# ============================================================
 
 def _valid_line_item(
     description: str,
@@ -1445,6 +1440,73 @@ def _get_quantity_near_column(
 # DESCRIPTION EXTRACTION
 # ============================================================
 
+def _is_line_item_description_candidate(
+    text: str,
+) -> bool:
+
+    if not text:
+        return False
+
+    text = _clean_ocr_text(text)
+
+    if not text:
+        return False
+
+    lower = text.lower()
+
+    # These are definitely not product/service descriptions.
+    excluded = [
+        "invoice date",
+        "order date",
+        "delivery date",
+        "gstin",
+        "gst no",
+        "gst number",
+        "cgst",
+        "sgst",
+        "igst",
+        "vat",
+        "tax",
+        "subtotal",
+        "sub total",
+        "grand total",
+        "amount due",
+        "balance due",
+        "total payable",
+        "net payable",
+        "amount payable",
+        "invoice no",
+        "invoice number",
+        "order no",
+        "order number",
+        "payment",
+        "shipping charges",
+        "delivery",
+        "discount",
+        "invoice value",
+        "amount in words",
+        "reverse charge",
+        "service accounting code",
+    ]
+
+    if any(
+        keyword in lower
+        for keyword in excluded
+    ):
+        return False
+
+    if _extract_all_amounts(text):
+        return False
+
+    if _is_number_only(text):
+        return False
+
+    if _looks_like_currency_only(text):
+        return False
+
+    return True
+
+
 def _extract_description_from_row(
     row: list[dict],
     columns: dict,
@@ -1492,16 +1554,19 @@ def _extract_description_from_row(
 
         x = geometry["center_x"]
 
+        # Ignore text before description column.
+        #
+        # Small tolerance is useful because OCR boxes can
+        # slightly overlap column boundaries.
+        if x < description_x - 100:
+            continue
+
         if x > right_boundary:
             continue
 
-        if _extract_all_amounts(text):
-            continue
-
-        if _is_number_only(text):
-            continue
-
-        if _is_excluded_line(text):
+        if not _is_line_item_description_candidate(
+            text
+        ):
             continue
 
         cleaned = _clean_description(
@@ -1531,19 +1596,27 @@ def _find_line_item_amount(
 ) -> Optional[float]:
 
     # --------------------------------------------------------
-    # Priority:
+    # IMPORTANT:
     #
-    # 1. Net Amount
-    # 2. Amount
-    # 3. Total Amount
+    # OCR reading order is NOT guaranteed.
     #
-    # We scan ALL rows in the item region because OCR order
-    # is not guaranteed.
+    # Therefore we scan the COMPLETE item region instead of
+    # assuming that description must appear before amount.
+    #
+    # Page 1:
+    #   Description -> Unit Price -> Amount
+    #
+    # Page 2:
+    #   Unit Price -> Net Amount -> Description
+    #
+    # Both are handled.
     # --------------------------------------------------------
 
     priority_columns = []
 
+    # Page 2 / Amazon style.
     if columns.get("net_amount") is not None:
+
         priority_columns.append(
             (
                 "net_amount",
@@ -1552,7 +1625,9 @@ def _find_line_item_amount(
             )
         )
 
+    # Page 1 style.
     if columns.get("amount") is not None:
+
         priority_columns.append(
             (
                 "amount",
@@ -1561,7 +1636,9 @@ def _find_line_item_amount(
             )
         )
 
+    # Last fallback.
     if columns.get("total_amount") is not None:
+
         priority_columns.append(
             (
                 "total_amount",
@@ -1571,7 +1648,8 @@ def _find_line_item_amount(
         )
 
     # --------------------------------------------------------
-    # First pass: use detected table columns.
+    # FIRST PASS
+    # Use table column coordinates.
     # --------------------------------------------------------
 
     for column_name, target_x, tolerance in priority_columns:
@@ -1615,6 +1693,7 @@ def _find_line_item_amount(
                     if amount <= 0:
                         continue
 
+                    # Never use invoice total as line amount.
                     if (
                         total_amount is not None
                         and abs(
@@ -1635,6 +1714,7 @@ def _find_line_item_amount(
 
         if candidates:
 
+            # Prefer the closest value to the actual column.
             candidates.sort(
                 key=lambda value: (
                     value[0],
@@ -1648,15 +1728,15 @@ def _find_line_item_amount(
                 "[OCR PARSER] LINE ITEM AMOUNT:"
                 f" column={selected[3]}"
                 f" | amount={selected[2]}"
-                f" | distance={selected[0]}"
+                f" | distance={selected[0]:.2f}"
             )
 
             return selected[2]
 
     # --------------------------------------------------------
-    # Second pass: collect all monetary values.
+    # SECOND PASS
     #
-    # Useful when the OCR table header is imperfect.
+    # If headers are imperfect, use geometry.
     # --------------------------------------------------------
 
     candidates = []
@@ -1667,6 +1747,26 @@ def _find_line_item_amount(
     ):
 
         row = rows[row_index]
+
+        row_text = _flatten_row(row).lower()
+
+        # Never extract monetary values from total/tax rows.
+        if re.search(
+            r"\btotal\s*:?",
+            row_text,
+        ):
+            continue
+
+        if any(
+            keyword in row_text
+            for keyword in [
+                "cgst",
+                "sgst",
+                "igst",
+                "shipping charges",
+            ]
+        ):
+            continue
 
         for item in row:
 
@@ -1711,8 +1811,7 @@ def _find_line_item_amount(
     if not candidates:
         return None
 
-    # Prefer right-side monetary values rather than
-    # quantities/SI numbers.
+    # Prefer values toward the monetary columns.
     candidates.sort(
         key=lambda value: (
             -value[0],
@@ -1720,7 +1819,15 @@ def _find_line_item_amount(
         )
     )
 
-    return candidates[0][2]
+    selected = candidates[0]
+
+    print(
+        "[OCR PARSER] FALLBACK LINE ITEM AMOUNT:"
+        f" amount={selected[2]}"
+        f" | x={selected[0]:.2f}"
+    )
+
+    return selected[2]
 
 
 # ============================================================
@@ -1740,46 +1847,50 @@ def _find_line_item_quantity(
 
     if quantity_x is not None:
 
+        geometries = [
+            item["geometry"]
+            for row in rows[
+                start_index:
+                end_index + 1
+            ]
+            for item in row
+            if item.get("geometry")
+        ]
+
+        min_y = (
+            min(
+                geometry["center_y"]
+                for geometry in geometries
+            )
+            if geometries
+            else None
+        )
+
+        max_y = (
+            max(
+                geometry["center_y"]
+                for geometry in geometries
+            )
+            if geometries
+            else None
+        )
+
         quantity = _get_quantity_near_column(
             rows,
             quantity_x,
-            min_y=min(
-                (
-                    item["geometry"]["center_y"]
-                    for row in rows[
-                        start_index:
-                        end_index + 1
-                    ]
-                    for item in row
-                    if item.get("geometry")
-                ),
-                default=None,
-            ),
-            max_y=max(
-                (
-                    item["geometry"]["center_y"]
-                    for row in rows[
-                        start_index:
-                        end_index + 1
-                    ]
-                    for item in row
-                    if item.get("geometry")
-                ),
-                default=None,
-            ),
+            min_y=min_y,
+            max_y=max_y,
         )
 
         if quantity is not None:
-            return quantity
 
-    # --------------------------------------------------------
+            # Avoid nonsensical OCR quantities.
+            if 0 < quantity <= 100000:
+
+                return quantity
+
     # Amazon-style invoice:
-    #
-    # Qty may not be detected correctly.
-    #
-    # For one detected line item, default to 1.
-    # --------------------------------------------------------
-
+    # quantity may not be reliably detected.
     return 1.0
 
 
@@ -1829,6 +1940,16 @@ def _collect_item_description(
         if "shipping charges" in lower:
             continue
 
+        # ----------------------------------------------------
+        # Never include explicit total rows.
+        # ----------------------------------------------------
+
+        if re.search(
+            r"\btotal\s*:?",
+            lower,
+        ):
+            continue
+
         descriptions.extend(
             _extract_description_from_row(
                 row,
@@ -1852,6 +1973,7 @@ def _collect_item_description(
             continue
 
         if cleaned:
+
             if (
                 cleaned[-1].lower()
                 == description.lower()
@@ -1968,14 +2090,9 @@ def _extract_line_items(
         return []
 
     # --------------------------------------------------------
-    # Current MVP assumes one logical invoice item per page.
+    # Find amount independently from description.
     #
-    # This is intentional because the current API response
-    # schema supports one invoice with lineItems, while the
-    # sample PDF contains multiple invoice documents.
-    #
-    # The parser nevertheless uses the full coordinate-aware
-    # table region instead of relying on OCR ordering.
+    # This is the important fix.
     # --------------------------------------------------------
 
     amount = _find_line_item_amount(
@@ -1993,6 +2110,18 @@ def _extract_line_items(
         )
 
         return []
+
+    # --------------------------------------------------------
+    # Find description independently from amount.
+    #
+    # This allows:
+    #
+    # amount -> description
+    #
+    # as well as:
+    #
+    # description -> amount
+    # --------------------------------------------------------
 
     description = _collect_item_description(
         rows,
@@ -2202,6 +2331,11 @@ def run_ocr_extraction(
             image
         )
 
+        # ----------------------------------------------------
+        # STEP 1:
+        # PDF page image -> PaddleOCR
+        # ----------------------------------------------------
+
         extracted = extractor.extract_text(
             image_array
         )
@@ -2232,6 +2366,11 @@ def run_ocr_extraction(
         print(
             f"========== END RAW OCR PAGE {page_number} =========="
         )
+
+        # ----------------------------------------------------
+        # STEP 2:
+        # Coordinate-aware parsing
+        # ----------------------------------------------------
 
         parsed = parse_page(
             extracted
