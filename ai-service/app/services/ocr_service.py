@@ -176,6 +176,7 @@ def _try_parse_date(text: str) -> Optional[str]:
         "%Y-%m-%d",
         "%Y.%m.%d",
         "%Y-%d-%m",
+        "%d.%m.%Y",
         "%B %d, %Y",
         "%b %d, %Y",
     ]
@@ -186,6 +187,7 @@ def _try_parse_date(text: str) -> Optional[str]:
                 text,
                 fmt,
             ).date().isoformat()
+
         except ValueError:
             continue
 
@@ -502,7 +504,9 @@ def _flatten_row(
 # VENDOR
 # ============================================================
 
-def _is_bad_vendor_candidate(text: str) -> bool:
+def _is_bad_vendor_candidate(
+    text: str,
+) -> bool:
 
     if not text:
         return True
@@ -512,6 +516,8 @@ def _is_bad_vendor_candidate(text: str) -> bool:
     bad = [
         "billing address",
         "shipping address",
+        "billing",
+        "shipping",
         "place of supply",
         "place of delivery",
         "state/ut code",
@@ -522,6 +528,10 @@ def _is_bad_vendor_candidate(text: str) -> bool:
         "cin",
         "address",
         "anshuman rout",
+        "customer",
+        "buyer",
+        "bill to",
+        "ship to",
     ]
 
     if any(
@@ -536,6 +546,9 @@ def _is_bad_vendor_candidate(text: str) -> bool:
     if _extract_all_amounts(text):
         return True
 
+    if _is_number_only(text):
+        return True
+
     return False
 
 
@@ -543,87 +556,123 @@ def _find_vendor(
     rows: list[list[dict]],
 ) -> Optional[str]:
 
+    # ========================================================
+    # PRIMARY STRATEGY
+    #
+    # Find:
+    #
+    # Sold By :
+    #
+    # Then select the closest valid text BELOW it,
+    # on the SAME LEFT SIDE of the page.
+    #
+    # This prevents:
+    #
+    # Anshuman Rout
+    #
+    # from being selected from Billing Address.
+    # ========================================================
+
     for row_index, row in enumerate(rows):
 
-        text = _flatten_row(row)
-        lower = text.lower()
+        for anchor_detection in row:
 
-        for anchor in VENDOR_ANCHORS:
-
-            if anchor not in lower:
-                continue
-
-            # ------------------------------------------------
-            # Case:
-            #
-            # Sold By : CLICKTECH RETAIL PRIVATE LIMITED
-            # ------------------------------------------------
-
-            parts = re.split(
-                re.escape(anchor),
-                text,
-                maxsplit=1,
-                flags=re.IGNORECASE,
+            anchor_text = (
+                anchor_detection["text"]
+                .lower()
+                .strip()
             )
 
-            if len(parts) == 2:
-
-                after = parts[1].strip(" :-")
-
-                if (
-                    after
-                    and not _is_bad_vendor_candidate(
-                        after
-                    )
-                ):
-                    return after
-
-            # ------------------------------------------------
-            # Main case for current Amazon invoices:
-            #
-            # Sold By :
-            # Billing Address :
-            # CLICKTECH...
-            # Anshuman Rout
-            #
-            # We MUST select the left-side candidate.
-            # ------------------------------------------------
-
-            anchor_detection = None
-
-            for item in row:
-
-                if anchor.lower() in item["text"].lower():
-
-                    anchor_detection = item
-
-                    break
-
-            if anchor_detection is None:
+            if not any(
+                anchor in anchor_text
+                for anchor in VENDOR_ANCHORS
+            ):
                 continue
 
             anchor_geo = anchor_detection.get(
                 "geometry"
             )
 
-            anchor_y = (
-                anchor_geo["center_y"]
-                if anchor_geo
-                else None
-            )
+            if anchor_geo is None:
+                continue
 
-            anchor_x = (
-                anchor_geo["left"]
-                if anchor_geo
-                else 0
-            )
+            anchor_x = anchor_geo["left"]
+            anchor_y = anchor_geo["center_y"]
+
+            # ------------------------------------------------
+            # Case:
+            #
+            # Sold By : CLICKTECH RETAIL...
+            #
+            # If vendor is on same OCR row.
+            # ------------------------------------------------
+
+            current_row_candidates = []
+
+            for candidate in row:
+
+                if candidate is anchor_detection:
+                    continue
+
+                candidate_text = _clean_ocr_text(
+                    candidate["text"]
+                )
+
+                if not candidate_text:
+                    continue
+
+                if _is_bad_vendor_candidate(
+                    candidate_text
+                ):
+                    continue
+
+                candidate_geo = candidate.get(
+                    "geometry"
+                )
+
+                if candidate_geo is None:
+                    continue
+
+                candidate_x = candidate_geo["left"]
+
+                if candidate_x < anchor_x:
+                    continue
+
+                if candidate_x > 850:
+                    continue
+
+                current_row_candidates.append(
+                    (
+                        abs(candidate_x - anchor_x),
+                        candidate_text,
+                    )
+                )
+
+            if current_row_candidates:
+
+                current_row_candidates.sort(
+                    key=lambda value: value[0]
+                )
+
+                return current_row_candidates[0][1]
+
+            # ------------------------------------------------
+            # Normal Amazon invoice case:
+            #
+            # Sold By :
+            # Billing Address :
+            # CLICKTECH RETAIL PRIVATE LIMITED
+            # Anshuman Rout
+            #
+            # Vendor is left-side candidate.
+            # ------------------------------------------------
 
             candidates = []
 
             for future_row_index in range(
                 row_index + 1,
                 min(
-                    row_index + 5,
+                    row_index + 7,
                     len(rows),
                 ),
             ):
@@ -656,39 +705,44 @@ def _find_vendor(
                     candidate_x = geometry["left"]
                     candidate_y = geometry["center_y"]
 
-                    # Vendor must be on the same
-                    # left side as "Sold By".
+                    # ------------------------------------------------
+                    # IMPORTANT:
                     #
-                    # This explicitly prevents:
-                    # Anshuman Rout
+                    # Vendor must be in left half.
                     #
-                    # from the right-side billing block.
+                    # Current invoice:
+                    #
+                    # Vendor x = ~52
+                    # Customer x = ~1367
+                    #
+                    # ------------------------------------------------
+
                     if candidate_x > 850:
                         continue
 
-                    if anchor_x > 0:
+                    # Keep roughly same horizontal region.
+                    if abs(
+                        candidate_x - anchor_x
+                    ) > 550:
+                        continue
 
-                        if abs(
-                            candidate_x - anchor_x
-                        ) > 500:
-                            continue
+                    y_distance = (
+                        candidate_y - anchor_y
+                    )
 
-                    if anchor_y is not None:
+                    if y_distance < 0:
+                        continue
 
-                        y_distance = (
-                            candidate_y - anchor_y
-                        )
-
-                        if y_distance < 0:
-                            continue
-
-                        if y_distance > 180:
-                            continue
+                    if y_distance > 220:
+                        continue
 
                     candidates.append(
                         (
-                            candidate_y,
-                            candidate_x,
+                            y_distance,
+                            abs(
+                                candidate_x
+                                - anchor_x
+                            ),
                             candidate_text,
                         )
                     )
@@ -696,15 +750,18 @@ def _find_vendor(
             if candidates:
 
                 candidates.sort(
-                    key=lambda item: (
-                        item[0],
-                        item[1],
+                    key=lambda value: (
+                        value[0],
+                        value[1],
                     )
                 )
 
                 return candidates[0][2]
 
-    # Explicit fallback.
+    # ========================================================
+    # Explicit fallback
+    # ========================================================
+
     for row in rows:
 
         text = _flatten_row(row)
@@ -740,13 +797,17 @@ def _find_invoice_date(
     rows: list[list[dict]],
 ) -> Optional[str]:
 
-    # Explicit Invoice Date first.
+    # ========================================================
+    # PRIMARY:
+    #
+    # Invoice Date : 25.09.2025
+    # ========================================================
+
     for row_index, row in enumerate(rows):
 
         text = _flatten_row(row)
-        lower = text.lower()
 
-        if "invoice date" not in lower:
+        if "invoice date" not in text.lower():
             continue
 
         for pattern in DATE_PATTERNS:
@@ -766,6 +827,7 @@ def _find_invoice_date(
                 if parsed:
                     return parsed
 
+        # Sometimes date is on next OCR row.
         if row_index + 1 < len(rows):
 
             next_text = _flatten_row(
@@ -789,7 +851,10 @@ def _find_invoice_date(
                     if parsed:
                         return parsed
 
-    # Fallback.
+    # ========================================================
+    # FALLBACK
+    # ========================================================
+
     for row in rows:
 
         text = _flatten_row(row)
@@ -822,21 +887,15 @@ def _find_total(
     rows: list[list[dict]],
 ) -> Optional[float]:
 
-    # --------------------------------------------------------
+    # ========================================================
     # 1. Invoice Value
-    #
-    # Current invoices:
     #
     # Invoice Value:
     # 69,068.00
     #
-    # or:
-    #
     # Invoice Value:
     # 99.00
-    # --------------------------------------------------------
-
-    invoice_value_candidates = []
+    # ========================================================
 
     for row_index, row in enumerate(rows):
 
@@ -849,9 +908,8 @@ def _find_total(
             text
         )
 
-        invoice_value_candidates.extend(
-            amounts
-        )
+        if amounts:
+            return amounts[-1]
 
         if row_index + 1 < len(rows):
 
@@ -859,19 +917,16 @@ def _find_total(
                 rows[row_index + 1]
             )
 
-            invoice_value_candidates.extend(
-                _extract_all_amounts(
-                    next_text
-                )
+            amounts = _extract_all_amounts(
+                next_text
             )
 
-    if invoice_value_candidates:
+            if amounts:
+                return amounts[-1]
 
-        return invoice_value_candidates[-1]
-
-    # --------------------------------------------------------
+    # ========================================================
     # 2. Strong total labels
-    # --------------------------------------------------------
+    # ========================================================
 
     for row in rows:
 
@@ -891,9 +946,9 @@ def _find_total(
         if amounts:
             return amounts[-1]
 
-    # --------------------------------------------------------
+    # ========================================================
     # 3. TOTAL row
-    # --------------------------------------------------------
+    # ========================================================
 
     for row in rows:
 
@@ -940,11 +995,25 @@ def _find_tax(
 
     tax_amounts = []
 
-    for row in rows:
+    # --------------------------------------------------------
+    # Do NOT use rows.index(row).
+    #
+    # Duplicate row objects can make that unreliable.
+    # Iterate using explicit index.
+    # --------------------------------------------------------
+
+    for row_index, row in enumerate(rows):
 
         tax_detection = None
 
-        # Find actual tax-type OCR token.
+        # ----------------------------------------------------
+        # Find actual tax type:
+        #
+        # CGST
+        # SGST
+        # IGST
+        # ----------------------------------------------------
+
         for item in row:
 
             lower = item["text"].lower()
@@ -974,19 +1043,9 @@ def _find_tax(
 
         candidates = []
 
-        # ----------------------------------------------------
-        # Search same row and nearby OCR detections.
-        #
-        # The tax amount MUST:
-        #
-        # 1. Be to the right of tax type
-        # 2. Be close vertically
-        # 3. Look like money
-        #
-        # This prevents:
-        #
-        # CGST -> accidentally taking total amount
-        # ----------------------------------------------------
+        # ====================================================
+        # SAME ROW
+        # ====================================================
 
         for candidate in row:
 
@@ -1012,17 +1071,18 @@ def _find_tax(
             candidate_x = geometry["center_x"]
             candidate_y = geometry["center_y"]
 
-            # Tax amount is to the right of
-            # CGST/SGST/IGST.
+            # Amount must be to RIGHT of tax label.
             if candidate_x <= tax_x:
                 continue
 
-            # Must be reasonably close horizontally.
+            # Prevent selecting far-away totals.
             if candidate_x - tax_x > 500:
                 continue
 
             # Same physical row.
-            if abs(candidate_y - tax_y) > 35:
+            if abs(
+                candidate_y - tax_y
+            ) > 40:
                 continue
 
             for amount in amounts:
@@ -1030,46 +1090,46 @@ def _find_tax(
                 if amount <= 0:
                     continue
 
+                # Never count invoice total as tax.
                 if (
                     total_amount is not None
                     and abs(
-                        amount - total_amount
+                        amount
+                        - total_amount
                     ) < 0.01
                 ):
                     continue
 
                 candidates.append(
-                    (
-                        candidate_x,
-                        amount,
-                    )
+                    {
+                        "amount": amount,
+                        "x": candidate_x,
+                        "y": candidate_y,
+                        "distance": abs(
+                            candidate_x - tax_x
+                        ),
+                    }
                 )
 
-        # ----------------------------------------------------
-        # Some PaddleOCR layouts split:
+        # ====================================================
+        # NEARBY ROWS
         #
-        # 9% CGST
+        # Handles:
+        #
+        # CGST
         # {5,261.87
-        #
-        # into two physical rows.
-        #
-        # Search nearby rows if same-row failed.
-        # ----------------------------------------------------
+        # ====================================================
 
         if not candidates:
-
-            current_row_index = rows.index(
-                row
-            )
 
             for nearby_index in range(
                 max(
                     0,
-                    current_row_index - 1,
+                    row_index - 1,
                 ),
                 min(
                     len(rows),
-                    current_row_index + 2,
+                    row_index + 2,
                 ),
             ):
 
@@ -1113,7 +1173,7 @@ def _find_tax(
 
                     if abs(
                         candidate_y - tax_y
-                    ) > 80:
+                    ) > 90:
                         continue
 
                     for amount in amounts:
@@ -1131,22 +1191,45 @@ def _find_tax(
                             continue
 
                         candidates.append(
-                            (
-                                candidate_x,
-                                amount,
-                            )
+                            {
+                                "amount": amount,
+                                "x": candidate_x,
+                                "y": candidate_y,
+                                "distance": abs(
+                                    candidate_x
+                                    - tax_x
+                                ),
+                            }
                         )
 
-        if candidates:
+        if not candidates:
+            continue
 
-            # Closest amount to tax label.
-            candidates.sort(
-                key=lambda item: item[0]
-            )
+        # ====================================================
+        # Choose closest valid monetary value.
+        # ====================================================
 
-            tax_amounts.append(
-                candidates[0][1]
+        candidates.sort(
+            key=lambda candidate: (
+                candidate["distance"],
+                abs(
+                    candidate["y"]
+                    - tax_y
+                ),
             )
+        )
+
+        selected = candidates[0]
+
+        tax_amounts.append(
+            selected["amount"]
+        )
+
+        print(
+            "[OCR PARSER] TAX:"
+            f" type={tax_detection['text']}"
+            f" | amount={selected['amount']}"
+        )
 
     if not tax_amounts:
         return None
@@ -1158,7 +1241,7 @@ def _find_tax(
 
 
 # ============================================================
-# LINE ITEM / TABLE HEADER
+# TABLE HEADER
 # ============================================================
 
 def _find_table_header_index(
@@ -1240,14 +1323,15 @@ def _clean_description(
     if not text:
         return ""
 
-    # Remove leading OCR row number.
+    # Remove leading SI number.
     text = re.sub(
         r"^\s*\d+\s+",
         "",
         text,
     )
 
-    # Known PaddleOCR split in current invoice.
+    # Known PaddleOCR split:
+    # S lim -> Slim
     text = re.sub(
         r"\bS\s+lim\b",
         "Slim",
@@ -1255,7 +1339,7 @@ def _clean_description(
         flags=re.IGNORECASE,
     )
 
-    # Other harmless spacing corrections.
+    # Fix common OCR spacing.
     text = re.sub(
         r"\s+([,.;:)])",
         r"\1",
@@ -1316,17 +1400,6 @@ def _valid_line_item(
 # ============================================================
 # LINE ITEM COLUMN HELPERS
 # ============================================================
-
-def _item_is_amount(
-    item: dict,
-) -> bool:
-
-    return bool(
-        _extract_all_amounts(
-            item["text"]
-        )
-    )
-
 
 def _get_amount_near_column(
     row: list[dict],
@@ -1404,7 +1477,6 @@ def _get_quantity_near_column(
 
         text = item["text"].strip()
 
-        # Quantity must be integer only.
         if not re.fullmatch(
             r"\d+",
             text,
@@ -1462,18 +1534,23 @@ def _extract_description_from_row(
     if description_x is None:
         description_x = 250
 
-    # Everything sufficiently left of the
-    # Unit Price / Qty columns is considered
-    # description text.
+    # --------------------------------------------------------
+    # Description ends before Unit Price.
+    # --------------------------------------------------------
+
     right_boundary = None
 
     if columns.get("unit_price") is not None:
+
         right_boundary = (
             columns["unit_price"] - 15
         )
 
     if right_boundary is None:
-        right_boundary = description_x + 700
+
+        right_boundary = (
+            description_x + 700
+        )
 
     for item in row:
 
@@ -1493,7 +1570,6 @@ def _extract_description_from_row(
 
         x = geometry["center_x"]
 
-        # Ignore anything clearly in numeric columns.
         if x > right_boundary:
             continue
 
@@ -1534,6 +1610,9 @@ def _extract_line_items(
     )
 
     if header_index is None:
+        print(
+            "[OCR PARSER] No table header found."
+        )
         return []
 
     header_row = rows[
@@ -1552,8 +1631,10 @@ def _extract_line_items(
 
     pending_description = []
 
-    # The current invoice formats have the actual
-    # first item shortly after the header.
+    # ========================================================
+    # Process rows after table header.
+    # ========================================================
+
     for row_index in range(
         header_index + 1,
         len(rows),
@@ -1568,7 +1649,7 @@ def _extract_line_items(
             continue
 
         # ----------------------------------------------------
-        # Stop conditions
+        # STOP CONDITIONS
         # ----------------------------------------------------
 
         if re.search(
@@ -1584,7 +1665,14 @@ def _extract_line_items(
             break
 
         # ----------------------------------------------------
-        # Tax rows are never line items.
+        # Shipping charges should not be appended to product.
+        # ----------------------------------------------------
+
+        if "shipping charges" in lower:
+            continue
+
+        # ----------------------------------------------------
+        # Tax rows are not products.
         # ----------------------------------------------------
 
         if any(
@@ -1597,15 +1685,7 @@ def _extract_line_items(
             continue
 
         # ----------------------------------------------------
-        # Shipping is a separate charge and is not included
-        # in the primary product description.
-        # ----------------------------------------------------
-
-        if "shipping charges" in lower:
-            continue
-
-        # ----------------------------------------------------
-        # Description
+        # Extract description.
         # ----------------------------------------------------
 
         descriptions = _extract_description_from_row(
@@ -1620,13 +1700,20 @@ def _extract_line_items(
             )
 
         # ----------------------------------------------------
-        # Need an amount.
+        # Find amount.
         # ----------------------------------------------------
 
         amount = None
 
-        # Preferred: Net Amount column.
-        if columns.get("net_amount") is not None:
+        # ====================================================
+        # IMPORTANT:
+        #
+        # Prefer NET AMOUNT.
+        # ====================================================
+
+        if columns.get(
+            "net_amount"
+        ) is not None:
 
             amount = _get_amount_near_column(
                 row,
@@ -1639,9 +1726,10 @@ def _extract_line_items(
                 ),
             )
 
-        # Amazon/Clicktech fallback:
-        #
-        # "Amount" column.
+        # ====================================================
+        # If Net Amount is unavailable, use Amount.
+        # ====================================================
+
         if (
             amount is None
             and columns.get("amount") is not None
@@ -1651,16 +1739,19 @@ def _extract_line_items(
                 row,
                 columns["amount"],
                 min_x=(
-                    columns["amount"] - 100
+                    columns["amount"] - 120
                 ),
                 max_x=(
                     columns["amount"] + 120
                 ),
             )
 
-        # Last fallback:
-        # only use row monetary value if there
-        # is exactly one monetary candidate.
+        # ====================================================
+        # Last fallback.
+        #
+        # Only accept a row with exactly one amount.
+        # ====================================================
+
         if amount is None:
 
             row_amounts = []
@@ -1676,13 +1767,15 @@ def _extract_line_items(
             if len(row_amounts) == 1:
                 amount = row_amounts[0]
 
-        # No amount means this is only a description
-        # continuation.
+        # ----------------------------------------------------
+        # No amount = description continuation.
+        # ----------------------------------------------------
+
         if amount is None:
             continue
 
         # ----------------------------------------------------
-        # Never use invoice total as line item net amount.
+        # Never use invoice total as line-item amount.
         # ----------------------------------------------------
 
         if (
@@ -1694,7 +1787,7 @@ def _extract_line_items(
             continue
 
         # ----------------------------------------------------
-        # Quantity
+        # Quantity.
         # ----------------------------------------------------
 
         quantity = _get_quantity_near_column(
@@ -1703,10 +1796,15 @@ def _extract_line_items(
         )
 
         # ----------------------------------------------------
-        # If Qty isn't OCR'd correctly:
+        # Amazon page 2:
         #
-        # For the current single-item invoices,
-        # quantity is 1.
+        # OCR may detect:
+        #
+        # SI No = 1
+        #
+        # but Qty column is empty.
+        #
+        # For a single detected item, default to 1.
         # ----------------------------------------------------
 
         if quantity is None:
@@ -1716,14 +1814,12 @@ def _extract_line_items(
         # Build description.
         # ----------------------------------------------------
 
-        description = _normalize_text(
-            " ".join(
-                pending_description
-            )
-        )
-
         description = _clean_description(
-            description
+            _normalize_text(
+                " ".join(
+                    pending_description
+                )
+            )
         )
 
         if not _valid_line_item(
@@ -1763,7 +1859,9 @@ def _extract_line_items(
             pending_description = []
             continue
 
-        items.append(item)
+        items.append(
+            item
+        )
 
         print(
             "[OCR PARSER] LINE ITEM:"
@@ -1773,13 +1871,6 @@ def _extract_line_items(
         )
 
         pending_description = []
-
-        # ----------------------------------------------------
-        # Current API is intentionally one-item oriented.
-        #
-        # If later you want multiple items, this can be
-        # expanded into a proper row-state parser.
-        # ----------------------------------------------------
 
     # ========================================================
     # FALLBACK
@@ -1834,6 +1925,9 @@ def _fallback_line_item_extraction(
         if "invoice value" in lower:
             break
 
+        if "shipping charges" in lower:
+            continue
+
         if any(
             re.search(
                 rf"\b{re.escape(keyword)}\b",
@@ -1843,15 +1937,13 @@ def _fallback_line_item_extraction(
         ):
             continue
 
-        if "shipping charges" in lower:
-            continue
-
         descriptions = _extract_description_from_row(
             row,
             columns,
         )
 
         if descriptions:
+
             pending_description.extend(
                 descriptions
             )
@@ -1869,11 +1961,12 @@ def _fallback_line_item_extraction(
         if not amounts:
             continue
 
-        # Prefer second/right-side amount when
-        # there are two identical amounts.
         amount = None
 
-        if columns.get("net_amount") is not None:
+        # Prefer Net Amount.
+        if columns.get(
+            "net_amount"
+        ) is not None:
 
             amount = _get_amount_near_column(
                 row,
