@@ -18,24 +18,30 @@ DATE_PATTERNS = [
     r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}",
 ]
 
+
 DATE_LIKE_PATTERN = re.compile(
     r"\b\d{1,4}[/-]\d{1,2}[/-]\d{1,4}\b"
 )
 
+
+# Strong invoice total labels.
 STRONG_TOTAL_KEYWORDS = [
+    "invoice value",
     "grand total",
     "amount due",
     "balance due",
     "net payable",
     "total payable",
     "amount payable",
-    "net amount",
     "payable amount",
 ]
 
+
 WEAK_TOTAL_KEYWORDS = [
+    "total:",
     "total",
 ]
+
 
 TAX_KEYWORDS = [
     "sgst",
@@ -44,14 +50,16 @@ TAX_KEYWORDS = [
     "vat",
 ]
 
+
 VENDOR_ANCHORS = [
     "sold by",
     "seller",
     "from:",
     "billed by",
-    "sold to",
 ]
 
+
+# These should never become product descriptions.
 LINE_ITEM_EXCLUDED_KEYWORDS = [
     "invoice date",
     "order date",
@@ -73,7 +81,6 @@ LINE_ITEM_EXCLUDED_KEYWORDS = [
     "total payable",
     "net payable",
     "amount payable",
-    "net amount",
     "invoice no",
     "invoice number",
     "order no",
@@ -82,12 +89,18 @@ LINE_ITEM_EXCLUDED_KEYWORDS = [
     "shipping",
     "delivery",
     "discount",
+    "invoice value",
+    "amount in words",
+    "reverse charge",
+    "service accounting code",
+    "hsn",
+    "sac",
 ]
+
 
 METADATA_KEYWORDS = [
     "invoice",
     "order",
-    "date",
     "gstin",
     "gst no",
     "gst number",
@@ -108,22 +121,33 @@ METADATA_KEYWORDS = [
     "cin",
     "eway",
     "e-way",
+    "reverse charge",
 ]
 
+
+# Amounts such as:
+#
+# 58,465.26
+# 69068.00
+# ₹69,068.00
+# {58,465.26
+# R58,465.26
+#
 AMOUNT_PATTERN = re.compile(
     r"""
     (?:
-        [₹$€£¥]\s*
+        [₹$€£¥RÀ¿{]+
+        \s*
     )?
     (
-        \d{1,3}(?:,\d{2,3})*
+        \d{1,3}(?:,\d{2,3})+
         |
         \d+
     )
     \.
     (\d{2})
     """,
-    re.VERBOSE,
+    re.VERBOSE | re.IGNORECASE,
 )
 
 
@@ -131,8 +155,50 @@ AMOUNT_PATTERN = re.compile(
 # BASIC HELPERS
 # ============================================================
 
+def _normalize_text(text: str) -> str:
+
+    if not text:
+        return ""
+
+    text = str(text)
+
+    text = text.replace("\n", " ")
+
+    text = re.sub(
+        r"\s+",
+        " ",
+        text,
+    )
+
+    return text.strip()
+
+
+def _clean_ocr_text(text: str) -> str:
+
+    text = _normalize_text(text)
+
+    if not text:
+        return ""
+
+    # Common PaddleOCR garbage around currency.
+    text = re.sub(
+        r"^[\{\}\[\]¿ÀR₹$€£¥]+\s*",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+
+    return text.strip()
+
+
 def _try_parse_date(text: str):
-    for fmt in (
+
+    if not text:
+        return None
+
+    text = text.strip()
+
+    formats = [
         "%d/%m/%Y",
         "%m/%d/%Y",
         "%d-%m-%Y",
@@ -142,12 +208,17 @@ def _try_parse_date(text: str):
         "%Y-%d-%m",
         "%B %d, %Y",
         "%b %d, %Y",
-    ):
+    ]
+
+    for fmt in formats:
+
         try:
+
             return datetime.strptime(
-                text.strip(),
+                text,
                 fmt,
             ).date().isoformat()
+
         except ValueError:
             continue
 
@@ -155,6 +226,7 @@ def _try_parse_date(text: str):
 
 
 def _looks_like_date(text: str) -> bool:
+
     if not text:
         return False
 
@@ -163,48 +235,17 @@ def _looks_like_date(text: str) -> bool:
     )
 
 
-def _normalize_text(text: str) -> str:
-    if not text:
-        return ""
-
-    text = text.replace("\n", " ")
-    text = re.sub(r"\s+", " ", text)
-
-    return text.strip()
-
-
-def _extract_amount(text: str):
-    if not text:
-        return None
-
-    text = _normalize_text(text)
-
-    # Never extract amounts from dates.
-    if _looks_like_date(text):
-        return None
-
-    matches = AMOUNT_PATTERN.findall(text)
-
-    if not matches:
-        return None
-
-    # Use the last amount on the line.
-    integer_part, decimal_part = matches[-1]
-
-    try:
-        return float(
-            integer_part.replace(",", "")
-            + "."
-            + decimal_part
-        )
-    except ValueError:
-        return None
-
-
 def _extract_all_amounts(text: str) -> list[float]:
+
     if not text:
         return []
 
+    text = _normalize_text(text)
+
+    if not text:
+        return []
+
+    # Do not treat date values as money.
     if _looks_like_date(text):
         return []
 
@@ -213,6 +254,7 @@ def _extract_all_amounts(text: str) -> list[float]:
     for integer_part, decimal_part in AMOUNT_PATTERN.findall(text):
 
         try:
+
             value = float(
                 integer_part.replace(",", "")
                 + "."
@@ -227,27 +269,49 @@ def _extract_all_amounts(text: str) -> list[float]:
     return values
 
 
+def _extract_amount(text: str):
+
+    amounts = _extract_all_amounts(text)
+
+    if not amounts:
+        return None
+
+    return amounts[-1]
+
+
 def _looks_like_currency_only(text: str) -> bool:
+
     if not text:
         return True
 
     cleaned = text.strip()
 
-    # Remove common currency/number/OCR garbage characters.
     cleaned = re.sub(
         r"[₹$€£¥,\.\d\s{}\[\]():\-+]",
         "",
         cleaned,
     )
 
-    cleaned = cleaned.replace("R", "")
-    cleaned = cleaned.replace("À", "")
-    cleaned = cleaned.replace("¿", "")
+    cleaned = cleaned.replace(
+        "R",
+        "",
+    )
+
+    cleaned = cleaned.replace(
+        "À",
+        "",
+    )
+
+    cleaned = cleaned.replace(
+        "¿",
+        "",
+    )
 
     return not cleaned
 
 
 def _is_excluded_line(text: str) -> bool:
+
     if not text:
         return True
 
@@ -260,6 +324,7 @@ def _is_excluded_line(text: str) -> bool:
 
 
 def _looks_like_metadata(text: str) -> bool:
+
     if not text:
         return True
 
@@ -271,50 +336,17 @@ def _looks_like_metadata(text: str) -> bool:
     )
 
 
-def _clean_amount_prefix(text: str) -> str:
-    """
-    Removes OCR garbage before an amount.
-
-    Examples:
-        "{58,465.26" -> "58,465.26"
-        "R58,465.26" -> "58,465.26"
-        "₹99.00"      -> "99.00"
-    """
-
-    if not text:
-        return text
-
-    text = re.sub(
-        r"^[\{\}\[\]¿ÀR₹$€£¥]+\s*",
-        "",
-        text,
-        flags=re.IGNORECASE,
-    )
-
-    return text.strip()
-
-
 # ============================================================
-# BOUNDING BOX / ROW GROUPING
+# GEOMETRY
 # ============================================================
 
 def _box_geometry(box):
-    """
-    PaddleOCR polygon:
-
-        [[x1,y1],
-         [x2,y2],
-         [x3,y3],
-         [x4,y4]]
-
-    Returns:
-        center_x, center_y, left, right, top, bottom
-    """
 
     if not box or len(box) < 4:
         return None
 
     try:
+
         xs = [
             float(point[0])
             for point in box
@@ -327,6 +359,7 @@ def _box_geometry(box):
 
         left = min(xs)
         right = max(xs)
+
         top = min(ys)
         bottom = max(ys)
 
@@ -337,7 +370,10 @@ def _box_geometry(box):
             "right": right,
             "top": top,
             "bottom": bottom,
-            "height": bottom - top,
+            "height": max(
+                bottom - top,
+                1,
+            ),
         }
 
     except Exception:
@@ -352,8 +388,11 @@ def _prepare_detections(
 
     for index, item in enumerate(ocr_lines):
 
-        text = _normalize_text(
-            item.get("text", "")
+        text = _clean_ocr_text(
+            item.get(
+                "text",
+                "",
+            )
         )
 
         if not text:
@@ -378,6 +417,10 @@ def _prepare_detections(
     return detections
 
 
+# ============================================================
+# ROW GROUPING
+# ============================================================
+
 def _group_into_rows(
     detections: list[dict],
 ) -> list[list[dict]]:
@@ -385,8 +428,6 @@ def _group_into_rows(
     if not detections:
         return []
 
-    # If bounding boxes are unavailable,
-    # preserve original OCR ordering.
     if not any(
         item["geometry"]
         for item in detections
@@ -396,7 +437,7 @@ def _group_into_rows(
             for item in detections
         ]
 
-    detections = sorted(
+    sorted_detections = sorted(
         detections,
         key=lambda item: (
             item["geometry"]["center_y"]
@@ -410,58 +451,71 @@ def _group_into_rows(
 
     rows = []
 
-    for detection in detections:
+    for detection in sorted_detections:
 
         geometry = detection["geometry"]
 
         if geometry is None:
-            rows.append([detection])
+
+            rows.append(
+                [detection]
+            )
+
             continue
 
         center_y = geometry["center_y"]
-        height = max(
-            geometry["height"],
-            1,
-        )
 
         placed = False
 
         for row in rows:
 
-            row_centers = [
-                item["geometry"]["center_y"]
+            geometries = [
+                item["geometry"]
                 for item in row
                 if item["geometry"]
             ]
 
-            if not row_centers:
+            if not geometries:
                 continue
 
-            row_center_y = sum(
-                row_centers
-            ) / len(row_centers)
+            row_center = sum(
+                item["center_y"]
+                for item in geometries
+            ) / len(geometries)
 
-            # Adaptive vertical tolerance.
+            row_height = max(
+                item["height"]
+                for item in geometries
+            )
+
             tolerance = max(
-                12.0,
-                height * 0.65,
+                8.0,
+                min(
+                    20.0,
+                    row_height * 0.75,
+                ),
             )
 
             if abs(
-                center_y - row_center_y
+                center_y - row_center
             ) <= tolerance:
 
-                row.append(detection)
+                row.append(
+                    detection
+                )
+
                 placed = True
+
                 break
 
         if not placed:
+
             rows.append(
                 [detection]
             )
 
-    # Left-to-right within each row.
     for row in rows:
+
         row.sort(
             key=lambda item: (
                 item["geometry"]["left"]
@@ -470,31 +524,24 @@ def _group_into_rows(
             )
         )
 
-    # Top-to-bottom rows.
     rows.sort(
-        key=lambda row: (
-            sum(
+        key=lambda row: min(
+            (
                 item["geometry"]["center_y"]
                 for item in row
                 if item["geometry"]
-            )
-            / max(
-                len(
-                    [
-                        item
-                        for item in row
-                        if item["geometry"]
-                    ]
-                ),
-                1,
-            )
+            ),
+            default=0,
         )
     )
 
     return rows
 
 
-def _flatten_row(row: list[dict]) -> str:
+def _flatten_row(
+    row: list[dict],
+) -> str:
+
     return _normalize_text(
         " ".join(
             item["text"]
@@ -504,199 +551,154 @@ def _flatten_row(row: list[dict]) -> str:
 
 
 # ============================================================
-# AMOUNT NEAR LINE
+# VENDOR
 # ============================================================
 
-def _find_amount_near(
-    ocr_lines: list[dict],
-    index: int,
-    lookahead: int = 3,
-):
+def _find_vendor(
+    rows: list[list[dict]],
+) -> Optional[str]:
 
-    amount = _extract_amount(
-        ocr_lines[index]["text"]
-    )
+    for row_index, row in enumerate(rows):
 
-    if amount is not None:
-        return amount
+        text = _flatten_row(row)
 
-    for offset in range(
-        1,
-        lookahead + 1,
-    ):
+        lower = text.lower()
 
-        next_index = index + offset
+        # Case 1:
+        # Sold By : CLICKTECH RETAIL...
+        for anchor in VENDOR_ANCHORS:
 
-        if next_index >= len(
-            ocr_lines
+            if anchor in lower:
+
+                after = re.split(
+                    re.escape(anchor),
+                    text,
+                    maxsplit=1,
+                    flags=re.IGNORECASE,
+                )[-1].strip(
+                    " :-"
+                )
+
+                if (
+                    after
+                    and after.lower()
+                    not in VENDOR_ANCHORS
+                ):
+
+                    return after
+
+                # Case 2:
+                # Sold By :
+                #
+                # Next OCR row is vendor.
+                if row_index + 1 < len(rows):
+
+                    next_text = _flatten_row(
+                        rows[row_index + 1]
+                    )
+
+                    if (
+                        next_text
+                        and len(next_text) > 2
+                        and not _looks_like_metadata(
+                            next_text
+                        )
+                        and not _looks_like_date(
+                            next_text
+                        )
+                    ):
+
+                        return next_text
+
+    # Fallback: look for known company-like text
+    # near top of page.
+    for row in rows[:12]:
+
+        text = _flatten_row(row)
+
+        lower = text.lower()
+
+        if not text:
+            continue
+
+        if (
+            "amazon seller services" in lower
+            or "clicktech retail" in lower
+            or "flipkart" in lower
         ):
-            break
 
-        amount = _extract_amount(
-            ocr_lines[next_index]["text"]
-        )
-
-        if amount is not None:
-            return amount
+            return text
 
     return None
 
 
 # ============================================================
-# LINE ITEM VALIDATION
+# DATE
 # ============================================================
 
-def _valid_line_item(
-    text: str,
-    amount: Optional[float],
-) -> bool:
+def _find_invoice_date(
+    rows: list[list[dict]],
+) -> Optional[str]:
 
-    if not text:
-        return False
-
-    if amount is None:
-        return False
-
-    # Ignore zero/negative OCR garbage.
-    if amount <= 0:
-        return False
-
-    if _looks_like_date(text):
-        return False
-
-    if _is_excluded_line(text):
-        return False
-
-    if _looks_like_metadata(text):
-        return False
-
-    if _looks_like_currency_only(text):
-        return False
-
-    # A line that is basically just a number is not
-    # a meaningful product/service description.
-    stripped = re.sub(
-        r"[\d,\.\s₹$€£¥{}\[\]():\-+]",
-        "",
-        text,
-    )
-
-    if len(stripped) < 2:
-        return False
-
-    return True
-
-
-# ============================================================
-# MAIN PARSER
-# ============================================================
-
-def parse_fields(
-    ocr_lines: list[dict],
-) -> dict:
-
-    detections = _prepare_detections(
-        ocr_lines
-    )
-
-    rows = _group_into_rows(
-        detections
-    )
-
-    # Flatten rows back into OCR line objects
-    # while preserving row information.
-    grouped_lines = []
-
-    for row in rows:
+    # Prefer explicit Invoice Date.
+    for row_index, row in enumerate(rows):
 
         text = _flatten_row(row)
 
-        if not text:
-            continue
-
-        grouped_lines.append(
-            {
-                "text": text,
-                "items": row,
-            }
-        )
-
-    vendor_name = None
-    invoice_date = None
-    total_amount = None
-    tax_amount = None
-
-    consumed_indices = set()
-
-    # ========================================================
-    # VENDOR
-    # ========================================================
-
-    for row in grouped_lines:
-
-        text = row["text"]
         lower = text.lower()
 
-        if any(
-            anchor in lower
-            for anchor in VENDOR_ANCHORS
-        ):
+        if "invoice date" not in lower:
+            continue
 
-            cleaned = re.split(
-                r"sold by|seller|from:|billed by|sold to",
-                text,
-                flags=re.IGNORECASE,
-            )[-1]
+        matches = []
 
-            cleaned = cleaned.strip(
-                " :,.-"
+        for pattern in DATE_PATTERNS:
+
+            matches.extend(
+                re.findall(
+                    pattern,
+                    text,
+                    flags=re.IGNORECASE,
+                )
             )
 
-            if cleaned:
+        for match in matches:
 
-                vendor_name = cleaned
+            parsed = _try_parse_date(
+                match
+            )
 
-                for item in row["items"]:
-                    consumed_indices.add(
-                        item["index"]
+            if parsed:
+                return parsed
+
+        # Date may be in next row.
+        if row_index + 1 < len(rows):
+
+            next_text = _flatten_row(
+                rows[row_index + 1]
+            )
+
+            for pattern in DATE_PATTERNS:
+
+                matches = re.findall(
+                    pattern,
+                    next_text,
+                    flags=re.IGNORECASE,
+                )
+
+                for match in matches:
+
+                    parsed = _try_parse_date(
+                        match
                     )
 
-                break
+                    if parsed:
+                        return parsed
 
-    # Fallback vendor:
-    # first useful text near top of document.
-    if vendor_name is None:
+    # Fallback.
+    for row in rows:
 
-        for row in grouped_lines[:8]:
-
-            text = row["text"].strip()
-
-            if (
-                len(text) > 3
-                and not _looks_like_metadata(text)
-                and not _looks_like_date(text)
-                and not _looks_like_currency_only(text)
-            ):
-
-                vendor_name = text
-
-                for item in row["items"]:
-                    consumed_indices.add(
-                        item["index"]
-                    )
-
-                break
-
-    # ========================================================
-    # INVOICE DATE
-    # ========================================================
-
-    for row in grouped_lines:
-
-        if invoice_date is not None:
-            break
-
-        text = row["text"]
+        text = _flatten_row(row)
 
         for pattern in DATE_PATTERNS:
 
@@ -713,28 +715,141 @@ def parse_fields(
                 )
 
                 if parsed:
+                    return parsed
 
-                    invoice_date = parsed
+    return None
 
-                    for item in row["items"]:
-                        consumed_indices.add(
-                            item["index"]
-                        )
 
-                    break
+# ============================================================
+# TOTAL
+# ============================================================
 
-            if invoice_date:
-                break
+def _find_total(
+    rows: list[list[dict]],
+) -> Optional[float]:
 
-    # ========================================================
-    # TAX
-    # ========================================================
+    # --------------------------------------------------------
+    # 1. Invoice Value
+    # --------------------------------------------------------
 
-    tax_amounts_found = []
+    candidates = []
 
-    for row in grouped_lines:
+    for row_index, row in enumerate(rows):
 
-        text = row["text"]
+        text = _flatten_row(row)
+
+        lower = text.lower()
+
+        if "invoice value" not in lower:
+            continue
+
+        amounts = _extract_all_amounts(
+            text
+        )
+
+        if amounts:
+
+            candidates.append(
+                amounts[-1]
+            )
+
+        # Value may be next row.
+        if row_index + 1 < len(rows):
+
+            next_text = _flatten_row(
+                rows[row_index + 1]
+            )
+
+            amounts = _extract_all_amounts(
+                next_text
+            )
+
+            if amounts:
+
+                candidates.append(
+                    amounts[-1]
+                )
+
+    if candidates:
+
+        return max(candidates)
+
+    # --------------------------------------------------------
+    # 2. Grand total / amount payable
+    # --------------------------------------------------------
+
+    for row in rows:
+
+        text = _flatten_row(row)
+
+        lower = text.lower()
+
+        if any(
+            keyword in lower
+            for keyword in STRONG_TOTAL_KEYWORDS
+        ):
+
+            amounts = _extract_all_amounts(
+                text
+            )
+
+            if amounts:
+
+                return max(amounts)
+
+    # --------------------------------------------------------
+    # 3. TOTAL row
+    # --------------------------------------------------------
+
+    for row in rows:
+
+        text = _flatten_row(row)
+
+        lower = text.lower()
+
+        if "total" not in lower:
+            continue
+
+        if any(
+            keyword in lower
+            for keyword in [
+                "tax total",
+                "total tax",
+                "cgst total",
+                "sgst total",
+                "igst total",
+                "subtotal",
+            ]
+        ):
+            continue
+
+        amounts = _extract_all_amounts(
+            text
+        )
+
+        if amounts:
+
+            # Usually final amount in a TOTAL row.
+            return max(amounts)
+
+    return None
+
+
+# ============================================================
+# TAX
+# ============================================================
+
+def _find_tax(
+    rows: list[list[dict]],
+    total_amount: Optional[float],
+) -> Optional[float]:
+
+    tax_amounts = []
+
+    for row in rows:
+
+        text = _flatten_row(row)
+
         lower = text.lower()
 
         if not any(
@@ -743,167 +858,152 @@ def parse_fields(
         ):
             continue
 
+        # Extract values only from rows where
+        # the tax type itself appears.
         amounts = _extract_all_amounts(
             text
         )
 
         if not amounts:
+            continue
 
-            # Look at individual OCR detections
-            # in the row.
-            for item in row["items"]:
+        # IMPORTANT:
+        #
+        # A row can contain:
+        #
+        # 9% CGST 5,261.87
+        #
+        # We want 5,261.87,
+        # not 9.
+        #
+        # Since percentages are not captured by
+        # AMOUNT_PATTERN, the final amount is safe.
+        amount = amounts[-1]
 
-                amount = _extract_amount(
-                    item["text"]
-                )
+        if amount <= 0:
+            continue
 
-                if amount is not None:
-                    amounts.append(
-                        amount
-                    )
-
-        if amounts:
-
-            # Usually the final amount on the
-            # tax row is the tax amount.
-            tax_amounts_found.append(
-                amounts[-1]
-            )
-
-            for item in row["items"]:
-                consumed_indices.add(
-                    item["index"]
-                )
-
-    if tax_amounts_found:
-
-        tax_amount = round(
-            sum(tax_amounts_found),
-            2,
-        )
-
-    # ========================================================
-    # STRONG TOTAL
-    # ========================================================
-
-    strong_totals = []
-
-    for row in grouped_lines:
-
-        text = row["text"]
-        lower = text.lower()
-
-        if not any(
-            keyword in lower
-            for keyword in STRONG_TOTAL_KEYWORDS
+        # Never count the invoice total as tax.
+        if (
+            total_amount is not None
+            and abs(
+                amount - total_amount
+            ) < 0.01
         ):
             continue
 
-        amounts = _extract_all_amounts(
-            text
+        tax_amounts.append(
+            amount
         )
 
-        if not amounts:
-            continue
+    if not tax_amounts:
+        return None
 
-        amount = amounts[-1]
+    # Remove obvious duplicates.
+    unique = []
 
-        if amount > 0:
+    for value in tax_amounts:
 
-            strong_totals.append(
-                amount
-            )
+        if not any(
+            abs(
+                value - existing
+            ) < 0.01
+            for existing in unique
+        ):
 
-            for item in row["items"]:
-                consumed_indices.add(
-                    item["index"]
-                )
+            unique.append(value)
 
-    if strong_totals:
+    if not unique:
+        return None
 
-        total_amount = max(
-            strong_totals
-        )
+    return round(
+        sum(unique),
+        2,
+    )
 
-    # ========================================================
-    # WEAK TOTAL
-    # ========================================================
 
-    if total_amount is None:
+# ============================================================
+# LINE ITEM
+# ============================================================
 
-        weak_totals = []
+def _valid_line_item(
+    description: str,
+    amount: Optional[float],
+) -> bool:
 
-        for row in grouped_lines:
+    if not description:
+        return False
 
-            text = row["text"]
-            lower = text.lower()
+    if amount is None:
+        return False
 
-            if "total" not in lower:
-                continue
+    if amount <= 0:
+        return False
 
-            if any(
-                keyword in lower
-                for keyword in [
-                    "tax",
-                    "cgst",
-                    "sgst",
-                    "igst",
-                    "subtotal",
-                    "sub total",
-                ]
-            ):
-                continue
+    if _looks_like_date(description):
+        return False
 
-            amounts = _extract_all_amounts(
-                text
-            )
+    if _is_excluded_line(description):
+        return False
 
-            if not amounts:
-                continue
+    if _looks_like_metadata(description):
+        return False
 
-            amount = amounts[-1]
+    if _looks_like_currency_only(description):
+        return False
 
-            if amount > 0:
+    stripped = re.sub(
+        r"[\d,\.\s₹$€£¥{}\[\]():\-+]",
+        "",
+        description,
+    )
 
-                weak_totals.append(
-                    amount
-                )
+    if len(stripped) < 3:
+        return False
 
-                for item in row["items"]:
-                    consumed_indices.add(
-                        item["index"]
-                    )
+    return True
 
-        if weak_totals:
 
-            total_amount = max(
-                weak_totals
-            )
-
-    # ========================================================
-    # LINE ITEMS
-    # ========================================================
+def _extract_line_items(
+    rows: list[list[dict]],
+    total_amount: Optional[float],
+) -> list[dict]:
 
     line_items = []
 
-    seen_items = set()
+    seen = set()
 
-    for row in grouped_lines:
+    # Locate the table header first.
+    table_started = False
 
-        row_items = row["items"]
+    for row in rows:
 
-        # Skip rows already consumed.
-        if all(
-            item["index"]
-            in consumed_indices
-            for item in row_items
+        text = _flatten_row(row)
+
+        lower = text.lower()
+
+        if (
+            "description" in lower
+            and (
+                "unit price" in lower
+                or "amount" in lower
+                or "qty" in lower
+            )
         ):
+
+            table_started = True
             continue
 
-        text = row["text"].strip()
-
-        if not text:
+        if not table_started:
             continue
+
+        # Stop after TOTAL.
+        if re.search(
+            r"\btotal\s*:?",
+            lower,
+        ):
+
+            break
 
         if _is_excluded_line(text):
             continue
@@ -911,34 +1011,77 @@ def parse_fields(
         if _looks_like_metadata(text):
             continue
 
-        if _looks_like_date(text):
-            continue
+        # ----------------------------------------------------
+        # Important:
+        #
+        # For table rows, PaddleOCR often produces:
+        #
+        # Description fragments
+        # Amount
+        #
+        # as separate OCR detections.
+        #
+        # Therefore inspect individual detections.
+        # ----------------------------------------------------
 
-        # Extract all amounts from the row.
-        amounts = _extract_all_amounts(
-            text
-        )
+        amounts = []
+
+        description_parts = []
+
+        for item in row:
+
+            item_text = item["text"]
+
+            item_amounts = _extract_all_amounts(
+                item_text
+            )
+
+            if item_amounts:
+
+                amounts.extend(
+                    item_amounts
+                )
+
+            else:
+
+                cleaned = _clean_ocr_text(
+                    item_text
+                )
+
+                if cleaned:
+                    description_parts.append(
+                        cleaned
+                    )
 
         if not amounts:
             continue
 
+        # For an invoice table, the final monetary
+        # value in the row is normally total amount.
         amount = amounts[-1]
 
-        # Description = row text with amount removed.
-        description = AMOUNT_PATTERN.sub(
-            "",
-            text,
-        ).strip()
+        if (
+            total_amount is not None
+            and abs(
+                amount - total_amount
+            ) < 0.01
+        ):
+            continue
 
-        description = _clean_amount_prefix(
-            description
+        description = _normalize_text(
+            " ".join(
+                description_parts
+            )
         )
 
+        # Remove leading row numbering.
         description = re.sub(
-            r"\s+",
-            " ",
+            r"^\d+\s+",
+            "",
             description,
-        ).strip(
+        )
+
+        description = description.strip(
             " -:|"
         )
 
@@ -948,24 +1091,15 @@ def parse_fields(
         ):
             continue
 
-        # Ignore suspiciously huge OCR numbers
-        # that are likely totals/metadata.
-        if total_amount is not None:
-            if (
-                amount == total_amount
-                and amount > 0
-            ):
-                continue
-
         key = (
             description.lower(),
             round(amount, 2),
         )
 
-        if key in seen_items:
+        if key in seen:
             continue
 
-        seen_items.add(key)
+        seen.add(key)
 
         line_items.append(
             {
@@ -977,21 +1111,46 @@ def parse_fields(
             }
         )
 
-    # ========================================================
-    # FINAL VALIDATION
-    # ========================================================
+    return line_items
 
-    if total_amount is not None:
-        total_amount = round(
-            total_amount,
-            2,
-        )
 
-    if tax_amount is not None:
-        tax_amount = round(
-            tax_amount,
-            2,
-        )
+# ============================================================
+# PAGE PARSER
+# ============================================================
+
+def parse_page(
+    ocr_lines: list[dict],
+) -> dict:
+
+    detections = _prepare_detections(
+        ocr_lines
+    )
+
+    rows = _group_into_rows(
+        detections
+    )
+
+    vendor_name = _find_vendor(
+        rows
+    )
+
+    invoice_date = _find_invoice_date(
+        rows
+    )
+
+    total_amount = _find_total(
+        rows
+    )
+
+    tax_amount = _find_tax(
+        rows,
+        total_amount,
+    )
+
+    line_items = _extract_line_items(
+        rows,
+        total_amount,
+    )
 
     return {
         "vendorName": vendor_name,
@@ -1003,8 +1162,78 @@ def parse_fields(
 
 
 # ============================================================
+# DOCUMENT SELECTION
+# ============================================================
+
+def _score_page(
+    page_result: dict,
+) -> int:
+
+    score = 0
+
+    if page_result.get(
+        "vendorName"
+    ):
+        score += 3
+
+    if page_result.get(
+        "invoiceDate"
+    ):
+        score += 2
+
+    if page_result.get(
+        "totalAmount"
+    ):
+        score += 4
+
+    if page_result.get(
+        "taxAmount"
+    ):
+        score += 2
+
+    score += min(
+        len(
+            page_result.get(
+                "lineItems",
+                [],
+            )
+        ),
+        3,
+    )
+
+    return score
+
+
+def _select_primary_page(
+    page_results: list[dict],
+) -> Optional[dict]:
+
+    if not page_results:
+        return None
+
+    valid = [
+        result
+        for result in page_results
+        if (
+            result.get("vendorName")
+            or result.get("totalAmount")
+            or result.get("invoiceDate")
+        )
+    ]
+
+    if not valid:
+        return None
+
+    return max(
+        valid,
+        key=_score_page,
+    )
+
+
+# ============================================================
 # OCR PIPELINE
 # ============================================================
+
 def run_ocr_extraction(
     file_path: str,
 ) -> dict:
@@ -1013,31 +1242,170 @@ def run_ocr_extraction(
         file_path
     )
 
-    all_lines = []
+    page_results = []
 
-    for image in images:
+    print(
+        "\n===================================================="
+    )
 
-        image_array = np.array(image)
+    print(
+        "OCR DOCUMENT START"
+    )
+
+    print(
+        f"PDF pages detected: {len(images)}"
+    )
+
+    print(
+        "===================================================="
+    )
+
+    for page_number, image in enumerate(
+        images,
+        start=1,
+    ):
+
+        image_array = np.array(
+            image
+        )
 
         extracted = extractor.extract_text(
             image_array
         )
 
-        all_lines.extend(extracted)
-
-    print("\n========== RAW OCR ==========")
-
-    for i, item in enumerate(all_lines):
         print(
-            f"[{i}] "
-            f"{item.get('text')} "
-            f"| confidence={item.get('confidence')} "
-            f"| box={item.get('box')}"
+            "\n===================================================="
         )
 
-    print("========== END RAW OCR ==========\n")
+        print(
+            f"RAW OCR PAGE {page_number}"
+        )
 
-    return parse_fields(all_lines)
+        print(
+            "===================================================="
+        )
+
+        for index, item in enumerate(
+            extracted
+        ):
+
+            print(
+                f"[P{page_number}:{index}] "
+                f"{item.get('text')} "
+                f"| confidence={item.get('confidence')} "
+                f"| box={item.get('box')}"
+            )
+
+        print(
+            f"========== END RAW OCR PAGE {page_number} =========="
+        )
+
+        parsed = parse_page(
+            extracted
+        )
+
+        print(
+            "\n---------- PAGE PARSED RESULT ----------"
+        )
+
+        print(
+            f"Page: {page_number}"
+        )
+
+        print(
+            f"Vendor: {parsed.get('vendorName')}"
+        )
+
+        print(
+            f"Invoice Date: {parsed.get('invoiceDate')}"
+        )
+
+        print(
+            f"Total: {parsed.get('totalAmount')}"
+        )
+
+        print(
+            f"Tax: {parsed.get('taxAmount')}"
+        )
+
+        print(
+            f"Line Items: {len(parsed.get('lineItems', []))}"
+        )
+
+        for item in parsed.get(
+            "lineItems",
+            [],
+        ):
+
+            print(
+                f"  - {item['description']} "
+                f"=> {item['amount']}"
+            )
+
+        print(
+            "----------------------------------------"
+        )
+
+        page_results.append(
+            parsed
+        )
+
+    # ========================================================
+    # PRIMARY PAGE
+    # ========================================================
+
+    selected = _select_primary_page(
+        page_results
+    )
+
+    if selected is None:
+
+        return {
+            "vendorName": None,
+            "invoiceDate": None,
+            "totalAmount": None,
+            "taxAmount": None,
+            "lineItems": [],
+        }
+
+    print(
+        "\n===================================================="
+    )
+
+    print(
+        "PRIMARY INVOICE PAGE SELECTED"
+    )
+
+    print(
+        "===================================================="
+    )
+
+    print(
+        f"Vendor: {selected.get('vendorName')}"
+    )
+
+    print(
+        f"Invoice Date: {selected.get('invoiceDate')}"
+    )
+
+    print(
+        f"Total: {selected.get('totalAmount')}"
+    )
+
+    print(
+        f"Tax: {selected.get('taxAmount')}"
+    )
+
+    print(
+        f"Line Items: {len(selected.get('lineItems', []))}"
+    )
+
+    print(
+        "====================================================\n"
+    )
+
+    return selected
+
 
 # ============================================================
 # API MODELS
