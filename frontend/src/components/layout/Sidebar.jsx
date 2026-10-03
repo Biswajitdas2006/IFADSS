@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { theme } from '../../styles/theme';
+import { useAuth } from '../../context/AuthContext';
 
 const navItems = [
   { label: 'Dashboard', path: '/dashboard' },
   { label: 'Invoices', path: '/invoices' },
   { label: 'Transactions', path: '/transactions' },
-  { label: 'Anomalies', path: '/anomalies' },
   { label: 'Predictions', path: '/predictions' },
 ];
 
@@ -14,6 +14,12 @@ const resourceItems = [
 ];
 
 function Sidebar() {
+  const { user } = useAuth();
+  const canViewAnomalies = ['Owner', 'Accountant'].includes(user?.role);
+  const visibleNavItems = canViewAnomalies
+    ? [...navItems.slice(0, 3), { label: 'Anomalies', path: '/anomalies' }, ...navItems.slice(3)]
+    : navItems;
+
   return (
     <aside style={styles.sidebar}>
       <div style={styles.brand}>
@@ -22,7 +28,7 @@ function Sidebar() {
       </div>
 
       <nav style={styles.nav}>
-        {navItems.map((item) => (
+        {visibleNavItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}

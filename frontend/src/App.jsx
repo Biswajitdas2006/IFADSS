@@ -6,6 +6,8 @@ import InvoicesPage from './pages/InvoicesPage';
 import InvoiceDetailPage from './pages/InvoiceDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PrivateRoute from './components/common/PrivateRoute';
+import TransactionsPage from './pages/TransactionsPage';
+import AnomaliesPage from './pages/AnomaliesPage';
 
 function App() {
   return (
@@ -39,6 +41,24 @@ function App() {
           element={
             <PrivateRoute>
               <InvoiceDetailPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/transactions"
+          element={
+            <PrivateRoute>
+              <TransactionsPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/anomalies"
+          element={
+            <PrivateRoute>
+              <AnomaliesPage />
             </PrivateRoute>
           }
         />

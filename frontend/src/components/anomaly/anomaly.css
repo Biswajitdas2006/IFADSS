@@ -1,0 +1,130 @@
+.anomaly-page h1 {
+  color: #17211d;
+  font-size: 24px;
+  margin: 0;
+}
+
+.anomaly-subheading {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 4px 0 24px;
+}
+
+.anomaly-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.anomaly-toolbar select,
+.anomaly-toolbar button,
+.anomaly-pager button {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: #17211d;
+  font: inherit;
+  padding: 8px 12px;
+}
+
+.anomaly-toolbar button {
+  background: #087f5b;
+  border-color: #087f5b;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.anomaly-toolbar button:disabled,
+.anomaly-pager button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.anomaly-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.anomaly-card.is-reviewed {
+  opacity: 0.6;
+}
+
+.anomaly-head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.anomaly-score {
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.anomaly-reason {
+  margin: 4px 0 8px;
+  font-weight: 500;
+}
+
+.anomaly-tx {
+  color: #777;
+}
+
+.anomaly-status.open {
+  color: #b45309;
+}
+
+.anomaly-status.done {
+  color: #15803d;
+}
+
+.sev-badge {
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sev-high {
+  background: #dc2626;
+}
+
+.sev-medium {
+  background: #f59e0b;
+}
+
+.sev-low {
+  background: #3b82f6;
+}
+
+.anomaly-pager {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.anomaly-pager button {
+  cursor: pointer;
+}
+
+.anomaly-message {
+  color: #6b7280;
+}
+
+.anomaly-error {
+  color: #dc2626;
+}
+
+.anomaly-scan-message {
+  color: #4b5563;
+  font-size: 14px;
+}
