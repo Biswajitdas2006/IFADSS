@@ -373,117 +373,53 @@ def _prepare_detections(
 # ============================================================
 # ROW GROUPING
 # ============================================================
-
-def _group_into_rows(
-    detections: list[dict],
-) -> list[list[dict]]:
-
+def _group_into_rows(detections):
     if not detections:
         return []
-
-    if not any(
-        item["geometry"]
-        for item in detections
-    ):
-        return [
-            [item]
-            for item in detections
-        ]
+    if not any(item["geometry"] for item in detections):
+        return [[item] for item in detections]
 
     sorted_detections = sorted(
         detections,
         key=lambda item: (
-            item["geometry"]["center_y"]
-            if item["geometry"]
-            else 0,
-            item["geometry"]["left"]
-            if item["geometry"]
-            else 0,
+            item["geometry"]["center_y"] if item["geometry"] else 0,
+            item["geometry"]["left"] if item["geometry"] else 0,
         ),
     )
 
     rows = []
-
     for detection in sorted_detections:
-
         geometry = detection["geometry"]
-
         if geometry is None:
             rows.append([detection])
             continue
-
         center_y = geometry["center_y"]
-
         best_row = None
         best_distance = float("inf")
-
         for row in rows:
-
-            geometries = [
-                item["geometry"]
-                for item in row
-                if item["geometry"]
-            ]
-
+            geometries = [item["geometry"] for item in row if item["geometry"]]
             if not geometries:
                 continue
-
-            row_center = sum(
-                item["center_y"]
-                for item in geometries
-            ) / len(geometries)
-
-            row_height = max(
-                item["height"]
-                for item in geometries
-            )
-
-            tolerance = max(
-                10.0,
-                min(
-                    24.0,
-                    row_height * 0.8,
-                ),
-            )
-
-            distance = abs(
-                center_y - row_center
-            )
-
-            if (
-                distance <= tolerance
-                and distance < best_distance
-            ):
+            # Anchor to the row's FIRST member's y, not a running average --
+            # averaging lets a chain of near-adjacent tokens transitively
+            # pull together rows that are, overall, far apart (single-
+            # linkage clustering drift). This was merging your header block
+            # into one giant row and swallowing nearby item rows with it.
+            anchor_y = geometries[0]["center_y"]
+            row_height = max(item["height"] for item in geometries)
+            tolerance = max(8.0, min(16.0, row_height * 0.55))
+            distance = abs(center_y - anchor_y)
+            if distance <= tolerance and distance < best_distance:
                 best_row = row
                 best_distance = distance
-
         if best_row is not None:
             best_row.append(detection)
-
         else:
             rows.append([detection])
 
     for row in rows:
-
-        row.sort(
-            key=lambda item: (
-                item["geometry"]["left"]
-                if item["geometry"]
-                else 0
-            )
-        )
-
-    rows.sort(
-        key=lambda row: min(
-            (
-                item["geometry"]["center_y"]
-                for item in row
-                if item["geometry"]
-            ),
-            default=0,
-        )
-    )
-
+        row.sort(key=lambda item: item["geometry"]["left"] if item["geometry"] else 0)
+    rows.sort(key=lambda row: min((item["geometry"]["center_y"] for item in row if item["geometry"]), default=0))
     return rows
 
 
@@ -1740,93 +1676,37 @@ def _find_line_item_amount(
     # --------------------------------------------------------
 
     candidates = []
-
-    for row_index in range(
-        start_index,
-        end_index + 1,
-    ):
-
+    for row_index in range(start_index, end_index + 1):
         row = rows[row_index]
-
-        row_text = _flatten_row(row).lower()
-
-        # Never extract monetary values from total/tax rows.
-        if re.search(
-            r"\btotal\s*:?",
-            row_text,
-        ):
-            continue
-
-        if any(
-            keyword in row_text
-            for keyword in [
-                "cgst",
-                "sgst",
-                "igst",
-                "shipping charges",
-            ]
-        ):
-            continue
-
         for item in row:
-
-            amounts = _extract_all_amounts(
-                item["text"]
-            )
-
+            token_lower = item["text"].lower()
+            # Skip only THIS token if it's a tax/total/shipping label --
+            # not the whole row, which may still hold the real amount.
+            if re.fullmatch(r"total\s*:?", token_lower.strip()):
+                continue
+            if any(re.search(rf"\b{re.escape(keyword)}\b", token_lower) for keyword in ["cgst", "sgst", "igst"]):
+                continue
+            if "shipping charges" in token_lower:
+                continue
+            amounts = _extract_all_amounts(item["text"])
             if not amounts:
                 continue
-
-            geometry = item.get(
-                "geometry"
-            )
-
+            geometry = item.get("geometry")
             if geometry is None:
                 continue
-
             x = geometry["center_x"]
-
             for amount in amounts:
-
                 if amount <= 0:
                     continue
-
-                if (
-                    total_amount is not None
-                    and abs(
-                        amount
-                        - total_amount
-                    ) < 0.01
-                ):
+                if total_amount is not None and abs(amount - total_amount) < 0.01:
                     continue
-
-                candidates.append(
-                    (
-                        x,
-                        row_index,
-                        amount,
-                    )
-                )
+                candidates.append((x, row_index, amount))
 
     if not candidates:
         return None
-
-    # Prefer values toward the monetary columns.
-    candidates.sort(
-        key=lambda value: (
-            -value[0],
-            value[1],
-        )
-    )
-
+    candidates.sort(key=lambda value: (-value[0], value[1]))
     selected = candidates[0]
-
-    print(
-        "[OCR PARSER] FALLBACK LINE ITEM AMOUNT:"
-        f" amount={selected[2]}"
-        f" | x={selected[0]:.2f}"
-    )
-
+    print(f"[OCR PARSER] FALLBACK LINE ITEM AMOUNT: amount={selected[2]} | x={selected[0]:.2f}")
     return selected[2]
 
 
@@ -1897,98 +1777,36 @@ def _find_line_item_quantity(
 # ============================================================
 # COLLECT DESCRIPTION BLOCK
 # ============================================================
-
-def _collect_item_description(
-    rows: list[list[dict]],
-    start_index: int,
-    end_index: int,
-    columns: dict,
-) -> str:
-
+def _collect_item_description(rows, start_index, end_index, columns):
     descriptions = []
-
-    for row_index in range(
-        start_index,
-        end_index + 1,
-    ):
-
+    for row_index in range(start_index, end_index + 1):
         row = rows[row_index]
-
-        text = _flatten_row(row)
-        lower = text.lower()
-
-        if not text:
+        # Token-level filtering: drop only the tokens that look like
+        # tax/total/shipping labels, keep the rest of the row's real
+        # description tokens even when they share a row with one.
+        filtered_row = []
+        for item in row:
+            token_lower = item["text"].lower()
+            if any(re.search(rf"\b{re.escape(keyword)}\b", token_lower) for keyword in TAX_KEYWORDS):
+                continue
+            if "shipping charges" in token_lower:
+                continue
+            if re.fullmatch(r"total\s*:?", token_lower.strip()):
+                continue
+            filtered_row.append(item)
+        if not filtered_row:
             continue
-
-        # ----------------------------------------------------
-        # Never include tax rows.
-        # ----------------------------------------------------
-
-        if any(
-            re.search(
-                rf"\b{re.escape(keyword)}\b",
-                lower,
-            )
-            for keyword in TAX_KEYWORDS
-        ):
-            continue
-
-        # ----------------------------------------------------
-        # Never include shipping.
-        # ----------------------------------------------------
-
-        if "shipping charges" in lower:
-            continue
-
-        # ----------------------------------------------------
-        # Never include explicit total rows.
-        # ----------------------------------------------------
-
-        if re.search(
-            r"\btotal\s*:?",
-            lower,
-        ):
-            continue
-
-        descriptions.extend(
-            _extract_description_from_row(
-                row,
-                columns,
-            )
-        )
-
-    # --------------------------------------------------------
-    # Remove duplicate consecutive OCR fragments.
-    # --------------------------------------------------------
+        descriptions.extend(_extract_description_from_row(filtered_row, columns))
 
     cleaned = []
-
     for description in descriptions:
-
-        description = _clean_description(
-            description
-        )
-
+        description = _clean_description(description)
         if not description:
             continue
-
-        if cleaned:
-
-            if (
-                cleaned[-1].lower()
-                == description.lower()
-            ):
-                continue
-
-        cleaned.append(
-            description
-        )
-
-    return _clean_description(
-        _normalize_text(
-            " ".join(cleaned)
-        )
-    )
+        if cleaned and cleaned[-1].lower() == description.lower():
+            continue
+        cleaned.append(description)
+    return _clean_description(_normalize_text(" ".join(cleaned)))
 
 
 # ============================================================
