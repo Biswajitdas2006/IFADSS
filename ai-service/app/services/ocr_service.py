@@ -18,96 +18,40 @@ DATE_PATTERNS = [
     r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}",
 ]
 
-DATE_LIKE_PATTERN = re.compile(
-    r"\b\d{1,4}[/-]\d{1,2}[/-]\d{1,4}\b"
-)
+DATE_LIKE_PATTERN = re.compile(r"\b\d{1,4}[/-]\d{1,2}[/-]\d{1,4}\b")
 
 STRONG_TOTAL_KEYWORDS = [
-    "invoice value",
-    "grand total",
-    "amount due",
-    "balance due",
-    "net payable",
-    "total payable",
-    "amount payable",
-    "payable amount",
+    "invoice value", "grand total", "amount due", "balance due",
+    "net payable", "total payable", "amount payable", "payable amount",
 ]
 
-TAX_KEYWORDS = [
-    "sgst",
-    "cgst",
-    "igst",
-    "vat",
-]
+TAX_KEYWORDS = ["sgst", "cgst", "igst", "vat"]
 
-VENDOR_ANCHORS = [
-    "sold by",
-    "seller",
-    "from:",
-    "billed by",
-]
+VENDOR_ANCHORS = ["sold by", "seller", "from:", "billed by"]
+
+# Pattern used to split an anchor token's own text, e.g.
+# "Sold By: Shreyash Retail Private Limited" -> "Shreyash Retail Private Limited"
+VENDOR_ANCHOR_SPLIT_PATTERN = re.compile(
+    r"(?:sold\s*by|seller|billed\s*by)\s*:?\s*",
+    re.IGNORECASE,
+)
 
 LINE_ITEM_EXCLUDED_KEYWORDS = [
-    "invoice date",
-    "order date",
-    "delivery date",
-    "date:",
-    "gstin",
-    "gst no",
-    "gst number",
-    "cgst",
-    "sgst",
-    "igst",
-    "vat",
-    "tax",
-    "subtotal",
-    "sub total",
-    "grand total",
-    "amount due",
-    "balance due",
-    "total payable",
-    "net payable",
-    "amount payable",
-    "invoice no",
-    "invoice number",
-    "order no",
-    "order number",
-    "payment",
-    "shipping",
-    "delivery",
-    "discount",
-    "invoice value",
-    "amount in words",
-    "reverse charge",
-    "service accounting code",
+    "invoice date", "order date", "delivery date", "date:",
+    "gstin", "gst no", "gst number", "cgst", "sgst", "igst", "vat", "tax",
+    "subtotal", "sub total", "grand total", "amount due", "balance due",
+    "total payable", "net payable", "amount payable",
+    "invoice no", "invoice number", "order no", "order number",
+    "payment", "shipping", "delivery", "discount", "invoice value",
+    "amount in words", "reverse charge", "service accounting code",
+    "hsn", "fsn",
 ]
 
 METADATA_KEYWORDS = [
-    "invoice",
-    "order",
-    "gstin",
-    "gst no",
-    "gst number",
-    "phone",
-    "mobile",
-    "email",
-    "address",
-    "www.",
-    "http://",
-    "https://",
-    "pincode",
-    "pin code",
-    "place of supply",
-    "place of delivery",
-    "state code",
-    "state/ut code",
-    "hsn",
-    "sac",
-    "pan",
-    "cin",
-    "eway",
-    "e-way",
-    "reverse charge",
+    "invoice", "order", "gstin", "gst no", "gst number", "phone", "mobile",
+    "email", "address", "www.", "http://", "https://", "pincode", "pin code",
+    "place of supply", "place of delivery", "state code", "state/ut code",
+    "hsn", "sac", "pan", "cin", "eway", "e-way", "reverse charge",
 ]
 
 AMOUNT_PATTERN = re.compile(
@@ -127,6 +71,8 @@ AMOUNT_PATTERN = re.compile(
     re.VERBOSE | re.IGNORECASE,
 )
 
+MIN_TOKEN_CONFIDENCE = 0.5
+
 
 # ============================================================
 # BASIC HELPERS
@@ -145,12 +91,7 @@ def _clean_ocr_text(text: str) -> str:
     text = _normalize_text(text)
     if not text:
         return ""
-    text = re.sub(
-        r"^[\{\}\[\]¿ÀR₹$€£¥]+\s*",
-        "",
-        text,
-        flags=re.IGNORECASE,
-    )
+    text = re.sub(r"^[\{\}\[\]¿ÀR₹$€£¥]+\s*", "", text, flags=re.IGNORECASE)
     return text.strip()
 
 
@@ -159,16 +100,8 @@ def _try_parse_date(text: str) -> Optional[str]:
         return None
     text = text.strip()
     formats = [
-        "%d/%m/%Y",
-        "%m/%d/%Y",
-        "%d-%m-%Y",
-        "%m-%d-%Y",
-        "%Y-%m-%d",
-        "%Y.%m.%d",
-        "%Y-%d-%m",
-        "%d.%m.%Y",
-        "%B %d, %Y",
-        "%b %d, %Y",
+        "%d/%m/%Y", "%m/%d/%Y", "%d-%m-%Y", "%m-%d-%Y", "%Y-%m-%d",
+        "%Y.%m.%d", "%Y-%d-%m", "%d.%m.%Y", "%B %d, %Y", "%b %d, %Y",
     ]
     for fmt in formats:
         try:
@@ -214,9 +147,7 @@ def _looks_like_currency_only(text: str) -> bool:
         return True
     cleaned = text.strip()
     cleaned = re.sub(r"[₹$€£¥,\.\d\s{}\[\]():\-+]", "", cleaned)
-    cleaned = cleaned.replace("R", "")
-    cleaned = cleaned.replace("À", "")
-    cleaned = cleaned.replace("¿", "")
+    cleaned = cleaned.replace("R", "").replace("À", "").replace("¿", "")
     return not cleaned
 
 
@@ -373,6 +304,20 @@ def _find_vendor(rows: list[list[dict]]) -> Optional[str]:
             if not any(anchor in anchor_text for anchor in VENDOR_ANCHORS):
                 continue
 
+            # --------------------------------------------------------
+            # FIRST: check if the vendor name is embedded in the SAME
+            # OCR token as the anchor phrase itself, e.g.
+            # "Sold By: Shreyash Retail Private Limited" as one token.
+            # This must be tried before scanning neighbouring tokens,
+            # since those can contain unrelated same-row text (buyer
+            # name, page-edge bleed, etc.) that would otherwise win.
+            # --------------------------------------------------------
+            parts = VENDOR_ANCHOR_SPLIT_PATTERN.split(anchor_detection["text"], maxsplit=1)
+            if len(parts) > 1:
+                inline_remainder = _clean_ocr_text(parts[-1])
+                if inline_remainder and not _is_bad_vendor_candidate(inline_remainder):
+                    return inline_remainder
+
             anchor_geo = anchor_detection.get("geometry")
             if anchor_geo is None:
                 continue
@@ -431,9 +376,11 @@ def _find_vendor(rows: list[list[dict]]) -> Optional[str]:
                 candidates.sort(key=lambda value: (value[0], value[1]))
                 return candidates[0][2]
 
-    # Explicit fallback.
+    # Explicit fallback -- restricted to LEFT-SIDE tokens only (x<850),
+    # so a buyer's name sharing the same row isn't concatenated in.
     for row in rows:
-        text = _flatten_row(row)
+        left_tokens = [item for item in row if item.get("geometry") and item["geometry"]["left"] < 850]
+        text = _flatten_row(left_tokens)
         lower = text.lower()
         if "clicktech retail private limited" in lower:
             return "CLICKTECH RETAIL PRIVATE LIMITED"
@@ -617,42 +564,69 @@ def _find_tax(rows: list[list[dict]], total_amount: Optional[float]) -> Optional
 
 
 # ============================================================
-# TABLE HEADER
+# TABLE HEADER  (now tolerant of headers split across two rows,
+# and of "Particulars"/"Product" style column vocabularies)
 # ============================================================
 
-def _find_table_header_index(rows: list[list[dict]]) -> Optional[int]:
+HEADER_PRIMARY_LABELS = ["description", "particulars", "product"]
+HEADER_SECONDARY_LABELS = ["unit price", "net amount", "qty", "gross", "taxable", "amount", "price"]
+
+
+def _row_has_header_labels(text: str) -> bool:
+    has_primary = any(label in text for label in HEADER_PRIMARY_LABELS)
+    has_secondary = any(label in text for label in HEADER_SECONDARY_LABELS)
+    return has_primary and has_secondary
+
+
+def _find_table_header_rows(rows: list[list[dict]]):
+    """
+    Returns (start_index, end_index) spanning the header row(s), or None.
+    Checks single rows first (the common case), then adjacent-row pairs
+    combined, since some invoices wrap column labels across two
+    OCR-detected rows (e.g. "Net" on one line, "Amount" on the next).
+    """
     for index, row in enumerate(rows):
-        text = _flatten_row(row)
-        lower = text.lower()
-        if "description" in lower and (
-            "unit price" in lower or "net amount" in lower or "qty" in lower
-        ):
-            return index
+        text = _flatten_row(row).lower()
+        if _row_has_header_labels(text):
+            return index, index
+
+    for index in range(len(rows) - 1):
+        combined = _flatten_row(rows[index]).lower() + " " + _flatten_row(rows[index + 1]).lower()
+        if _row_has_header_labels(combined):
+            return index, index + 1
+
     return None
 
 
-def _find_column_positions(header_row: list[dict]) -> dict:
+def _find_column_positions(header_rows: list[list[dict]]) -> dict:
     positions = {}
-    for item in header_row:
-        text = item["text"].lower().strip()
-        geometry = item.get("geometry")
-        if geometry is None:
-            continue
-        x = geometry["center_x"]
-        if "description" in text:
-            positions["description"] = x
-        elif "unit price" in text:
-            positions["unit_price"] = x
-        elif text == "qty" or "quantity" in text:
-            positions["qty"] = x
-        elif "net amount" in text:
-            positions["net_amount"] = x
-        elif text == "amount":
-            positions.setdefault("amount", x)
-        elif "total amount" in text:
-            positions["total_amount"] = x
-        elif "tax amount" in text:
-            positions["tax_amount"] = x
+    for header_row in header_rows:
+        for item in header_row:
+            text = item["text"].lower().strip()
+            geometry = item.get("geometry")
+            if geometry is None:
+                continue
+            x = geometry["center_x"]
+
+            if "description" in text or "particulars" in text or text == "product":
+                positions.setdefault("description", x)
+            elif "unit price" in text:
+                positions.setdefault("unit_price", x)
+            elif text == "qty" or "quantity" in text:
+                positions.setdefault("qty", x)
+            elif "net amount" in text:
+                positions.setdefault("net_amount", x)
+            elif "taxable" in text:
+                positions.setdefault("taxable", x)
+            elif text == "gross" or "gross amount" in text:
+                positions.setdefault("gross", x)
+            elif text == "amount":
+                positions.setdefault("amount", x)
+            elif "total amount" in text:
+                positions["total_amount"] = x
+            elif "tax amount" in text:
+                positions["tax_amount"] = x
+
     return positions
 
 
@@ -769,7 +743,8 @@ def _is_line_item_description_candidate(text: str) -> bool:
         "amount due", "balance due", "total payable", "net payable", "amount payable",
         "invoice no", "invoice number", "order no", "order number", "payment",
         "shipping charges", "delivery", "discount", "invoice value", "amount in words",
-        "reverse charge", "service accounting code",
+        "reverse charge", "service accounting code", "hsn", "fsn",
+        "amount ₹", "value ₹", "/coupons", "coupons",
     ]
     if any(keyword in lower for keyword in excluded):
         return False
@@ -795,6 +770,11 @@ def _extract_description_from_row(row: list[dict], columns: dict) -> list[str]:
         right_boundary = description_x + 700
 
     for item in row:
+        # Skip low-confidence OCR noise (stray single/garbled characters).
+        confidence = item.get("confidence")
+        if confidence is not None and confidence < MIN_TOKEN_CONFIDENCE:
+            continue
+
         text = _clean_ocr_text(item["text"])
         if not text:
             continue
@@ -802,6 +782,7 @@ def _extract_description_from_row(row: list[dict], columns: dict) -> list[str]:
         if geometry is None:
             continue
         x = geometry["center_x"]
+
         if x < description_x - 100:
             continue
         if x > right_boundary:
@@ -851,6 +832,10 @@ def _find_line_item_amount(
         priority_columns.append(("amount", columns["amount"], 150))
     if columns.get("total_amount") is not None:
         priority_columns.append(("total_amount", columns["total_amount"], 150))
+    if columns.get("taxable") is not None:
+        priority_columns.append(("taxable", columns["taxable"], 150))
+    if columns.get("gross") is not None:
+        priority_columns.append(("gross", columns["gross"], 150))
 
     # FIRST PASS: use table column coordinates.
     for column_name, target_x, tolerance in priority_columns:
@@ -909,8 +894,6 @@ def _find_line_item_amount(
     if not candidates:
         return None
 
-    # Prefer the LEFTMOST remaining monetary value (net/base-amount
-    # style) now that both total and tax are excluded by value.
     candidates.sort(key=lambda value: (value[0], value[1]))
     selected = candidates[0]
     print(f"[OCR PARSER] FALLBACK LINE ITEM AMOUNT: amount={selected[2]} | x={selected[0]:.2f}")
@@ -978,8 +961,8 @@ def _collect_item_description(rows, start_index, end_index, columns):
 # DETERMINE ITEM REGION
 # ============================================================
 
-def _find_item_region(rows: list[list[dict]], header_index: int) -> tuple[int, int]:
-    start_index = header_index + 1
+def _find_item_region(rows: list[list[dict]], header_end_index: int) -> tuple[int, int]:
+    start_index = header_end_index + 1
     end_index = len(rows) - 1
 
     for row_index in range(start_index, len(rows)):
@@ -1008,22 +991,22 @@ def _extract_line_items(
     tax_amount: Optional[float],
 ) -> list[dict]:
 
-    header_index = _find_table_header_index(rows)
-    if header_index is None:
+    header_span = _find_table_header_rows(rows)
+    if header_span is None:
         print("[OCR PARSER] No table header found.")
         return []
 
-    header_row = rows[header_index]
-    columns = _find_column_positions(header_row)
+    header_start, header_end = header_span
+    header_rows = rows[header_start:header_end + 1]
+    columns = _find_column_positions(header_rows)
     print(f"[OCR PARSER] Table columns: {columns}")
 
-    start_index, end_index = _find_item_region(rows, header_index)
+    start_index, end_index = _find_item_region(rows, header_end)
     print(f"[OCR PARSER] Item region: rows={start_index}-{end_index}")
 
     if start_index > end_index:
         return []
 
-    # Find amount independently from description.
     amount = _find_line_item_amount(
         rows, start_index, end_index, columns, total_amount, tax_amount,
     )
@@ -1031,7 +1014,6 @@ def _extract_line_items(
         print("[OCR PARSER] Could not find line-item amount.")
         return []
 
-    # Find description independently from amount.
     description = _collect_item_description(rows, start_index, end_index, columns)
     if not description:
         print("[OCR PARSER] Could not find line-item description.")
@@ -1116,7 +1098,6 @@ def run_ocr_extraction(file_path: str) -> dict:
 
     for page_number, image in enumerate(images, start=1):
         image_array = np.array(image)
-
         extracted = extractor.extract_text(image_array)
 
         print("\n====================================================")
@@ -1171,8 +1152,8 @@ def run_ocr_extraction(file_path: str) -> dict:
 
 
 # ============================================================
-# API MODELS  (unused by ocr_router.py — it imports from
-# app.models.ocr_schemas instead — kept only for backward
+# API MODELS  (unused by ocr_router.py -- it imports from
+# app.models.ocr_schemas instead -- kept only for backward
 # compatibility in case something else imports these)
 # ============================================================
 
