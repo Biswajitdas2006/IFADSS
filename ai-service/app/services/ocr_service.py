@@ -36,13 +36,16 @@ VENDOR_ANCHOR_SPLIT_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# NOTE: bare "delivery" deliberately NOT included here -- it was
+# rejecting real line items like "Cash/Pay on Delivery fee:". Only the
+# specific "delivery date" phrase is excluded.
 LINE_ITEM_EXCLUDED_KEYWORDS = [
     "invoice date", "order date", "delivery date", "date:",
     "gstin", "gst no", "gst number", "cgst", "sgst", "igst", "vat", "tax",
     "subtotal", "sub total", "grand total", "amount due", "balance due",
     "total payable", "net payable", "amount payable",
     "invoice no", "invoice number", "order no", "order number",
-    "payment", "shipping", "delivery", "discount", "invoice value",
+    "payment", "shipping", "discount", "invoice value",
     "amount in words", "reverse charge", "service accounting code",
     "hsn", "fsn",
 ]
@@ -247,9 +250,6 @@ def _group_into_rows(detections):
             geometries = [item["geometry"] for item in row if item["geometry"]]
             if not geometries:
                 continue
-            # Anchor to the row's FIRST member's y, not a running average --
-            # averaging lets a chain of near-adjacent tokens transitively
-            # pull together rows that are, overall, far apart.
             anchor_y = geometries[0]["center_y"]
             row_height = max(item["height"] for item in geometries)
             tolerance = max(8.0, min(16.0, row_height * 0.55))
@@ -304,14 +304,6 @@ def _find_vendor(rows: list[list[dict]]) -> Optional[str]:
             if not any(anchor in anchor_text for anchor in VENDOR_ANCHORS):
                 continue
 
-            # --------------------------------------------------------
-            # FIRST: check if the vendor name is embedded in the SAME
-            # OCR token as the anchor phrase itself, e.g.
-            # "Sold By: Shreyash Retail Private Limited" as one token.
-            # This must be tried before scanning neighbouring tokens,
-            # since those can contain unrelated same-row text (buyer
-            # name, page-edge bleed, etc.) that would otherwise win.
-            # --------------------------------------------------------
             parts = VENDOR_ANCHOR_SPLIT_PATTERN.split(anchor_detection["text"], maxsplit=1)
             if len(parts) > 1:
                 inline_remainder = _clean_ocr_text(parts[-1])
@@ -376,8 +368,6 @@ def _find_vendor(rows: list[list[dict]]) -> Optional[str]:
                 candidates.sort(key=lambda value: (value[0], value[1]))
                 return candidates[0][2]
 
-    # Explicit fallback -- restricted to LEFT-SIDE tokens only (x<850),
-    # so a buyer's name sharing the same row isn't concatenated in.
     for row in rows:
         left_tokens = [item for item in row if item.get("geometry") and item["geometry"]["left"] < 850]
         text = _flatten_row(left_tokens)
@@ -564,8 +554,8 @@ def _find_tax(rows: list[list[dict]], total_amount: Optional[float]) -> Optional
 
 
 # ============================================================
-# TABLE HEADER  (now tolerant of headers split across two rows,
-# and of "Particulars"/"Product" style column vocabularies)
+# TABLE HEADER  (tolerant of headers split across two rows, and
+# of "Particulars"/"Product" style column vocabularies)
 # ============================================================
 
 HEADER_PRIMARY_LABELS = ["description", "particulars", "product"]
@@ -579,12 +569,6 @@ def _row_has_header_labels(text: str) -> bool:
 
 
 def _find_table_header_rows(rows: list[list[dict]]):
-    """
-    Returns (start_index, end_index) spanning the header row(s), or None.
-    Checks single rows first (the common case), then adjacent-row pairs
-    combined, since some invoices wrap column labels across two
-    OCR-detected rows (e.g. "Net" on one line, "Amount" on the next).
-    """
     for index, row in enumerate(rows):
         text = _flatten_row(row).lower()
         if _row_has_header_labels(text):
@@ -737,12 +721,14 @@ def _is_line_item_description_candidate(text: str) -> bool:
     if not text:
         return False
     lower = text.lower()
+    # NOTE: bare "delivery" deliberately NOT included -- see
+    # LINE_ITEM_EXCLUDED_KEYWORDS comment above for why.
     excluded = [
         "invoice date", "order date", "delivery date", "gstin", "gst no", "gst number",
         "cgst", "sgst", "igst", "vat", "tax", "subtotal", "sub total", "grand total",
         "amount due", "balance due", "total payable", "net payable", "amount payable",
         "invoice no", "invoice number", "order no", "order number", "payment",
-        "shipping charges", "delivery", "discount", "invoice value", "amount in words",
+        "shipping charges", "discount", "invoice value", "amount in words",
         "reverse charge", "service accounting code", "hsn", "fsn",
         "amount ₹", "value ₹", "/coupons", "coupons",
     ]
@@ -770,7 +756,6 @@ def _extract_description_from_row(row: list[dict], columns: dict) -> list[str]:
         right_boundary = description_x + 700
 
     for item in row:
-        # Skip low-confidence OCR noise (stray single/garbled characters).
         confidence = item.get("confidence")
         if confidence is not None and confidence < MIN_TOKEN_CONFIDENCE:
             continue
@@ -813,9 +798,11 @@ def _find_line_item_amount(
     OCR reading order is NOT guaranteed, so we scan the complete item
     region instead of assuming description must appear before amount.
 
-    Both total_amount and tax_amount are excluded by VALUE (not just by
-    nearby label text), since a tax figure can appear as its own
-    standalone OCR token with no "IGST"/"GST" text attached to it.
+    total_amount and tax_amount are excluded by VALUE (a tax figure
+    can appear as its own standalone token with no "IGST" text on it).
+    Rows that are clearly "Shipping Charges" rows are excluded by ROW,
+    not just by token, since the shipping amount token itself carries
+    no identifying text of its own.
     """
 
     def _is_summary_value(amount: float) -> bool:
@@ -842,6 +829,9 @@ def _find_line_item_amount(
         candidates = []
         for row_index in range(start_index, end_index + 1):
             row = rows[row_index]
+            row_lower = _flatten_row(row).lower()
+            if "shipping charges" in row_lower:
+                continue
             for item in row:
                 amounts = _extract_all_amounts(item["text"])
                 if not amounts:
@@ -871,13 +861,14 @@ def _find_line_item_amount(
     candidates = []
     for row_index in range(start_index, end_index + 1):
         row = rows[row_index]
+        row_lower = _flatten_row(row).lower()
+        if "shipping charges" in row_lower:
+            continue
         for item in row:
             token_lower = item["text"].lower()
             if re.fullmatch(r"total\s*:?", token_lower.strip()):
                 continue
             if any(re.search(rf"\b{re.escape(keyword)}\b", token_lower) for keyword in ["cgst", "sgst", "igst"]):
-                continue
-            if "shipping charges" in token_lower:
                 continue
             amounts = _extract_all_amounts(item["text"])
             if not amounts:
@@ -929,9 +920,6 @@ def _collect_item_description(rows, start_index, end_index, columns):
     descriptions = []
     for row_index in range(start_index, end_index + 1):
         row = rows[row_index]
-        # Token-level filtering: drop only the tokens that look like
-        # tax/total/shipping labels, keep the rest of the row's real
-        # description tokens even when they share a row with one.
         filtered_row = []
         for item in row:
             token_lower = item["text"].lower()
