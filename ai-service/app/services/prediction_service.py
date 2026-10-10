@@ -1,13 +1,36 @@
 import pandas as pd
 
-MIN_ACTIVE_DAYS = 14
+MIN_ACTIVE_DAYS = 3        # below this: no forecast
+PROPHET_MIN_ACTIVE_DAYS = 14  # at/above this: Prophet
+
+
+def _simple_forecast(df: pd.DataFrame, metric_type: str, horizon_days: int) -> list[dict]:
+    mean = float(df["y"].mean())
+    std = float(df["y"].std()) if len(df) > 1 else 0.0
+    if pd.isna(std):
+        std = 0.0
+    margin = 1.28 * std  # ~80% band
+
+    start = df["ds"].max() + pd.Timedelta(days=1)
+    points = []
+    for i in range(horizon_days):
+        lower = mean - margin
+        if metric_type in ("Revenue", "Expense"):
+            lower = max(lower, 0.0)
+        points.append(
+            {
+                "date": (start + pd.Timedelta(days=i)).strftime("%Y-%m-%d"),
+                "predicted": round(mean, 2),
+                "lowerBound": round(min(lower, mean), 2),
+                "upperBound": round(mean + margin, 2),
+            }
+        )
+    return points
 
 
 def get_forecast(
     metric_type: str, horizon_days: int, history: list[dict] | None = None
 ) -> list[dict]:
-    from prophet import Prophet
-
     if not history:
         raise RuntimeError("No history provided for forecasting.")
 
@@ -16,10 +39,16 @@ def get_forecast(
     df["y"] = df["y"].astype(float)
     df = df.sort_values("ds").drop_duplicates("ds")
 
-    if int((df["y"] != 0).sum()) < MIN_ACTIVE_DAYS:
+    active_days = int((df["y"] != 0).sum())
+    if active_days < MIN_ACTIVE_DAYS:
         raise RuntimeError(
             f"Not enough history: at least {MIN_ACTIVE_DAYS} days with activity are needed."
         )
+
+    if active_days < PROPHET_MIN_ACTIVE_DAYS:
+        return _simple_forecast(df, metric_type, horizon_days)
+
+    from prophet import Prophet
 
     span_days = (df["ds"].max() - df["ds"].min()).days + 1
     model = Prophet(
