@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using FinancialAutomation.API.Common;
+using FinancialAutomation.Application.Interfaces;
 using FinancialAutomation.Domain.Exceptions;
 
 namespace FinancialAutomation.API.Middleware;
@@ -30,6 +31,8 @@ public class ExceptionHandlingMiddleware
             NotFoundException => (HttpStatusCode.NotFound, "NOT_FOUND"),
             ConflictException => (HttpStatusCode.Conflict, "CONFLICT"),
             UnauthorizedAccessException => (HttpStatusCode.Unauthorized, "UNAUTHORIZED"),
+            InsufficientDataException => (HttpStatusCode.UnprocessableEntity, "INSUFFICIENT_DATA"),
+            AiServiceException ai => ((HttpStatusCode)ai.StatusCode, "AI_SERVICE_ERROR"),
             _ => (HttpStatusCode.InternalServerError, "INTERNAL_ERROR")
         };
 

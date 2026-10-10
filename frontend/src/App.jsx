@@ -8,6 +8,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import PrivateRoute from './components/common/PrivateRoute';
 import TransactionsPage from './pages/TransactionsPage';
 import AnomaliesPage from './pages/AnomaliesPage';
+import PredictionsPage from './pages/PredictionsPage';
 
 function App() {
   return (
@@ -59,6 +60,15 @@ function App() {
           element={
             <PrivateRoute>
               <AnomaliesPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/predictions"
+          element={
+            <PrivateRoute>
+              <PredictionsPage />
             </PrivateRoute>
           }
         />

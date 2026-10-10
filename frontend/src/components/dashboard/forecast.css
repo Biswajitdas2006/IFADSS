@@ -1,0 +1,53 @@
+.forecast-widget {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+  margin-bottom: 16px;
+}
+
+.forecast-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.forecast-head h3 {
+  margin: 0;
+}
+
+.forecast-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.forecast-controls select {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #f9fafb;
+}
+
+.forecast-chart {
+  position: relative;
+  height: 320px;
+}
+
+.forecast-summary {
+  margin: 0 0 12px;
+}
+
+.forecast-summary small {
+  color: #777;
+}
+
+.forecast-msg {
+  color: #555;
+}
+
+.forecast-error {
+  color: #dc2626;
+}

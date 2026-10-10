@@ -1,5 +1,6 @@
 import { useAuth } from '../context/AuthContext';
 import AppLayout from '../components/layout/AppLayout';
+import ForecastWidget from '../components/dashboard/ForecastWidget';
 import { theme } from '../styles/theme';
 
 function DashboardPage() {
@@ -17,10 +18,7 @@ function DashboardPage() {
         <KpiCard label="Pending Anomalies" value="—" />
       </div>
 
-      <div style={styles.placeholderBox}>
-        Cash flow chart, category breakdown, and recent activity widgets
-        will be built in Week 9 once Invoices, Transactions, and Predictions are wired up.
-      </div>
+      <ForecastWidget />
     </AppLayout>
   );
 }

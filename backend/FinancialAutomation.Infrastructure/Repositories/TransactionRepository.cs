@@ -1,3 +1,4 @@
+using FinancialAutomation.Application.DTOs.Prediction;
 using FinancialAutomation.Application.Interfaces;
 using FinancialAutomation.Domain.Entities;
 using FinancialAutomation.Infrastructure.Persistence;
@@ -32,5 +33,36 @@ public class TransactionRepository : Repository<Transaction>, ITransactionReposi
             .ToListAsync(cancellationToken);
 
         return (items, totalItems);
+    }
+
+    public async Task<IReadOnlyList<Transaction>> GetForAnomalyScanAsync(
+        Guid userId, DateOnly from, DateOnly to, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Where(t => t.UserId == userId &&
+                        t.TransactionDate >= from &&
+                        t.TransactionDate <= to)
+            .OrderBy(t => t.TransactionDate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<TransactionAmountRow>> GetAmountsByDateAsync(Guid userId, DateOnly from, DateOnly to)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(t => t.UserId == userId && t.TransactionDate >= from && t.TransactionDate <= to)
+            .Select(t => new TransactionAmountRow(t.TransactionDate, t.Amount))
+            .ToListAsync();
+    }
+
+    public async Task<List<Transaction>> GetForScanAsync(Guid userId, DateOnly from, DateOnly to, int maxRows)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(t => t.UserId == userId && t.TransactionDate >= from && t.TransactionDate <= to)
+            .OrderByDescending(t => t.TransactionDate)
+            .Take(maxRows)
+            .ToListAsync();
     }
 }

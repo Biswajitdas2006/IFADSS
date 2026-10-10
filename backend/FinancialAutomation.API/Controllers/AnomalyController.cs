@@ -1,64 +1,71 @@
-using System.Security.Claims;
+    using System.Security.Claims;
 
-using FinancialAutomation.Application.Interfaces;
+    using FinancialAutomation.Application.Interfaces;
 
-using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Authorization;
 
-using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc;
 
-namespace FinancialAutomation.API.Controllers;
+    namespace FinancialAutomation.API.Controllers;
 
-[ApiController]
+    [ApiController]
 
-[Route("api/v1/anomalies")]
+    [Route("api/v1/anomalies")]
 
-[Authorize(Roles = "Owner,Accountant")]
+    [Authorize(Roles = "Owner,Accountant")]
 
-public class AnomalyController : ControllerBase
-{
-    private readonly IAnomalyService _service;
-
-    public AnomalyController(IAnomalyService service)
-        => _service = service;
-
-    private Guid CurrentUserId =>
-        Guid.Parse(
-            User.FindFirstValue(ClaimTypes.NameIdentifier)
-            ?? User.FindFirstValue("sub")!);
-
-    [HttpGet]
-
-    public async Task<IActionResult> Get(
-        [FromQuery] string? severity,
-        [FromQuery] bool? reviewed,
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 20)
+    public class AnomalyController : ControllerBase
     {
-        var data = await _service.GetAnomaliesAsync(
-            CurrentUserId,
-            severity,
-            reviewed,
-            page,
-            pageSize);
+        private readonly IAnomalyService _service;
 
-        return Ok(new { success = true, data });
-    }
+        public AnomalyController(IAnomalyService service)
+            => _service = service;
 
-    [HttpPost("scan")]
-    public async Task<IActionResult> Scan(
-        [FromQuery] int windowDays = 90)
-    {
-        var count = await _service.ScanAsync(
-            CurrentUserId,
-            windowDays);
+        private Guid CurrentUserId =>
+            Guid.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? User.FindFirstValue("sub")!);
 
-        return Ok(new
+        [HttpGet]
+
+        public async Task<IActionResult> Get(
+            [FromQuery] string? severity,
+            [FromQuery] bool? reviewed,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20)
         {
-            success = true,
-            data = new
+            var data = await _service.GetAnomaliesAsync(
+                CurrentUserId,
+                severity,
+                reviewed,
+                page,
+                pageSize);
+
+            return Ok(new { success = true, data });
+        }
+
+        [HttpPost("scan")]
+        public async Task<IActionResult> Scan(
+            [FromQuery] int windowDays = 90)
+        {
+            var count = await _service.ScanAsync(
+                CurrentUserId,
+                windowDays);
+
+            return Ok(new
             {
-                newAnomaliesSaved = count
-            }
-        });
+                success = true,
+                data = new
+                {
+                    newAnomaliesSaved = count
+                }
+            });
+        }
+
+        [HttpPatch("{id:guid}/review")]
+        public async Task<IActionResult> Review(Guid id)
+        {
+            var data = await _service.MarkReviewedAsync(id, CurrentUserId);
+            return Ok(new { success = true, data });
+        }
     }
-}

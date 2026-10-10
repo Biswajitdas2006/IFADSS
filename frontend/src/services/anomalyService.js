@@ -16,4 +16,9 @@ export const anomalyService = {
     });
     return response.data.data;
   },
+
+  async markReviewed(id) {
+    const response = await apiClient.patch(`/anomalies/${id}/review`);
+    return response.data.data;
+  },
 };

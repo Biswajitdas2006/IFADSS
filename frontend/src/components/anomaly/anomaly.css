@@ -1,130 +1,1152 @@
+/* ============================================================
+   IFAADSS - ANOMALY DETECTION
+   ============================================================ */
+
+.anomaly-page {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 48px 40px 72px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+
+.anomaly-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.anomaly-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+}
+
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-bg);
+}
+
 .anomaly-page h1 {
-  color: #17211d;
-  font-size: 24px;
-  margin: 0;
+  margin: 0 0 8px;
+  font-size: 42px;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  font-weight: 600;
 }
 
 .anomaly-subheading {
-  color: #6b7280;
-  font-size: 14px;
-  margin: 4px 0 24px;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 620px;
 }
 
-.anomaly-toolbar {
+/* ============================================================
+   MODEL STATUS
+   ============================================================ */
+
+.model-status {
   display: flex;
-  gap: 12px;
   align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
+  gap: 11px;
+
+  padding: 11px 15px;
+
+  background: var(--social-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  flex-shrink: 0;
 }
 
-.anomaly-toolbar select,
-.anomaly-toolbar button,
-.anomaly-pager button {
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: #fff;
-  color: #17211d;
-  font: inherit;
-  padding: 8px 12px;
+.model-status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22a06b;
+  box-shadow: 0 0 0 4px rgba(34, 160, 107, 0.12);
 }
 
-.anomaly-toolbar button {
-  background: #087f5b;
-  border-color: #087f5b;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.anomaly-toolbar button:disabled,
-.anomaly-pager button:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.anomaly-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  background: #fff;
-}
-
-.anomaly-card.is-reviewed {
-  opacity: 0.6;
-}
-
-.anomaly-head {
+.model-status div {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 8px;
+  flex-direction: column;
+  gap: 1px;
 }
 
-.anomaly-score {
-  color: #4b5563;
+.model-status strong {
+  color: var(--text-h);
   font-size: 13px;
 }
 
-.anomaly-reason {
-  margin: 4px 0 8px;
-  font-weight: 500;
-}
-
-.anomaly-tx {
-  color: #777;
-}
-
-.anomaly-status.open {
-  color: #b45309;
-}
-
-.anomaly-status.done {
-  color: #15803d;
-}
-
-.sev-badge {
-  padding: 2px 10px;
-  border-radius: 12px;
+.model-status span {
+  color: var(--text);
   font-size: 12px;
-  font-weight: 600;
-  color: #fff;
 }
 
-.sev-high {
-  background: #dc2626;
-}
+/* ============================================================
+   SCAN PANEL
+   ============================================================ */
 
-.sev-medium {
-  background: #f59e0b;
-}
-
-.sev-low {
-  background: #3b82f6;
-}
-
-.anomaly-pager {
+.anomaly-scan-panel {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+
+  padding: 24px;
+
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  margin-bottom: 16px;
+}
+
+.scan-panel-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.scan-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
+
+  border-radius: 12px;
+
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
 }
 
-.anomaly-pager button {
+.scan-panel-info h2 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: var(--text-h);
+}
+
+.scan-panel-info p {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.scan-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.scan-window-control {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.scan-window-control label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.scan-window-control select {
+  min-width: 150px;
+}
+
+.anomaly-page select {
+  appearance: auto;
+
+  height: 42px;
+  padding: 0 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--bg);
+  color: var(--text-h);
+
+  font: inherit;
+  font-size: 13px;
+
   cursor: pointer;
 }
 
-.anomaly-message {
-  color: #6b7280;
+.anomaly-page select:focus {
+  outline: 2px solid var(--accent-border);
+  outline-offset: 1px;
 }
+
+.run-scan-button {
+  height: 42px;
+  padding: 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+
+  background: var(--accent);
+  color: white;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.run-scan-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.run-scan-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.button-arrow {
+  font-size: 16px;
+}
+
+/* ============================================================
+   SPINNER
+   ============================================================ */
+
+.button-spinner,
+.loading-spinner {
+  display: inline-block;
+
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+
+  border-radius: 50%;
+
+  animation: anomaly-spin 0.7s linear infinite;
+}
+
+@keyframes anomaly-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   SCAN RESULT
+   ============================================================ */
+
+.scan-result-banner {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding: 14px 17px;
+
+  border-radius: 10px;
+
+  margin-bottom: 24px;
+}
+
+.scan-result-banner.no-anomalies {
+  background: rgba(34, 160, 107, 0.07);
+  border: 1px solid rgba(34, 160, 107, 0.2);
+}
+
+.scan-result-banner.has-anomalies {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.scan-result-icon {
+  width: 31px;
+  height: 31px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--bg);
+  color: var(--accent);
+
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.scan-result-banner.no-anomalies .scan-result-icon {
+  color: #22a06b;
+}
+
+.scan-result-banner > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scan-result-banner strong {
+  color: var(--text-h);
+  font-size: 13px;
+}
+
+.scan-result-banner span {
+  color: var(--text);
+  font-size: 12px;
+}
+
+/* ============================================================
+   SUMMARY
+   ============================================================ */
+
+.anomaly-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  min-height: 118px;
+  padding: 18px;
+
+  box-sizing: border-box;
+
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  display: flex;
+  flex-direction: column;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.summary-card:hover {
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow);
+}
+
+.summary-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.summary-card strong {
+  margin-top: 10px;
+
+  color: var(--text-h);
+
+  font-size: 28px;
+  line-height: 1;
+
+  letter-spacing: -0.7px;
+}
+
+.summary-description {
+  margin-top: auto;
+
+  padding-top: 9px;
+
+  font-size: 11px;
+  color: var(--text);
+}
+
+.summary-high {
+  color: #d64545 !important;
+}
+
+.summary-medium {
+  color: #b7791f !important;
+}
+
+/* ============================================================
+   LIST HEADER
+   ============================================================ */
+
+.anomaly-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 24px;
+
+  margin-bottom: 18px;
+
+  padding-bottom: 17px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.anomaly-list-header h2 {
+  margin: 0 0 4px;
+  color: var(--text-h);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.anomaly-list-header p {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.anomaly-filters {
+  display: flex;
+  gap: 9px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-group label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.filter-group select {
+  height: 38px;
+  min-width: 135px;
+}
+
+/* ============================================================
+   ANOMALY LIST
+   ============================================================ */
+
+.anomaly-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ============================================================
+   ANOMALY CARD
+   ============================================================ */
+
+.anomaly-card {
+  overflow: hidden;
+
+  background: var(--bg);
+
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.anomaly-card:hover {
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+.anomaly-card.is-reviewed {
+  opacity: 0.82;
+}
+
+.anomaly-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 24px;
+
+  padding: 20px 21px 15px;
+}
+
+.anomaly-card-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.anomaly-indicator {
+  width: 4px;
+  min-height: 51px;
+
+  border-radius: 4px;
+
+  background: var(--accent);
+}
+
+.anomaly-title-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.anomaly-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 3px 8px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.anomaly-status.open {
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.anomaly-status.done {
+  color: #22764f;
+  background: rgba(34, 160, 107, 0.09);
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.anomaly-transaction-id {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 7px;
+
+  font-size: 11px;
+  color: var(--text);
+}
+
+.anomaly-transaction-id span {
+  font-family: var(--mono);
+  color: var(--text-h);
+}
+
+/* ============================================================
+   SCORE
+   ============================================================ */
+
+.anomaly-score-block {
+  min-width: 125px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.anomaly-score-label {
+  font-size: 10px;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.anomaly-score-block strong {
+  font-size: 25px;
+  line-height: 1;
+  letter-spacing: -0.6px;
+}
+
+.anomaly-score-confidence {
+  margin-top: 4px;
+
+  font-size: 10px;
+  color: var(--text);
+}
+
+.score-high {
+  color: #d64545 !important;
+}
+
+.score-medium {
+  color: #b7791f !important;
+}
+
+.score-low {
+  color: var(--accent) !important;
+}
+
+.anomaly-score-track {
+  height: 4px;
+  margin: 0 21px;
+
+  overflow: hidden;
+
+  background: var(--code-bg);
+  border-radius: 5px;
+}
+
+.anomaly-score-fill {
+  height: 100%;
+  border-radius: 5px;
+
+  transition: width 0.4s ease;
+}
+
+.anomaly-score-fill.score-high {
+  background: #d64545;
+}
+
+.anomaly-score-fill.score-medium {
+  background: #b7791f;
+}
+
+.anomaly-score-fill.score-low {
+  background: var(--accent);
+}
+
+/* ============================================================
+   REASON
+   ============================================================ */
+
+.anomaly-reason-section {
+  margin: 19px 21px 16px;
+
+  padding: 15px;
+
+  background: var(--code-bg);
+  border-radius: 9px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 7px;
+
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 18px;
+
+  border-radius: 4px;
+
+  background: var(--accent-bg);
+  color: var(--accent);
+
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.anomaly-reason {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   META
+   ============================================================ */
+
+.anomaly-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.anomaly-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  padding: 13px 21px;
+}
+
+.anomaly-meta-item + .anomaly-meta-item {
+  border-left: 1px solid var(--border);
+}
+
+.anomaly-meta-item span {
+  font-size: 10px;
+  color: var(--text);
+}
+
+.anomaly-meta-item strong {
+  color: var(--text-h);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   CARD FOOTER
+   ============================================================ */
+
+.anomaly-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 13px 21px;
+}
+
+.anomaly-footer-id {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--text);
+  font-size: 11px;
+}
+
+.anomaly-footer-id code {
+  padding: 3px 6px;
+
+  font-size: 10px;
+
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+.anomaly-review-button {
+  min-height: 35px;
+
+  padding: 0 13px;
+
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  background: var(--bg);
+  color: var(--text-h);
+
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.anomaly-review-button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.anomaly-review-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.review-complete {
+  color: #22764f;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.anomaly-empty {
+  padding: 60px 30px;
+
+  text-align: center;
+
+  border: 1px dashed var(--border);
+  border-radius: 13px;
+
+  background: var(--social-bg);
+}
+
+.empty-icon {
+  width: 50px;
+  height: 50px;
+
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(34, 160, 107, 0.09);
+  color: #22764f;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.anomaly-empty h2 {
+  margin: 0 0 7px;
+
+  color: var(--text-h);
+  font-size: 19px;
+}
+
+.anomaly-empty p {
+  max-width: 500px;
+
+  margin: 0 auto 18px;
+
+  color: var(--text);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.empty-scan-button {
+  height: 37px;
+
+  padding: 0 14px;
+
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+
+  background: var(--accent);
+  color: white;
+
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.anomaly-loading {
+  min-height: 220px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: var(--text);
+}
+
+.anomaly-loading p {
+  font-size: 13px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+
+  color: var(--accent);
+}
+
+/* ============================================================
+   ERROR
+   ============================================================ */
 
 .anomaly-error {
-  color: #dc2626;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 17px;
+
+  border: 1px solid rgba(214, 69, 69, 0.25);
+  border-radius: 10px;
+
+  background: rgba(214, 69, 69, 0.06);
 }
 
-.anomaly-scan-message {
-  color: #4b5563;
-  font-size: 14px;
+.error-icon {
+  width: 27px;
+  height: 27px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(214, 69, 69, 0.12);
+  color: #d64545;
+
+  font-weight: 800;
+}
+
+.anomaly-error strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--text-h);
+  font-size: 13px;
+}
+
+.anomaly-error p {
+  color: var(--text);
+  font-size: 12px;
+}
+
+/* ============================================================
+   ACCESS DENIED
+   ============================================================ */
+
+.anomaly-access-denied {
+  padding: 80px 30px;
+  text-align: center;
+}
+
+.access-icon {
+  width: 48px;
+  height: 48px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--accent-bg);
+  color: var(--accent);
+
+  font-weight: 800;
+}
+
+.anomaly-access-denied h2 {
+  margin-bottom: 7px;
+}
+
+.anomaly-access-denied p {
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
+.anomaly-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  margin-top: 24px;
+}
+
+.anomaly-pager button {
+  min-height: 35px;
+
+  padding: 0 13px;
+
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  background: var(--bg);
+  color: var(--text-h);
+
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.anomaly-pager button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.anomaly-pager button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.anomaly-pager span {
+  color: var(--text);
+  font-size: 11px;
+}
+
+.anomaly-pager strong {
+  color: var(--text-h);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .anomaly-page {
+    padding: 35px 25px 60px;
+  }
+
+  .anomaly-page-header {
+    flex-direction: column;
+  }
+
+  .model-status {
+    align-self: flex-start;
+  }
+
+  .anomaly-scan-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scan-controls {
+    justify-content: flex-end;
+  }
+
+  .anomaly-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .anomaly-list-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 650px) {
+  .anomaly-page {
+    padding: 28px 16px 50px;
+  }
+
+  .anomaly-page h1 {
+    font-size: 32px;
+  }
+
+  .anomaly-scan-panel {
+    padding: 18px;
+  }
+
+  .scan-panel-info {
+    align-items: flex-start;
+  }
+
+  .scan-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scan-window-control select,
+  .run-scan-button {
+    width: 100%;
+  }
+
+  .anomaly-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .summary-card {
+    min-height: 105px;
+    padding: 14px;
+  }
+
+  .summary-card strong {
+    font-size: 23px;
+  }
+
+  .anomaly-filters {
+    width: 100%;
+  }
+
+  .filter-group {
+    flex: 1;
+  }
+
+  .filter-group select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .anomaly-card-header {
+    flex-direction: column;
+  }
+
+  .anomaly-score-block {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .anomaly-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .anomaly-meta-item + .anomaly-meta-item {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .anomaly-card-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .anomaly-review-button {
+    width: 100%;
+  }
 }

@@ -1,5 +1,6 @@
 namespace FinancialAutomation.Application.Interfaces;
 using FinancialAutomation.Application.DTOs.Anomaly;
+using FinancialAutomation.Application.DTOs.Prediction;
 public interface IFastApiClient
 {
     IOcrClient Ocr { get; }
@@ -75,4 +76,9 @@ public class AiServiceException : Exception
 public interface IAnomalyApiClient
 {
     Task<AnomalyScanResponse> ScanAsync(AnomalyScanRequest request, CancellationToken ct = default);
+}
+public interface IPredictionApiClient
+{
+    Task<PredictionForecastResponse> ForecastAsync(
+        PredictionForecastRequest request, CancellationToken ct = default);
 }

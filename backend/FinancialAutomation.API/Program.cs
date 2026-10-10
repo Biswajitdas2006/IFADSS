@@ -40,7 +40,6 @@ using Serilog;
 
 // Catches startup errors before the full Serilog configuration
 // is loaded.
-// ============================================================
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -72,7 +71,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // REPOSITORIES
 // ============================================================
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<
+    IUserRepository,
+    UserRepository>();
 
 builder.Services.AddScoped<
     IInvoiceRepository,
@@ -82,8 +83,13 @@ builder.Services.AddScoped<
     ITransactionRepository,
     TransactionRepository>();
 
-// Anomaly repository
-builder.Services.AddScoped<IAnomalyRepository, AnomalyRepository>();
+builder.Services.AddScoped<
+    IAnomalyRepository,
+    AnomalyRepository>();
+
+builder.Services.AddScoped<
+    IPredictionRepository,
+    PredictionRepository>();
 
 // ============================================================
 // FILE STORAGE
@@ -101,29 +107,26 @@ builder.Services.AddScoped<
     IInvoiceService,
     InvoiceService>();
 
-// Invoice OCR processor.
-//
-// The BackgroundService creates a new DI scope for each job,
-// so InvoiceService receives a fresh AppDbContext.
 builder.Services.AddScoped<
     IInvoiceOcrProcessor,
     InvoiceService>();
+
+builder.Services.AddScoped<
+    IPredictionService,
+    PredictionService>();
 
 // ============================================================
 // INVOICE BACKGROUND PROCESSING
 // ============================================================
 
-// In-memory bounded queue.
-//
-// Singleton is intentional because the queue must be shared
-// between HTTP requests and the BackgroundService.
+// Singleton is intentional.
+// The queue must be shared between HTTP requests
+// and the BackgroundService.
+
 builder.Services.AddSingleton<
     IInvoiceProcessingQueue,
     InvoiceProcessingQueue>();
 
-// Background worker.
-//
-// This continuously consumes queued invoice-processing jobs.
 builder.Services.AddHostedService<
     InvoiceProcessingWorker>();
 
@@ -134,35 +137,99 @@ builder.Services.AddHostedService<
 builder.Services.Configure<FastApiOptions>(
     builder.Configuration.GetSection("FastApi"));
 
+
+// ------------------------------------------------------------
+// MAIN FASTAPI CLIENT
+// ------------------------------------------------------------
+
 builder.Services.AddHttpClient<
     IFastApiClient,
     FastApiClient>((sp, client) =>
     {
         var baseUrl =
-            builder.Configuration["FastApi:BaseUrl"]
-            ?? throw new InvalidOperationException(
+            builder.Configuration["FastApi:BaseUrl"];
+
+        if (string.IsNullOrWhiteSpace(baseUrl))
+        {
+            throw new InvalidOperationException(
                 "FastApi:BaseUrl is not configured.");
+        }
 
-        client.BaseAddress = new Uri(baseUrl);
-
-        // Outer safety net.
+        // Always normalize the URL.
         //
-        // Individual clients have their own shorter
-        // per-call timeout.
-        client.Timeout = TimeSpan.FromSeconds(120);
+        // Example:
+        //
+        // https://example.trycloudflare.com
+        //
+        // becomes:
+        //
+        // https://example.trycloudflare.com/
+        //
+        // This prevents accidental double-slash URLs.
+
+        client.BaseAddress =
+            new Uri(
+                baseUrl.TrimEnd('/') + "/");
+
+        // Outer HTTP safety timeout.
+        //
+        // OCR has its own internal 600-second timeout
+        // inside FastApiClient.
+        //
+        // This 11-minute timeout gives a small safety margin.
+
+        client.Timeout =
+            TimeSpan.FromMinutes(11);
     });
+
+
+// ------------------------------------------------------------
+// ANOMALY API CLIENT
+// ------------------------------------------------------------
 
 builder.Services.AddHttpClient<
     IAnomalyApiClient,
     AnomalyApiClient>(client =>
     {
         var baseUrl =
-            builder.Configuration["FastApi:BaseUrl"]
-            ?? throw new InvalidOperationException(
-                "FastApi:BaseUrl is not configured.");
+            builder.Configuration["FastApi:BaseUrl"];
 
-        client.BaseAddress = new Uri(baseUrl);
-        client.Timeout = TimeSpan.FromSeconds(15);
+        if (string.IsNullOrWhiteSpace(baseUrl))
+        {
+            throw new InvalidOperationException(
+                "FastApi:BaseUrl is not configured.");
+        }
+
+        client.BaseAddress =
+            new Uri(
+                baseUrl.TrimEnd('/') + "/");
+
+        // Anomaly scanning should be much faster
+        // than the asynchronous OCR pipeline.
+
+        client.Timeout =
+            TimeSpan.FromSeconds(15);
+    });
+
+builder.Services.AddHttpClient<
+    IPredictionApiClient,
+    PredictionApiClient>(client =>
+    {
+        var baseUrl =
+            builder.Configuration["FastApi:BaseUrl"];
+
+        if (string.IsNullOrWhiteSpace(baseUrl))
+        {
+            throw new InvalidOperationException(
+                "FastApi:BaseUrl is not configured.");
+        }
+
+        client.BaseAddress =
+            new Uri(
+                baseUrl.TrimEnd('/') + "/");
+
+        client.Timeout =
+            TimeSpan.FromSeconds(30);
     });
 
 // ============================================================
@@ -189,8 +256,9 @@ builder.Services.AddScoped<
     ITransactionService,
     TransactionService>();
 
-// Anomaly service
-builder.Services.AddScoped<IAnomalyService, AnomalyService>();
+builder.Services.AddScoped<
+    IAnomalyService,
+    AnomalyService>();
 
 // ============================================================
 // JWT AUTHENTICATION
@@ -220,10 +288,16 @@ builder.Services
             new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuer = jwtIssuer,
+
+                ValidIssuer =
+                    jwtIssuer,
+
                 ValidateAudience = false,
+
                 ValidateLifetime = true,
+
                 ValidateIssuerSigningKey = true,
+
                 IssuerSigningKey =
                     new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(
@@ -257,11 +331,20 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton(provider => new MapperConfiguration(
-    config => config.AddProfile<AutoMapperProfile>(),
-    provider.GetRequiredService<ILoggerFactory>()));
-builder.Services.AddSingleton<IMapper>(provider =>
-    provider.GetRequiredService<MapperConfiguration>().CreateMapper());
+builder.Services.AddSingleton(
+    provider =>
+        new MapperConfiguration(
+            config =>
+                config.AddProfile<AutoMapperProfile>(),
+            provider.GetRequiredService<
+                ILoggerFactory>()));
+
+builder.Services.AddSingleton<IMapper>(
+    provider =>
+        provider
+            .GetRequiredService<
+                MapperConfiguration>()
+            .CreateMapper());
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -276,10 +359,17 @@ builder.Services.AddSwaggerGen(options =>
         new OpenApiSecurityScheme
         {
             Name = "Authorization",
-            Type = SecuritySchemeType.Http,
+
+            Type =
+                SecuritySchemeType.Http,
+
             Scheme = "Bearer",
+
             BearerFormat = "JWT",
-            In = ParameterLocation.Header,
+
+            In =
+                ParameterLocation.Header,
+
             Description =
                 "Enter: Bearer {your token}"
         });
@@ -295,9 +385,11 @@ builder.Services.AddSwaggerGen(options =>
                         {
                             Type =
                                 ReferenceType.SecurityScheme,
+
                             Id = "Bearer"
                         }
                 },
+
                 Array.Empty<string>()
             }
         });
@@ -319,7 +411,8 @@ app.UseSerilogRequestLogging();
 // GLOBAL EXCEPTION HANDLING
 // ============================================================
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<
+    ExceptionHandlingMiddleware>();
 
 // ============================================================
 // SWAGGER
@@ -328,6 +421,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 
@@ -344,7 +438,8 @@ if (!app.Environment.IsDevelopment())
 // CORS
 // ============================================================
 
-app.UseCors("AllowFrontend");
+app.UseCors(
+    "AllowFrontend");
 
 // ============================================================
 // AUTHENTICATION / AUTHORIZATION

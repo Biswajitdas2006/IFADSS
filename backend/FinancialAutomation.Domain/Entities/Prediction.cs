@@ -32,4 +32,9 @@ public class Prediction : BaseEntity
         LowerBound = lowerBound;
         UpperBound = upperBound;
     }
+
+    public void SetGeneratedAt(DateTime generatedAt)
+    {
+        GeneratedAt = generatedAt;
+    }
 }

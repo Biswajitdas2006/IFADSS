@@ -4,6 +4,7 @@ import AppLayout from '../components/layout/AppLayout';
 import UploadInvoiceModal from '../components/invoice/UploadInvoiceModal';
 import { theme } from '../styles/theme';
 import { Link } from 'react-router-dom';
+
 const STATUS_STYLES = {
   Processed: { bg: '#E5F5EF', text: theme.colors.success },
   Pending: { bg: '#FEF3E2', text: theme.colors.warning },
@@ -71,7 +72,9 @@ function InvoicesPage() {
                 </td>
                 <td style={styles.td}>{new Date(inv.uploadedAt).toLocaleDateString()}</td>
                 <td style={styles.tdRight}>
-                  {inv.totalAmount != null ? `$${inv.totalAmount.toFixed(2)}` : '—'}
+                  {inv.totalAmount != null
+                    ? `₹${Number(inv.totalAmount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                    : '—'}
                 </td>
                 <td style={styles.td}>
                   <span style={{

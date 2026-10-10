@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getInvoice } from '../services/invoiceService';
+import { anomalyService } from '../services/anomalyService';
+import { useAuth } from '../context/AuthContext';
 import AppLayout from '../components/layout/AppLayout';
 import { theme } from '../styles/theme';
 
@@ -10,40 +12,56 @@ const STATUS_STYLES = {
   Failed: { bg: '#FDECEC', text: theme.colors.error },
 };
 
+const money = (v) =>
+  `₹${Number(v ?? 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
 function InvoiceDetailPage() {
   const { id } = useParams();
+  const { user } = useAuth();
+  const canScan = ['Owner', 'Accountant'].includes(user?.role);
+
   const [invoice, setInvoice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const scanned = useRef(false);
 
+  // Load + poll while Pending
   useEffect(() => {
     let cancelled = false;
+    let timer;
 
     async function load() {
       try {
         const result = await getInvoice(id);
-        if (!cancelled) setInvoice(result);
+        if (cancelled) return;
+        setInvoice(result);
+        setLoading(false);
+        if (result.status === 'Pending') {
+          timer = setTimeout(load, 3000);
+        }
       } catch (err) {
         if (!cancelled) {
           setError(err.response?.data?.error?.message || 'Could not load invoice.');
+          setLoading(false);
         }
-      } finally {
-        if (!cancelled) setLoading(false);
       }
     }
 
     load();
 
-    // Poll every 3s while still Pending, per Document 1 Section 9's documented flow
-    const interval = setInterval(() => {
-      if (invoice?.status === 'Pending') load();
-    }, 3000);
-
     return () => {
       cancelled = true;
-      clearInterval(interval);
+      clearTimeout(timer);
     };
-  }, [id, invoice?.status]);
+  }, [id]);
+
+  // Once the invoice is processed, its transactions exist -> run anomaly scan
+  useEffect(() => {
+    if (invoice?.status === 'Processed' && canScan && !scanned.current) {
+      scanned.current = true;
+      anomalyService.scan(90).catch(() => {});
+    }
+  }, [invoice?.status, canScan]);
 
   if (loading) {
     return (
@@ -76,15 +94,20 @@ function InvoiceDetailPage() {
       </div>
 
       {invoice.status === 'Failed' && (
-      <div style={styles.failedBox}>
-        <strong>Processing failed.</strong> {invoice.failureReason || 'The AI service could not process this invoice.'}
-      </div>
+        <div style={styles.failedBox}>
+          <strong>Processing failed.</strong>{' '}
+          {invoice.failureReason || 'The AI service could not process this invoice.'}
+        </div>
       )}
 
       <div style={styles.grid}>
         <InfoCard label="Vendor" value={invoice.vendorName ?? '—'} />
         <InfoCard label="Invoice Date" value={invoice.invoiceDate ?? '—'} />
-        <InfoCard label="Total Amount" value={invoice.totalAmount != null ? `$${invoice.totalAmount.toFixed(2)}` : '—'} mono />
+        <InfoCard
+          label="Total Amount"
+          value={invoice.totalAmount != null ? money(invoice.totalAmount) : '—'}
+          mono
+        />
       </div>
 
       <h2 style={styles.subheading}>Line Items</h2>
@@ -115,7 +138,7 @@ function InvoiceDetailPage() {
                       <span style={styles.uncategorized}>Uncategorized</span>
                     )}
                   </td>
-                  <td style={styles.tdRight}>${t.amount.toFixed(2)}</td>
+                  <td style={styles.tdRight}>{money(t.amount)}</td>
                 </tr>
               ))}
             </tbody>
@@ -146,10 +169,6 @@ const styles = {
   headerRow: { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' },
   heading: { color: theme.colors.inkBase, fontFamily: theme.fonts.display, fontSize: '22px', margin: 0 },
   badge: { padding: '4px 12px', borderRadius: theme.radius.sm, fontSize: '12px', fontWeight: 600 },
-  pendingBox: {
-    backgroundColor: '#FEF3E2', color: '#92660B', padding: '12px 16px',
-    borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '20px',
-  },
   errorBox: {
     backgroundColor: '#FDECEC', color: theme.colors.error, padding: '12px 16px',
     borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '16px',
@@ -179,8 +198,8 @@ const styles = {
   uncategorized: { fontSize: '13px', color: theme.colors.textMuted, fontStyle: 'italic' },
   emptyCell: { padding: '40px', textAlign: 'center', color: theme.colors.textMuted, fontSize: '14px' },
   failedBox: {
-  backgroundColor: '#FDECEC', color: theme.colors.error, padding: '12px 16px',
-  borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '20px',
+    backgroundColor: '#FDECEC', color: theme.colors.error, padding: '12px 16px',
+    borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '20px',
   },
 };
 
