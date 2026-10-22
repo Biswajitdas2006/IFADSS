@@ -167,6 +167,14 @@ export default function AnomaliesPage() {
     setPage(1);
   };
 
+  const clearFilters = () => {
+    setSeverity('');
+    setReviewed('');
+    setPage(1);
+  };
+
+  const hasActiveFilters = Boolean(severity || reviewed);
+
   if (!hasAccess) {
     return (
       <AppLayout>
@@ -195,7 +203,8 @@ export default function AnomaliesPage() {
 
             <p className="anomaly-subheading">
               Identify unusual financial transactions using behavioral
-              machine learning.
+              machine learning. Review risk signals, investigate flagged activity,
+              and record each decision.
             </p>
           </div>
 
@@ -283,36 +292,45 @@ export default function AnomaliesPage() {
           </section>
         )}
 
-        <section className="anomaly-summary">
+        <section className="anomaly-summary" aria-label="Anomaly summary">
           <div className="summary-card summary-total">
             <span className="summary-label">Flagged transactions</span>
             <strong>{data.totalItems}</strong>
-            <span className="summary-description">Total detected</span>
+            <span className="summary-description">Matching current filters</span>
           </div>
 
           <div className="summary-card">
             <span className="summary-label">High severity</span>
             <strong className="summary-high">{statistics.high}</strong>
-            <span className="summary-description">Requires attention</span>
+            <span className="summary-description">On this page · review first</span>
           </div>
 
           <div className="summary-card">
             <span className="summary-label">Medium severity</span>
             <strong className="summary-medium">{statistics.medium}</strong>
-            <span className="summary-description">Review recommended</span>
+            <span className="summary-description">On this page · review recommended</span>
+          </div>
+
+          <div className="summary-card">
+            <span className="summary-label">Low severity</span>
+            <strong className="summary-low">{statistics.low}</strong>
+            <span className="summary-description">On this page · monitor</span>
           </div>
 
           <div className="summary-card">
             <span className="summary-label">Open reviews</span>
             <strong>{statistics.open}</strong>
-            <span className="summary-description">Awaiting review</span>
+            <span className="summary-description">Awaiting review on this page</span>
           </div>
         </section>
 
         <section className="anomaly-list-header">
           <div>
             <h2>Detected anomalies</h2>
-            <p>Review transactions flagged by the AI model.</p>
+            <p>
+              {data.totalItems} {data.totalItems === 1 ? 'transaction' : 'transactions'}
+              {' '}match your filters. Severity and review counts show this page only.
+            </p>
           </div>
 
           <div className="anomaly-filters">
@@ -344,6 +362,27 @@ export default function AnomaliesPage() {
                 <option value="true">Reviewed</option>
               </select>
             </div>
+
+            <div className="filter-actions">
+              <button
+                type="button"
+                className="anomaly-secondary-button"
+                onClick={load}
+                disabled={loading}
+              >
+                {loading ? 'Refreshing…' : 'Refresh'}
+              </button>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  className="anomaly-text-button"
+                  onClick={clearFilters}
+                  disabled={loading}
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
@@ -362,6 +401,14 @@ export default function AnomaliesPage() {
               <div>
                 <strong>Unable to load anomalies</strong>
                 <p>{error}</p>
+                <button
+                  type="button"
+                  className="anomaly-secondary-button error-retry-button"
+                  onClick={load}
+                  disabled={loading}
+                >
+                  Try again
+                </button>
               </div>
             </div>
           )}
@@ -370,21 +417,32 @@ export default function AnomaliesPage() {
             <div className="anomaly-empty">
               <div className="empty-icon">✓</div>
 
-              <h2>No anomalies found</h2>
+              <h2>{hasActiveFilters ? 'No matching anomalies' : 'No anomalies found'}</h2>
 
               <p>
-                No transactions matching the current filters
-                have been flagged by the anomaly model.
+                {hasActiveFilters
+                  ? 'There are no flagged transactions for the selected severity and review status. Clear the filters to see all results.'
+                  : 'No transactions have been flagged by the anomaly model yet. Run a scan to analyze recent activity.'}
               </p>
 
-              <button
-                type="button"
-                className="empty-scan-button"
-                onClick={runScan}
-                disabled={scanning}
-              >
-                {scanning ? 'Analyzing…' : 'Run AI scan'}
-              </button>
+              {hasActiveFilters ? (
+                <button
+                  type="button"
+                  className="empty-scan-button"
+                  onClick={clearFilters}
+                >
+                  Clear filters
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="empty-scan-button"
+                  onClick={runScan}
+                  disabled={scanning}
+                >
+                  {scanning ? 'Analyzing…' : 'Run AI scan'}
+                </button>
+              )}
             </div>
           )}
 

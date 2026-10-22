@@ -1,7 +1,18 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
+import AuthVisual from '../components/auth/AuthVisual';
 import { useAuth } from '../context/AuthContext';
-import { theme } from '../styles/theme';
+
+function AuthBrand() {
+  return (
+    <div className="auth-card__brand" aria-label="FinFlow by IFADSS">
+      <span className="auth-card__brand-mark"><FiArrowRight aria-hidden="true" /></span>
+      <span>FinFlow</span>
+      <small>by IFADSS</small>
+    </div>
+  );
+}
 
 function LoginPage() {
   const { login } = useAuth();
@@ -9,6 +20,7 @@ function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -29,132 +41,77 @@ function LoginPage() {
   };
 
   return (
-    <div style={styles.container}>
-      <form style={styles.card} onSubmit={handleSubmit}>
-        <div style={styles.brand}>FinFlow</div>
-        <h1 style={styles.title}>Log in to your account</h1>
+    <main className="auth-page">
+      <AuthVisual />
+      <section className="auth-content" aria-label="Log in">
+        <form className="auth-card" onSubmit={handleSubmit}>
+          <AuthBrand />
+          <p className="auth-card__eyebrow">Welcome back</p>
+          <h1 className="auth-card__title">Log in to your account</h1>
+          <p className="auth-card__subtitle">Enter your details to continue to your financial workspace.</p>
 
-        {error && <div style={styles.errorBox}>{error}</div>}
+          {error && <div className="auth-error" role="alert">{error}</div>}
 
-        <label style={styles.label}>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={styles.input}
-          placeholder="you@business.com"
-        />
+          <div className="auth-form">
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="login-email">Email</label>
+              <div className="auth-input-wrap">
+                <FiMail className="auth-input-icon" aria-hidden="true" />
+                <input
+                  className="auth-input"
+                  id="login-email"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="you@business.com"
+                />
+              </div>
+            </div>
 
-        <label style={styles.label}>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={styles.input}
-          placeholder="••••••••"
-        />
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="login-password">Password</label>
+              <div className="auth-input-wrap">
+                <FiLock className="auth-input-icon" aria-hidden="true" />
+                <input
+                  className="auth-input"
+                  id="login-password"
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                />
+                <button
+                  className="auth-password-toggle"
+                  type="button"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  onClick={() => setShowPassword((visible) => !visible)}
+                >
+                  {showPassword ? <FiEyeOff aria-hidden="true" /> : <FiEye aria-hidden="true" />}
+                </button>
+              </div>
+            </div>
+          </div>
 
-        <button type="submit" disabled={loading} style={styles.button}>
-          {loading ? 'Logging in...' : 'Log in'}
-        </button>
+          <button className="auth-button" type="submit" disabled={loading}>
+            {loading && <span className="auth-button__spinner" aria-hidden="true" />}
+            {loading ? 'Logging in...' : 'Log in'}
+            {!loading && <FiArrowRight aria-hidden="true" />}
+          </button>
 
-        <p style={styles.footerText}>
-          Don't have an account?{' '}
-          <Link to="/register" style={styles.link}>Register</Link>
-        </p>
-      </form>
-    </div>
+          <p className="auth-card__footer">
+            Don&apos;t have an account? <Link className="auth-link" to="/register">Register</Link>
+          </p>
+        </form>
+      </section>
+    </main>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: theme.colors.surfaceWash,
-    fontFamily: theme.fonts.body,
-  },
-  card: {
-    backgroundColor: theme.colors.white,
-    padding: '40px',
-    borderRadius: theme.radius.lg,
-    width: '360px',
-    border: `1px solid ${theme.colors.border}`,
-    boxShadow: theme.shadow.level2,
-  },
-  brand: {
-    color: theme.colors.primaryEmerald,
-    fontFamily: theme.fonts.display,
-    fontSize: '20px',
-    fontWeight: 700,
-    textAlign: 'center',
-    marginBottom: '8px',
-  },
-  title: {
-    color: theme.colors.inkBase,
-    fontFamily: theme.fonts.display,
-    fontSize: '18px',
-    fontWeight: 600,
-    marginBottom: '20px',
-    textAlign: 'center',
-  },
-  label: {
-    display: 'block',
-    color: theme.colors.secondarySlate,
-    fontSize: '13px',
-    marginBottom: '6px',
-    marginTop: '14px',
-  },
-  input: {
-    width: '100%',
-    padding: '10px 12px',
-    borderRadius: theme.radius.sm,
-    border: `1px solid ${theme.colors.border}`,
-    backgroundColor: theme.colors.white,
-    color: theme.colors.inkBase,
-    fontSize: '14px',
-    boxSizing: 'border-box',
-    fontFamily: theme.fonts.body,
-  },
-  button: {
-    width: '100%',
-    marginTop: '24px',
-    padding: '12px',
-    borderRadius: theme.radius.sm,
-    border: 'none',
-    backgroundColor: theme.colors.primaryEmerald,
-    color: theme.colors.white,
-    fontWeight: 600,
-    fontSize: '15px',
-    cursor: 'pointer',
-    fontFamily: theme.fonts.body,
-  },
-  errorBox: {
-    backgroundColor: '#FDECEC',
-    color: theme.colors.error,
-    padding: '10px',
-    borderRadius: theme.radius.sm,
-    fontSize: '13px',
-    marginBottom: '10px',
-    border: `1px solid ${theme.colors.error}`,
-  },
-  footerText: {
-    marginTop: '16px',
-    textAlign: 'center',
-    fontSize: '13px',
-    color: theme.colors.textMuted,
-  },
-  link: {
-    color: theme.colors.primaryEmerald,
-    fontWeight: 600,
-    textDecoration: 'none',
-  },
-};
 
 export default LoginPage;

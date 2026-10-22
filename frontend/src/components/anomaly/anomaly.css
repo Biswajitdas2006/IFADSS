@@ -1117,6 +1117,400 @@
   .filter-group {
     flex: 1;
   }
+}
+
+/* FinFlow theme and page-level polish */
+.anomaly-page {
+  --text: #59695e;
+  --text-h: #26352b;
+  --bg: #ffffff;
+  --border: #dce6dd;
+  --code-bg: #f3f7f3;
+  --accent: #006c49;
+  --accent-bg: rgba(0, 108, 73, 0.09);
+  --accent-border: rgba(0, 108, 73, 0.28);
+  --social-bg: #f7faf7;
+  --shadow: 0 8px 24px rgba(35, 58, 42, 0.08);
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 32px 56px;
+  color: var(--text-h);
+  font-family: Inter, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.anomaly-page *,
+.anomaly-page *::before,
+.anomaly-page *::after {
+  box-sizing: border-box;
+}
+
+.anomaly-page h1,
+.anomaly-page h2,
+.anomaly-page p {
+  font-family: inherit;
+}
+
+.anomaly-page h1 {
+  margin: 0 0 8px;
+  color: var(--text-h);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.15;
+}
+
+.anomaly-page h2 {
+  color: var(--text-h);
+  font-weight: 650;
+}
+
+.anomaly-page-header {
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.anomaly-subheading {
+  max-width: 680px;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.model-status {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(35, 58, 42, 0.05);
+}
+
+.anomaly-scan-panel {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(35, 58, 42, 0.04);
+}
+
+.scan-panel-info p {
+  max-width: 510px;
+}
+
+.scan-controls {
+  flex-shrink: 0;
+}
+
+.anomaly-page select {
+  min-height: 42px;
+  font-family: inherit;
+}
+
+.run-scan-button,
+.empty-scan-button {
+  min-height: 42px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.run-scan-button:hover:not(:disabled),
+.empty-scan-button:hover:not(:disabled) {
+  background: #00583c;
+  border-color: #00583c;
+}
+
+.anomaly-summary {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0 34px;
+}
+
+.summary-card {
+  min-height: 126px;
+  padding: 18px 20px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(35, 58, 42, 0.04);
+}
+
+.summary-card strong {
+  margin-top: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-high {
+  color: #bd3838 !important;
+}
+
+.summary-medium {
+  color: #a66a08 !important;
+}
+
+.summary-low {
+  color: #006c49 !important;
+}
+
+.anomaly-list-header {
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+}
+
+.anomaly-list-header h2 {
+  margin: 0 0 5px;
+  font-size: 21px;
+}
+
+.anomaly-list-header p {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.anomaly-filters {
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.filter-group select {
+  font-family: inherit;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 1px;
+}
+
+.anomaly-secondary-button,
+.anomaly-text-button {
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-h);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.anomaly-secondary-button:hover:not(:disabled) {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.anomaly-text-button {
+  padding: 0 8px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent);
+}
+
+.anomaly-text-button:hover:not(:disabled) {
+  background: var(--accent-bg);
+}
+
+.anomaly-secondary-button:disabled,
+.anomaly-text-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.anomaly-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 7px rgba(35, 58, 42, 0.04);
+}
+
+.anomaly-card:hover {
+  box-shadow: 0 8px 20px rgba(35, 58, 42, 0.09);
+}
+
+.anomaly-card.is-reviewed {
+  opacity: 1;
+}
+
+.anomaly-card-header {
+  padding: 22px 24px 16px;
+}
+
+.anomaly-score-track {
+  height: 5px;
+  margin-right: 24px;
+  margin-left: 24px;
+}
+
+.anomaly-reason-section {
+  margin: 20px 24px 18px;
+  padding: 17px 18px;
+}
+
+.anomaly-reason {
+  overflow-wrap: anywhere;
+}
+
+.anomaly-meta-item {
+  padding: 14px 24px;
+}
+
+.anomaly-card-footer {
+  padding: 14px 24px;
+}
+
+.anomaly-review-button {
+  min-height: 40px;
+  padding: 0 15px;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.anomaly-review-button:focus-visible,
+.anomaly-pager button:focus-visible,
+.anomaly-secondary-button:focus-visible,
+.anomaly-text-button:focus-visible,
+.run-scan-button:focus-visible,
+.empty-scan-button:focus-visible {
+  outline: 3px solid rgba(0, 108, 73, 0.28);
+  outline-offset: 2px;
+}
+
+.anomaly-empty {
+  padding: 64px 28px;
+  background: #fff;
+}
+
+.anomaly-empty h2 {
+  font-size: 21px;
+}
+
+.anomaly-empty p {
+  font-size: 14px;
+}
+
+.anomaly-empty .empty-scan-button {
+  min-height: 40px;
+}
+
+.error-retry-button {
+  margin-top: 10px;
+}
+
+.anomaly-pager button {
+  min-height: 40px;
+  padding: 0 15px;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.anomaly-pager span {
+  font-size: 12px;
+}
+
+.anomaly-access-denied {
+  margin-top: 36px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+@media (max-width: 1100px) {
+  .anomaly-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .anomaly-list-header {
+    align-items: flex-start;
+  }
+
+  .anomaly-filters {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .anomaly-page {
+    padding: 28px 24px 48px;
+  }
+
+  .anomaly-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .anomaly-list-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 650px) {
+  .anomaly-page {
+    padding: 22px 16px 40px;
+  }
+
+  .anomaly-page h1 {
+    font-size: 30px;
+  }
+
+  .anomaly-subheading {
+    font-size: 14px;
+  }
+
+  .anomaly-page-header {
+    gap: 18px;
+  }
+
+  .anomaly-scan-panel {
+    padding: 18px;
+  }
+
+  .scan-controls {
+    width: 100%;
+  }
+
+  .anomaly-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .summary-card {
+    min-height: 112px;
+    padding: 14px;
+  }
+
+  .anomaly-filters {
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .filter-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .anomaly-card-header {
+    padding: 18px 16px 14px;
+  }
+
+  .anomaly-score-track {
+    margin-right: 16px;
+    margin-left: 16px;
+  }
+
+  .anomaly-reason-section {
+    margin: 17px 16px 15px;
+  }
+
+  .anomaly-meta-item {
+    padding: 12px 10px;
+  }
+
+  .anomaly-card-footer {
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  .anomaly-footer-id {
+    flex-wrap: wrap;
+  }
 
   .filter-group select {
     width: 100%;

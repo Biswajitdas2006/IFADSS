@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -9,12 +9,14 @@ import PrivateRoute from './components/common/PrivateRoute';
 import TransactionsPage from './pages/TransactionsPage';
 import AnomaliesPage from './pages/AnomaliesPage';
 import PredictionsPage from './pages/PredictionsPage';
+import SettingsPage from './pages/SettingsPage';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<LandingPage />} />
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -69,6 +71,15 @@ function App() {
           element={
             <PrivateRoute>
               <PredictionsPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <SettingsPage />
             </PrivateRoute>
           }
         />

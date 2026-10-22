@@ -43,9 +43,24 @@ function InvoicesPage() {
           <h1 style={styles.heading}>Invoices</h1>
           <p style={styles.subheading}>Manage and process vendor invoices with AI extraction.</p>
         </div>
-        <button style={styles.uploadButton} onClick={() => setShowModal(true)}>
-          Upload Invoice
-        </button>
+        <div style={styles.headerActions}>
+          <button
+            type="button"
+            style={styles.refreshButton}
+            onClick={load}
+            disabled={loading}
+          >
+            <span aria-hidden="true">↻</span>
+            {loading ? 'Refreshing…' : 'Refresh'}
+          </button>
+          <button
+            type="button"
+            style={styles.uploadButton}
+            onClick={() => setShowModal(true)}
+          >
+            Upload Invoice
+          </button>
+        </div>
       </div>
 
       <div style={styles.tableCard}>
@@ -129,8 +144,15 @@ function InvoicesPage() {
 
 const styles = {
   headerRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' },
+  headerActions: { display: 'flex', gap: '10px', alignItems: 'center' },
   heading: { color: theme.colors.inkBase, fontFamily: theme.fonts.display, fontSize: '24px', margin: 0 },
   subheading: { color: theme.colors.textMuted, fontFamily: theme.fonts.body, fontSize: '14px', marginTop: '4px' },
+  refreshButton: {
+    display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 16px',
+    borderRadius: theme.radius.sm, border: `1px solid ${theme.colors.border}`,
+    backgroundColor: theme.colors.white, color: theme.colors.primaryEmerald,
+    fontWeight: 600, fontSize: '14px', cursor: 'pointer',
+  },
   uploadButton: {
     padding: '10px 18px', borderRadius: theme.radius.sm, border: 'none',
     backgroundColor: theme.colors.primaryEmerald, color: theme.colors.white,

@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FiArrowRight, FiCheck, FiEye, FiEyeOff, FiLayers, FiLock, FiMail, FiUser } from 'react-icons/fi';
+import AuthVisual from '../components/auth/AuthVisual';
 import { useAuth } from '../context/AuthContext';
-import { theme } from '../styles/theme';
+
+function AuthBrand() {
+  return (
+    <div className="auth-card__brand" aria-label="FinFlow by IFADSS">
+      <span className="auth-card__brand-mark"><FiArrowRight aria-hidden="true" /></span>
+      <span>FinFlow</span>
+      <small>by IFADSS</small>
+    </div>
+  );
+}
 
 function RegisterPage() {
   const { register } = useAuth();
@@ -11,9 +22,12 @@ function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const passwordsMismatch = confirmPassword.length > 0 && password !== confirmPassword;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,185 +50,157 @@ function RegisterPage() {
     }
   };
 
-  if (success) {
-    return (
-      <div style={styles.container}>
-        <div style={styles.card}>
-          <div style={styles.brand}>FinFlow</div>
-          <h1 style={styles.title}>Account created</h1>
-          <p style={styles.successText}>Your account has been registered successfully.</p>
-          <Link to="/login" style={styles.link}>Go to Login</Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div style={styles.container}>
-      <form style={styles.card} onSubmit={handleSubmit}>
-        <div style={styles.brand}>FinFlow</div>
-        <h1 style={styles.title}>Create your account</h1>
+    <main className="auth-page auth-page--register">
+      <AuthVisual />
+      <section className="auth-content" aria-label={success ? 'Registration complete' : 'Create an account'}>
+        {success ? (
+          <div className="auth-card auth-success">
+            <AuthBrand />
+            <span className="auth-success__icon"><FiCheck aria-hidden="true" /></span>
+            <p className="auth-card__eyebrow">You&apos;re all set</p>
+            <h1 className="auth-card__title">Account created</h1>
+            <p className="auth-card__subtitle">Your account has been registered successfully.</p>
+            <Link className="auth-button" to="/login">Go to Log in <FiArrowRight aria-hidden="true" /></Link>
+          </div>
+        ) : (
+          <form className="auth-card" onSubmit={handleSubmit}>
+            <AuthBrand />
+            <p className="auth-card__eyebrow">Get started</p>
+            <h1 className="auth-card__title">Create your account</h1>
+            <p className="auth-card__subtitle">Set up your account to explore your financial workspace.</p>
 
-        {error && <div style={styles.errorBox}>{error}</div>}
+            {error && <div className="auth-error" role="alert">{error}</div>}
 
-        <label style={styles.label}>Full Name</label>
-        <input
-          type="text"
-          name="fullName"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
-          style={styles.input}
-          placeholder="Jane Doe"
-        />
+            <div className="auth-form">
+              <div className="auth-field">
+                <label className="auth-field__label" htmlFor="register-full-name">Full Name</label>
+                <div className="auth-input-wrap">
+                  <FiUser className="auth-input-icon" aria-hidden="true" />
+                  <input
+                    className="auth-input"
+                    id="register-full-name"
+                    type="text"
+                    name="fullName"
+                    autoComplete="name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    placeholder="Jane Doe"
+                  />
+                </div>
+              </div>
 
-        <label style={styles.label}>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={styles.input}
-          placeholder="you@business.com"
-        />
+              <div className="auth-field">
+                <label className="auth-field__label" htmlFor="register-email">Email</label>
+                <div className="auth-input-wrap">
+                  <FiMail className="auth-input-icon" aria-hidden="true" />
+                  <input
+                    className="auth-input"
+                    id="register-email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="you@business.com"
+                  />
+                </div>
+              </div>
 
-        <label style={styles.label}>Company Name (optional)</label>
-        <input
-          type="text"
-          name="companyName"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          style={styles.input}
-          placeholder="Jane's Bakery"
-        />
+              <div className="auth-field">
+                <label className="auth-field__label" htmlFor="register-company">
+                  Company Name <span className="auth-field__optional">(optional)</span>
+                </label>
+                <div className="auth-input-wrap">
+                  <FiLayers className="auth-input-icon" aria-hidden="true" />
+                  <input
+                    className="auth-input"
+                    id="register-company"
+                    type="text"
+                    name="companyName"
+                    autoComplete="organization"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    placeholder="Jane's Bakery"
+                  />
+                </div>
+              </div>
 
-        <label style={styles.label}>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={8}
-          style={styles.input}
-          placeholder="••••••••"
-        />
+              <div className="auth-field">
+                <label className="auth-field__label" htmlFor="register-password">Password</label>
+                <div className="auth-input-wrap">
+                  <FiLock className="auth-input-icon" aria-hidden="true" />
+                  <input
+                    className="auth-input"
+                    id="register-password"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    autoComplete="new-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    placeholder="At least 8 characters"
+                  />
+                  <button
+                    className="auth-password-toggle"
+                    type="button"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showPassword}
+                    onClick={() => setShowPassword((visible) => !visible)}
+                  >
+                    {showPassword ? <FiEyeOff aria-hidden="true" /> : <FiEye aria-hidden="true" />}
+                  </button>
+                </div>
+              </div>
 
-        <label style={styles.label}>Confirm Password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          style={styles.input}
-          placeholder="••••••••"
-        />
+              <div className="auth-field">
+                <label className="auth-field__label" htmlFor="register-confirm-password">Confirm Password</label>
+                <div className="auth-input-wrap">
+                  <FiLock className="auth-input-icon" aria-hidden="true" />
+                  <input
+                    className="auth-input"
+                    id="register-confirm-password"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    autoComplete="new-password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    aria-invalid={passwordsMismatch}
+                    aria-describedby={passwordsMismatch ? 'register-password-mismatch' : undefined}
+                    placeholder="Re-enter your password"
+                  />
+                  <button
+                    className="auth-password-toggle"
+                    type="button"
+                    aria-label={showConfirmPassword ? 'Hide confirmation password' : 'Show confirmation password'}
+                    aria-pressed={showConfirmPassword}
+                    onClick={() => setShowConfirmPassword((visible) => !visible)}
+                  >
+                    {showConfirmPassword ? <FiEyeOff aria-hidden="true" /> : <FiEye aria-hidden="true" />}
+                  </button>
+                </div>
+                {passwordsMismatch && <p className="auth-match-message" id="register-password-mismatch" role="status">Passwords do not match yet.</p>}
+              </div>
+            </div>
 
-        <button type="submit" disabled={loading} style={styles.button}>
-          {loading ? 'Creating account...' : 'Create account'}
-        </button>
+            <button className="auth-button" type="submit" disabled={loading}>
+              {loading && <span className="auth-button__spinner" aria-hidden="true" />}
+              {loading ? 'Creating account...' : 'Create account'}
+              {!loading && <FiArrowRight aria-hidden="true" />}
+            </button>
 
-        <p style={styles.footerText}>
-          Already have an account?{' '}
-          <Link to="/login" style={styles.link}>Log in</Link>
-        </p>
-      </form>
-    </div>
+            <p className="auth-card__footer">
+              Already have an account? <Link className="auth-link" to="/login">Log in</Link>
+            </p>
+          </form>
+        )}
+      </section>
+    </main>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: theme.colors.surfaceWash,
-    fontFamily: theme.fonts.body,
-  },
-  card: {
-    backgroundColor: theme.colors.white,
-    padding: '40px',
-    borderRadius: theme.radius.lg,
-    width: '380px',
-    border: `1px solid ${theme.colors.border}`,
-    boxShadow: theme.shadow.level2,
-  },
-  brand: {
-    color: theme.colors.primaryEmerald,
-    fontFamily: theme.fonts.display,
-    fontSize: '20px',
-    fontWeight: 700,
-    textAlign: 'center',
-    marginBottom: '8px',
-  },
-  title: {
-    color: theme.colors.inkBase,
-    fontFamily: theme.fonts.display,
-    fontSize: '18px',
-    fontWeight: 600,
-    marginBottom: '10px',
-    textAlign: 'center',
-  },
-  label: {
-    display: 'block',
-    color: theme.colors.secondarySlate,
-    fontSize: '13px',
-    marginBottom: '6px',
-    marginTop: '14px',
-  },
-  input: {
-    width: '100%',
-    padding: '10px 12px',
-    borderRadius: theme.radius.sm,
-    border: `1px solid ${theme.colors.border}`,
-    backgroundColor: theme.colors.white,
-    color: theme.colors.inkBase,
-    fontSize: '14px',
-    boxSizing: 'border-box',
-    fontFamily: theme.fonts.body,
-  },
-  button: {
-    width: '100%',
-    marginTop: '24px',
-    padding: '12px',
-    borderRadius: theme.radius.sm,
-    border: 'none',
-    backgroundColor: theme.colors.primaryEmerald,
-    color: theme.colors.white,
-    fontWeight: 600,
-    fontSize: '15px',
-    cursor: 'pointer',
-    fontFamily: theme.fonts.body,
-  },
-  errorBox: {
-    backgroundColor: '#FDECEC',
-    color: theme.colors.error,
-    padding: '10px',
-    borderRadius: theme.radius.sm,
-    fontSize: '13px',
-    marginBottom: '10px',
-    border: `1px solid ${theme.colors.error}`,
-  },
-  successText: {
-    color: theme.colors.secondarySlate,
-    fontSize: '14px',
-    textAlign: 'center',
-    marginBottom: '20px',
-  },
-  footerText: {
-    marginTop: '16px',
-    textAlign: 'center',
-    fontSize: '13px',
-    color: theme.colors.textMuted,
-  },
-  link: {
-    color: theme.colors.primaryEmerald,
-    fontWeight: 600,
-    textDecoration: 'none',
-  },
-};
 
 export default RegisterPage;
