@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import { useForecast } from '../../hooks/useForecast';
 import CashFlowChart from './CashFlowChart';
+import { formatCurrency } from '../../utils/formatCurrency';
 import './forecast.css';
 
 const METRICS = [
@@ -12,19 +13,21 @@ const METRICS = [
 
 const HORIZONS = [7, 30, 60, 90];
 
-const fmt = (value) =>
-  Number(value ?? 0).toLocaleString('en-IN', {
-    maximumFractionDigits: 0,
-  });
-
-export default function ForecastWidget() {
+export default function ForecastWidget({ actualTransactions = [] }) {
   const { user } = useAuth();
   const isStaff = user?.role === 'Staff';
   const [metric, setMetric] = useState('CashFlow');
   const [horizon, setHorizon] = useState(30);
   const { data, loading, error, insufficient } = useForecast(metric, horizon, !isStaff);
 
-  if (isStaff) return null;
+  if (isStaff) {
+    return (
+      <section className="forecast-widget dashboard-card forecast-unavailable">
+        <h2>Forecasts are not available for this role</h2>
+        <p className="forecast-msg">Contact your account administrator if you need access to financial forecasts.</p>
+      </section>
+    );
+  }
 
   const label = METRICS.find((item) => item.value === metric)?.label ?? metric;
   const points = data?.forecast ?? [];
@@ -33,9 +36,9 @@ export default function ForecastWidget() {
   const high = points.reduce((sum, p) => sum + Number(p.upperBound ?? p.predicted ?? 0), 0);
 
   return (
-    <div className="forecast-widget">
+    <div className="forecast-widget dashboard-card">
       <div className="forecast-head">
-        <h3>Forecast</h3>
+        <h2>Cash flow forecast</h2>
 
         <div className="forecast-controls">
           <select value={metric} onChange={(e) => setMetric(e.target.value)}>
@@ -56,7 +59,7 @@ export default function ForecastWidget() {
         </div>
       </div>
 
-      {loading && <p className="forecast-msg">Generating forecast… this may take a few seconds the first time.</p>}
+      {loading && <p className="forecast-msg" role="status">Generating forecast…</p>}
 
       {insufficient && (
         <p className="forecast-msg">
@@ -70,14 +73,19 @@ export default function ForecastWidget() {
       {data && !loading && points.length > 0 && (
         <>
           <p className="forecast-summary">
-            Projected {label.toLowerCase()} (next {horizon} days): <strong>₹{fmt(total)}</strong>
-            <small>
-              {' '}· range ₹{fmt(low)} to ₹{fmt(high)} · generated{' '}
-              {new Date(data.generatedAt).toLocaleString()}
-            </small>
+            Projected for the next {horizon} days: <strong>{formatCurrency(total, { maximumFractionDigits: 0 })}</strong>
+            <small>{' '}· estimated range {formatCurrency(low, { maximumFractionDigits: 0 })} to {formatCurrency(high, { maximumFractionDigits: 0 })}</small>
           </p>
-          <CashFlowChart forecast={points} label={`Predicted ${label.toLowerCase()}`} />
+          <CashFlowChart
+            forecast={points}
+            actualTransactions={actualTransactions}
+            metricType={metric}
+            label={`Predicted ${label.toLowerCase()}`}
+          />
         </>
+      )}
+      {!loading && !error && !insufficient && !data && actualTransactions.length > 0 && (
+        <CashFlowChart actualTransactions={actualTransactions} metricType={metric} />
       )}
     </div>
   );

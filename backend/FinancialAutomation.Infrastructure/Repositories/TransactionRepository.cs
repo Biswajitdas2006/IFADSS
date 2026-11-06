@@ -1,3 +1,4 @@
+using FinancialAutomation.Application.DTOs.Dashboard;
 using FinancialAutomation.Application.DTOs.Prediction;
 using FinancialAutomation.Application.Interfaces;
 using FinancialAutomation.Domain.Entities;
@@ -9,6 +10,36 @@ namespace FinancialAutomation.Infrastructure.Repositories;
 public class TransactionRepository : Repository<Transaction>, ITransactionRepository
 {
     public TransactionRepository(AppDbContext context) : base(context) { }
+
+    public async Task<DashboardTotals> GetTotalsAsync(Guid userId, DateOnly from, DateOnly to)
+    {
+        var query = _dbSet
+            .AsNoTracking()
+            .Where(t => t.UserId == userId && t.TransactionDate >= from && t.TransactionDate <= to);
+
+        var income = await query
+            .Where(t => t.Amount > 0)
+            .SumAsync(t => (decimal?)t.Amount) ?? 0m;
+        var expense = await query
+            .Where(t => t.Amount < 0)
+            .SumAsync(t => (decimal?)t.Amount) ?? 0m;
+
+        return new DashboardTotals(income, -expense);
+    }
+
+    public async Task<List<CategorySpendDto>> GetTopCategoriesAsync(
+        Guid userId, DateOnly from, DateOnly to, int top)
+        => await _dbSet
+            .AsNoTracking()
+            .Where(t => t.UserId == userId &&
+                        t.TransactionDate >= from &&
+                        t.TransactionDate <= to &&
+                        t.Amount < 0)
+            .GroupBy(t => t.Category ?? "Uncategorised")
+            .Select(group => new CategorySpendDto(group.Key, -group.Sum(t => t.Amount)))
+            .OrderByDescending(category => category.Amount)
+            .Take(top)
+            .ToListAsync();
 
     public async Task<(IReadOnlyList<Transaction> Items, int TotalItems)> GetByUserAsync(
         Guid userId, string? category, DateOnly? from, DateOnly? to,

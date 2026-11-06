@@ -1,71 +1,49 @@
 .settings-page {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1040px;
   margin: 0 auto;
-  color: #2b3220;
-  font-family: Inter, "Segoe UI", sans-serif;
-}
-
-.settings-page *,
-.settings-page *::before,
-.settings-page *::after {
-  box-sizing: border-box;
+  color: var(--ink);
 }
 
 .settings-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 26px;
+  margin-bottom: 22px;
 }
 
 .settings-eyebrow,
 .settings-section-kicker {
-  color: #006c49;
-  font-size: 11px;
+  color: var(--brand);
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
 }
 
 .settings-header h1 {
-  margin: 7px 0 5px;
-  color: #2b3220;
-  font-family: Geist, Inter, "Segoe UI", sans-serif;
-  font-size: 30px;
-  font-weight: 700;
+  margin: 5px 0 0;
+  color: var(--ink);
+  font-size: 25px;
+  font-weight: 680;
   letter-spacing: -0.7px;
-  line-height: 1.2;
 }
 
 .settings-header p,
 .settings-card-heading p {
-  margin: 0;
-  color: #6b7a6d;
-  font-size: 14px;
-  line-height: 1.5;
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .settings-header-icon {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid #dce6dd;
-  border-radius: 14px;
-  background: #fff;
-  color: #006c49;
-  font-size: 22px;
+  display: none;
 }
 
 .settings-card {
-  margin-bottom: 18px;
-  padding: 25px;
-  border: 1px solid #dce6dd;
-  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   background: #fff;
-  box-shadow: 0 2px 8px rgba(43, 50, 32, 0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 .settings-card-heading {
@@ -73,43 +51,43 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 17px;
 }
 
 .settings-card-heading h2 {
-  margin: 5px 0 4px;
-  color: #2b3220;
-  font-family: Geist, Inter, "Segoe UI", sans-serif;
-  font-size: 19px;
+  margin: 5px 0 0;
+  color: var(--ink);
+  font-size: 15px;
   font-weight: 650;
 }
 
 .settings-loading {
-  color: #6b7a6d;
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: 10px;
   white-space: nowrap;
 }
 
 .profile-identity {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 17px;
-  border: 1px solid #e3ebe4;
-  border-radius: 11px;
-  background: #f7faf7;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
 }
 
 .profile-avatar {
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   flex: 0 0 auto;
   place-items: center;
+  border: 1px solid #d5e5dc;
   border-radius: 50%;
-  background: #e8f0e9;
-  color: #006c49;
-  font-size: 16px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -123,35 +101,35 @@
 
 .profile-name-block strong {
   overflow: hidden;
-  color: #2b3220;
-  font-size: 15px;
+  color: var(--ink);
+  font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .profile-name-block span {
   overflow: hidden;
-  color: #6b7a6d;
-  font-size: 13px;
+  color: var(--text-secondary);
+  font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .profile-role {
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: #e8f0e9;
-  color: #006c49;
-  font-size: 12px;
-  font-weight: 650;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .settings-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 24px;
-  margin-top: 10px;
+  gap: 0 26px;
+  margin-top: 8px;
 }
 
 .settings-field {
@@ -159,97 +137,93 @@
   min-width: 0;
   flex-direction: column;
   gap: 5px;
-  padding: 15px 0;
-  border-bottom: 1px solid #e8eee9;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .settings-field > span {
-  color: #6b7a6d;
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: 10px;
 }
 
 .settings-field > strong {
   overflow-wrap: anywhere;
-  color: #2b3220;
-  font-size: 14px;
+  color: var(--ink);
+  font-size: 12px;
   font-weight: 600;
 }
 
 .settings-footnote {
-  margin: 14px 0 0;
-  color: #6b7a6d;
-  font-size: 12px;
-  line-height: 1.5;
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.55;
 }
 
 .access-status {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #edf7f0;
-  color: #18734f;
-  font-size: 12px;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--positive-soft);
+  color: var(--positive);
+  font-size: 10px;
   font-weight: 650;
   white-space: nowrap;
 }
 
 .access-status-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #219768;
+  background: currentColor;
 }
 
 .access-details {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid #e3ebe4;
-  border-radius: 11px;
-  background: #f7faf7;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
 }
 
 .access-detail-icon,
 .settings-help-icon {
   display: grid;
-  width: 29px;
-  height: 29px;
+  width: 26px;
+  height: 26px;
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
-  background: #e8f0e9;
-  color: #006c49;
-  font-size: 14px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 11px;
   font-weight: 700;
 }
 
 .access-details strong,
 .settings-help strong {
-  color: #2b3220;
-  font-size: 13px;
+  color: var(--ink);
+  font-size: 11px;
   font-weight: 650;
 }
 
 .access-details p,
 .settings-help p {
   margin: 4px 0 0;
-  color: #6b7a6d;
-  font-size: 12px;
+  color: var(--text-secondary);
+  font-size: 10px;
   line-height: 1.55;
-}
-
-.account-id-field {
-  margin-top: 2px;
 }
 
 .account-id-field code {
   overflow-wrap: anywhere;
-  color: #2b3220;
-  font-family: "JetBrains Mono", Consolas, monospace;
-  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 10px;
 }
 
 .settings-card-footer {
@@ -257,109 +231,85 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 18px;
+  padding-top: 15px;
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
 }
 
 .settings-card-footer p {
   margin: 0;
-  color: #6b7a6d;
-  font-size: 12px;
+  color: var(--text-muted);
+  font-size: 10px;
 }
 
 .settings-logout-button {
-  min-height: 39px;
-  padding: 0 15px;
-  border: 1px solid #e2baba;
-  border-radius: 8px;
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid #e6c6c2;
+  border-radius: var(--radius-md);
   background: #fff;
-  color: #a83333;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 650;
+  color: var(--danger);
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .settings-logout-button:hover {
-  border-color: #c98282;
-  background: #fff6f6;
-}
-
-.settings-logout-button:focus-visible,
-.settings-notice button:focus-visible {
-  outline: 3px solid rgba(0, 108, 73, 0.25);
-  outline-offset: 2px;
+  background: var(--danger-soft);
 }
 
 .settings-help {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 16px 18px;
-  border: 1px solid #dce6dd;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.65);
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
 }
 
 .settings-notice {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding: 12px 15px;
-  border: 1px solid #ead6a5;
-  border-radius: 9px;
-  background: #fffaf0;
-  color: #725512;
-  font-size: 13px;
+  gap: 14px;
+  padding: 11px 13px;
+  margin-bottom: 14px;
+  border: 1px solid #e8d4a9;
+  border-radius: var(--radius-md);
+  background: var(--warning-soft);
+  color: var(--warning);
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .settings-notice button {
   flex: 0 0 auto;
   border: 0;
   background: transparent;
-  color: #006c49;
+  color: var(--brand);
+  cursor: pointer;
   font: inherit;
   font-weight: 650;
-  cursor: pointer;
 }
 
 @media (max-width: 700px) {
-  .settings-page {
-    max-width: 100%;
-  }
-
-  .settings-header h1 {
-    font-size: 27px;
-  }
-
   .settings-card {
-    padding: 19px;
-  }
-
-  .settings-fields {
-    grid-template-columns: 1fr;
+    padding: 16px;
   }
 }
 
-@media (max-width: 460px) {
-  .settings-header {
-    align-items: flex-start;
-  }
-
-  .settings-header-icon {
-    width: 40px;
-    height: 40px;
+@media (max-width: 480px) {
+  .settings-fields {
+    grid-template-columns: 1fr;
   }
 
   .profile-identity {
-    align-items: flex-start;
     flex-wrap: wrap;
   }
 
   .profile-role {
-    margin-left: 62px;
+    margin-left: 54px;
   }
 
   .settings-card-footer,

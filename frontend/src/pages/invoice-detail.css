@@ -1,0 +1,161 @@
+.invoice-detail {
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+.invoice-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 15px;
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.invoice-back-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.invoice-loading {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.invoice-header {
+  align-items: center;
+}
+
+.invoice-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 11px;
+  margin-bottom: 28px;
+}
+
+.invoice-fact {
+  display: flex;
+  min-height: 82px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+}
+
+.invoice-fact > span {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.invoice-fact > strong {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.invoice-fact .invoice-amount {
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+.invoice-line-items {
+  min-width: 0;
+}
+
+.invoice-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.invoice-section-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.invoice-section-heading span {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.text-muted {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.category-pill small {
+  color: var(--text-secondary);
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.not-found-page {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--surface-subtle);
+  text-align: center;
+}
+
+.not-found-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.not-found-code {
+  margin: 44px 0 0;
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+}
+
+.not-found-page h1 {
+  margin: 8px 0 6px;
+  color: var(--ink);
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.8px;
+}
+
+.not-found-page > p:not(.not-found-code) {
+  max-width: 380px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.not-found-page .button {
+  margin-top: 20px;
+}
+
+@media (max-width: 640px) {
+  .invoice-facts {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  .invoice-fact {
+    min-height: 68px;
+  }
+
+  .invoice-header {
+    align-items: flex-start;
+  }
+}

@@ -7,12 +7,6 @@ function getScoreClass(score) {
   return 'score-low';
 }
 
-function getScoreLabel(score) {
-  if (score >= 0.75) return 'High confidence';
-  if (score >= 0.65) return 'Moderate confidence';
-  return 'Low confidence';
-}
-
 export default function AnomalyCard({ anomaly, onReview }) {
   const {
     id,
@@ -25,7 +19,7 @@ export default function AnomalyCard({ anomaly, onReview }) {
 
   const [busy, setBusy] = useState(false);
 
-  const score = Number(anomalyScore || 0);
+  const score = Math.min(1, Math.max(0, Number(anomalyScore || 0)));
   const scorePercent = Math.round(score * 100);
 
   const handleReview = async () => {
@@ -40,10 +34,9 @@ export default function AnomalyCard({ anomaly, onReview }) {
 
   return (
     <article className={`anomaly-card ${reviewed ? 'is-reviewed' : ''}`}>
-      {/* Header */}
       <div className="anomaly-card-header">
         <div className="anomaly-card-title">
-          <div className="anomaly-indicator" />
+          <div className="anomaly-indicator" aria-hidden="true" />
 
           <div>
             <div className="anomaly-title-row">
@@ -63,30 +56,32 @@ export default function AnomalyCard({ anomaly, onReview }) {
         </div>
 
         <div className="anomaly-score-block">
-          <span className="anomaly-score-label">ML anomaly score</span>
+          <span className="anomaly-score-label">Anomaly score</span>
 
           <strong className={getScoreClass(score)}>
-            {scorePercent}%
+            {score.toFixed(2)}
           </strong>
 
-          <span className="anomaly-score-confidence">
-            {getScoreLabel(score)}
-          </span>
+          <span className="anomaly-score-confidence">Model score, not probability</span>
         </div>
       </div>
 
-      {/* Score bar */}
-      <div className="anomaly-score-track" aria-label={`Anomaly score ${scorePercent}%`}>
+      <div
+        className="anomaly-score-track"
+        role="progressbar"
+        aria-label="Relative anomaly score"
+        aria-valuemin={0}
+        aria-valuemax={1}
+        aria-valuenow={score}
+      >
         <div
           className={`anomaly-score-fill ${getScoreClass(score)}`}
           style={{ width: `${scorePercent}%` }}
         />
       </div>
 
-      {/* Reason */}
       <div className="anomaly-reason-section">
         <div className="section-label">
-          <span className="section-icon">AI</span>
           Why was this flagged?
         </div>
 
@@ -95,31 +90,7 @@ export default function AnomalyCard({ anomaly, onReview }) {
         </p>
       </div>
 
-      {/* Model information */}
-      <div className="anomaly-meta-grid">
-        <div className="anomaly-meta-item">
-          <span>Detection model</span>
-          <strong>Isolation Forest</strong>
-        </div>
-
-        <div className="anomaly-meta-item">
-          <span>Detection type</span>
-          <strong>Behavioral anomaly</strong>
-        </div>
-
-        <div className="anomaly-meta-item">
-          <span>Status</span>
-          <strong>{reviewed ? 'Reviewed' : 'Pending review'}</strong>
-        </div>
-      </div>
-
-      {/* Footer */}
       <div className="anomaly-card-footer">
-        <div className="anomaly-footer-id">
-          <span>Transaction</span>
-          <code>{transactionId.slice(0, 8)}…</code>
-        </div>
-
         {!reviewed && onReview ? (
           <button
             type="button"

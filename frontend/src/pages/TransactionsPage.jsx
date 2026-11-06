@@ -1,183 +1,43 @@
-// import { useState, useEffect, useCallback } from 'react';
-// import { getTransactions } from '../services/transactionService';
-// import AppLayout from '../components/layout/AppLayout';
-// import { theme } from '../styles/theme';
-
-// function confidenceColor(confidence) {
-//   if (confidence == null) return theme.colors.textMuted;
-//   if (confidence >= 0.85) return theme.colors.success;
-//   if (confidence >= 0.6) return theme.colors.warning;
-//   return theme.colors.error;
-// }
-
-// function TransactionsPage() {
-//   const [data, setData] = useState(null);
-//   const [page, setPage] = useState(1);
-//   const [loading, setLoading] = useState(true);
-
-//   const load = useCallback(async () => {
-//     setLoading(true);
-//     const result = await getTransactions({ page, pageSize: 20 });
-//     setData(result);
-//     setLoading(false);
-//   }, [page]);
-
-//   useEffect(() => { load(); }, [load]);
-
-//   const from = data ? (data.page - 1) * data.pageSize + 1 : 0;
-//   const to = data ? Math.min(data.page * data.pageSize, data.totalItems) : 0;
-
-//   return (
-//     <AppLayout>
-//       <h1 style={styles.heading}>Transactions</h1>
-//       <p style={styles.subheading}>Every transaction extracted from your invoices, with AI-assigned categories.</p>
-
-//       <div style={styles.tableCard}>
-//         <table style={styles.table}>
-//           <thead>
-//             <tr>
-//               <th style={styles.th}>Date</th>
-//               <th style={styles.th}>Description</th>
-//               <th style={styles.th}>Category</th>
-//               <th style={styles.th}>Confidence</th>
-//               <th style={styles.thRight}>Amount</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {!loading && data?.items.length === 0 && (
-//               <tr><td colSpan={5} style={styles.emptyCell}>
-//                 No transactions yet — upload an invoice to get started.
-//               </td></tr>
-//             )}
-//             {data?.items.map((t) => (
-//               <tr key={t.id} style={styles.row}>
-//                 <td style={styles.td}>{t.transactionDate}</td>
-//                 <td style={styles.td}>{t.description}</td>
-//                 <td style={styles.td}>
-//                   {t.category ? (
-//                     <span style={styles.categoryBadge}>
-//                       {t.category}
-//                       {t.overriddenByUser && <span style={styles.overrideTag}> · edited</span>}
-//                     </span>
-//                   ) : (
-//                     <span style={styles.uncategorized}>Uncategorized</span>
-//                   )}
-//                 </td>
-//                 <td style={styles.td}>
-//                   {t.categoryConfidence != null ? (
-//                     <div style={styles.confidenceWrap}>
-//                       <div style={styles.confidenceTrack}>
-//                         <div
-//                           style={{
-//                             ...styles.confidenceFill,
-//                             width: `${Math.round(t.categoryConfidence * 100)}%`,
-//                             backgroundColor: confidenceColor(t.categoryConfidence),
-//                           }}
-//                         />
-//                       </div>
-//                       <span style={styles.confidenceLabel}>
-//                         {Math.round(t.categoryConfidence * 100)}%
-//                       </span>
-//                     </div>
-//                   ) : (
-//                     <span style={styles.uncategorized}>—</span>
-//                   )}
-//                 </td>
-//                 <td style={styles.tdRight}>${t.amount.toFixed(2)}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-
-//         {data && (
-//           <div style={styles.footer}>
-//             <span style={styles.footerText}>
-//               Showing {data.totalItems === 0 ? 0 : from} to {to} of {data.totalItems} transactions
-//             </span>
-//             <div style={styles.pagerButtons}>
-//               <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} style={styles.pagerButton}>
-//                 Prev
-//               </button>
-//               <button disabled={page >= data.totalPages} onClick={() => setPage((p) => p + 1)} style={styles.pagerButton}>
-//                 Next
-//               </button>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </AppLayout>
-//   );
-// }
-
-// const styles = {
-//   heading: { color: theme.colors.inkBase, fontFamily: theme.fonts.display, fontSize: '24px', margin: 0 },
-//   subheading: { color: theme.colors.textMuted, fontFamily: theme.fonts.body, fontSize: '14px', marginTop: '4px', marginBottom: '24px' },
-//   tableCard: {
-//     backgroundColor: theme.colors.white, border: `1px solid ${theme.colors.border}`,
-//     borderRadius: theme.radius.md, overflow: 'hidden',
-//   },
-//   table: { width: '100%', borderCollapse: 'collapse', fontFamily: theme.fonts.body },
-//   th: { textAlign: 'left', padding: '12px 20px', fontSize: '11px', color: theme.colors.textMuted, borderBottom: `1px solid ${theme.colors.border}` },
-//   thRight: { textAlign: 'right', padding: '12px 20px', fontSize: '11px', color: theme.colors.textMuted, borderBottom: `1px solid ${theme.colors.border}` },
-//   row: { borderBottom: `1px solid ${theme.colors.border}` },
-//   td: { padding: '14px 20px', fontSize: '14px', color: theme.colors.inkBase },
-//   tdRight: { padding: '14px 20px', fontSize: '14px', color: theme.colors.inkBase, textAlign: 'right', fontFamily: theme.fonts.mono },
-//   categoryBadge: {
-//     backgroundColor: theme.colors.surfaceWash, color: theme.colors.primaryEmerald,
-//     padding: '3px 10px', borderRadius: theme.radius.sm, fontSize: '12px', fontWeight: 600,
-//   },
-//   overrideTag: { fontWeight: 400, fontStyle: 'italic', opacity: 0.8 },
-//   uncategorized: { fontSize: '13px', color: theme.colors.textMuted, fontStyle: 'italic' },
-//   confidenceWrap: { display: 'flex', alignItems: 'center', gap: '8px' },
-//   confidenceTrack: { width: '60px', height: '5px', backgroundColor: theme.colors.border, borderRadius: '3px', overflow: 'hidden' },
-//   confidenceFill: { height: '100%', borderRadius: '3px' },
-//   confidenceLabel: { fontSize: '12px', color: theme.colors.textMuted, fontFamily: theme.fonts.mono },
-//   emptyCell: { padding: '40px', textAlign: 'center', color: theme.colors.textMuted, fontSize: '14px' },
-//   footer: {
-//     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-//     padding: '12px 20px', backgroundColor: theme.colors.surfaceWash,
-//   },
-//   footerText: { fontSize: '13px', color: theme.colors.textMuted },
-//   pagerButtons: { display: 'flex', gap: '8px' },
-//   pagerButton: {
-//     padding: '6px 14px', borderRadius: theme.radius.sm, border: `1px solid ${theme.colors.border}`,
-//     backgroundColor: theme.colors.white, cursor: 'pointer', fontSize: '13px', color: theme.colors.inkBase,
-//   },
-// };
-
-// export default TransactionsPage;
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AppLayout from '../components/layout/AppLayout';
 import {
+  CATEGORY_OPTIONS,
   getTransactions,
   updateTransactionCategory,
-  CATEGORY_OPTIONS,
 } from '../services/transactionService';
-import AppLayout from '../components/layout/AppLayout';
-import { theme } from '../styles/theme';
+import { formatCurrency } from '../utils/formatCurrency';
+import { formatDate } from '../utils/formatDate';
+
+const PAGE_SIZE = 20;
+
+function getConfidenceClass(confidence) {
+  if (confidence >= 0.85) return 'high';
+  if (confidence >= 0.6) return 'medium';
+  return 'low';
+}
 
 function CategoryCell({ transaction, onUpdated }) {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSave = async (newCategory) => {
-    if (!newCategory) return;
+  const handleSave = async (category) => {
+    if (!category || category === transaction.category) {
+      setEditing(false);
+      return;
+    }
 
     setSaving(true);
     setError('');
 
     try {
-      const result = await updateTransactionCategory(
-        transaction.id,
-        newCategory
-      );
-
-      onUpdated(result);
+      const updated = await updateTransactionCategory(transaction.id, category);
+      onUpdated(updated);
       setEditing(false);
-    } catch (err) {
+    } catch (requestError) {
       setError(
-        err.response?.data?.error?.message ||
-          'Failed to update category.'
+        requestError.response?.data?.error?.message || 'Could not update this category.',
       );
     } finally {
       setSaving(false);
@@ -188,406 +48,220 @@ function CategoryCell({ transaction, onUpdated }) {
     return (
       <div>
         <select
-          autoFocus
-          defaultValue={transaction.category ?? ''}
-          onChange={(e) => handleSave(e.target.value)}
-          onBlur={() => setEditing(false)}
+          className="inline-select"
+          aria-label={`Set category for ${transaction.description || 'transaction'}`}
+          value={transaction.category ?? ''}
           disabled={saving}
-          style={styles.categorySelect}
+          onChange={(event) => handleSave(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') setEditing(false);
+          }}
+          autoFocus
         >
-          <option value="" disabled>
-            Select category…
-          </option>
-
-          {CATEGORY_OPTIONS.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
+          <option value="" disabled>Select category</option>
+          {CATEGORY_OPTIONS.map((category) => (
+            <option key={category} value={category}>{category}</option>
           ))}
         </select>
-
-        {error && (
-          <div style={styles.inlineError}>
-            {error}
-          </div>
-        )}
+        {error && <p className="category-edit-error" role="alert">{error}</p>}
+        <button className="category-cancel" type="button" onClick={() => setEditing(false)} disabled={saving}>
+          Cancel
+        </button>
       </div>
     );
   }
 
   return (
     <button
+      className="category-edit-button"
+      type="button"
+      aria-label={`Change category for ${transaction.description || 'transaction'}`}
       onClick={() => setEditing(true)}
-      style={styles.categoryButton}
     >
       {transaction.category ? (
-        <span style={styles.categoryBadge}>
+        <span className="category-pill">
           {transaction.category}
-
-          {transaction.overriddenByUser && (
-            <span style={styles.overrideTag}>
-              {' '}· edited
-            </span>
-          )}
+          {transaction.overriddenByUser && <small> · edited</small>}
         </span>
       ) : (
-        <span style={styles.uncategorized}>
-          Uncategorized — click to set
-        </span>
+        <span className="category-unset">Set category</span>
       )}
     </button>
   );
 }
 
-function confidenceColor(confidence) {
-  if (confidence == null) return theme.colors.textMuted;
-  if (confidence >= 0.85) return theme.colors.success;
-  if (confidence >= 0.6) return theme.colors.warning;
-  return theme.colors.error;
-}
-
 function TransactionsPage() {
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
+  const [reloadKey, setReloadKey] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  const load = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const result = await getTransactions({
-        page,
-        pageSize: 20,
-      });
-
-      setData(result);
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    load();
-  }, [load]);
+    let cancelled = false;
 
-  const from = data
-    ? (data.page - 1) * data.pageSize + 1
-    : 0;
+    async function fetchTransactions() {
+      try {
+        const result = await getTransactions({ page, pageSize: PAGE_SIZE });
+        if (!cancelled) {
+          setData(result);
+          setError('');
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(
+            requestError.response?.data?.error?.message || 'Could not load transactions.',
+          );
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
 
-  const to = data
-    ? Math.min(data.page * data.pageSize, data.totalItems)
-    : 0;
+    fetchTransactions();
+    return () => {
+      cancelled = true;
+    };
+  }, [page, reloadKey]);
+
+  const refresh = () => {
+    setLoading(true);
+    setError('');
+    setReloadKey((current) => current + 1);
+  };
+
+  const from = data ? (data.page - 1) * data.pageSize + 1 : 0;
+  const to = data ? Math.min(data.page * data.pageSize, data.totalItems) : 0;
+
+  const updateTransaction = (updated) => {
+    setData((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        items: current.items.map((item) => item.id === updated.id
+          ? {
+              ...item,
+              category: updated.category,
+              categoryConfidence: updated.categoryConfidence,
+              overriddenByUser: updated.overriddenByUser,
+            }
+          : item),
+      };
+    });
+  };
 
   return (
     <AppLayout>
-      <h1 style={styles.heading}>Transactions</h1>
+      <header className="page-header">
+        <div>
+          <h1>Transactions</h1>
+          <p>Review invoice-derived transactions, category suggestions, and model confidence.</p>
+        </div>
+        <div className="page-header-actions">
+          <button className="button-secondary" type="button" onClick={refresh} disabled={loading}>
+            {loading ? 'Refreshing…' : 'Refresh'}
+          </button>
+        </div>
+      </header>
 
-      <p style={styles.subheading}>
-        Every transaction extracted from your invoices, with AI-assigned categories.
-      </p>
+      {error && (
+        <div className="page-error" role="alert">
+          <span>{error}</span>
+          <button className="button-secondary" type="button" onClick={refresh} disabled={loading}>
+            Try again
+          </button>
+        </div>
+      )}
 
-      <div style={styles.tableCard}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.th}>Date</th>
-              <th style={styles.th}>Description</th>
-              <th style={styles.th}>Category</th>
-              <th style={styles.th}>Confidence</th>
-              <th style={styles.thRight}>Amount</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {!loading && data?.items.length === 0 && (
+      <section className="surface-card" aria-label="Transaction list">
+        <div className="table-scroll">
+          <table className="data-table">
+            <thead>
               <tr>
-                <td colSpan={5} style={styles.emptyCell}>
-                  No transactions yet — upload an invoice to get started.
-                </td>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Category</th>
+                <th scope="col">Model confidence</th>
+                <th scope="col" className="cell-numeric">Amount</th>
               </tr>
-            )}
-
-            {data?.items.map((t) => (
-              <tr key={t.id} style={styles.row}>
-                <td style={styles.td}>
-                  {t.transactionDate}
-                </td>
-
-                <td style={styles.td}>
-                  {t.description}
-                </td>
-
-                <td style={styles.td}>
-                  <CategoryCell
-                    transaction={t}
-                    onUpdated={(updated) => {
-                      setData((prev) => {
-                        if (!prev) return prev;
-
-                        return {
-                          ...prev,
-                          items: prev.items.map((item) =>
-                            item.id === updated.id
-                              ? {
-                                  ...item,
-                                  category: updated.category,
-                                  categoryConfidence:
-                                    updated.categoryConfidence,
-                                  overriddenByUser:
-                                    updated.overriddenByUser,
-                                }
-                              : item
-                          ),
-                        };
-                      });
-                    }}
-                  />
-                </td>
-
-                <td style={styles.td}>
-                  {t.categoryConfidence != null ? (
-                    <div style={styles.confidenceWrap}>
-                      <div style={styles.confidenceTrack}>
-                        <div
-                          style={{
-                            ...styles.confidenceFill,
-                            width: `${Math.round(
-                              t.categoryConfidence * 100
-                            )}%`,
-                            backgroundColor: confidenceColor(
-                              t.categoryConfidence
-                            ),
-                          }}
-                        />
-                      </div>
-
-                      <span style={styles.confidenceLabel}>
-                        {Math.round(
-                          t.categoryConfidence * 100
-                        )}
-                        %
-                      </span>
+            </thead>
+            <tbody>
+              {loading && <tr><td colSpan={5} role="status">Loading transactions…</td></tr>}
+              {!loading && !error && data?.items?.length === 0 && (
+                <tr>
+                  <td colSpan={5}>
+                    <div className="empty-state">
+                      <h2>No transactions yet</h2>
+                      <p>Transactions appear here after an invoice has been uploaded and processed.</p>
+                      <Link className="button" to="/invoices">Go to invoices</Link>
                     </div>
-                  ) : (
-                    <span style={styles.uncategorized}>
-                      —
-                    </span>
-                  )}
-                </td>
+                  </td>
+                </tr>
+              )}
+              {!loading && !error && data?.items?.map((transaction) => {
+                const confidence = transaction.categoryConfidence;
+                const confidencePercent = confidence == null
+                  ? null
+                  : Math.min(100, Math.max(0, Math.round(Number(confidence) * 100)));
 
-                <td style={styles.tdRight}>
-                  ${t.amount.toFixed(2)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                return (
+                  <tr key={transaction.id}>
+                    <td>{formatDate(transaction.transactionDate)}</td>
+                    <td className="cell-primary">{transaction.description || '—'}</td>
+                    <td>
+                      <CategoryCell transaction={transaction} onUpdated={updateTransaction} />
+                    </td>
+                    <td>
+                      {confidencePercent == null ? (
+                        <span className="text-muted">Not available</span>
+                      ) : (
+                        <span className={`confidence-pill confidence-pill--${getConfidenceClass(Number(confidence))}`}>
+                          {confidencePercent}%
+                        </span>
+                      )}
+                    </td>
+                    <td className="cell-numeric">
+                      {formatCurrency(transaction.amount, { minimumFractionDigits: 2 })}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
-        {data && (
-          <div style={styles.footer}>
-            <span style={styles.footerText}>
-              Showing{' '}
-              {data.totalItems === 0 ? 0 : from}
-              {' '}to{' '}
-              {to}
-              {' '}of{' '}
-              {data.totalItems} transactions
+        {data && !error && (
+          <div className="table-footer">
+            <span>
+              Showing {data.totalItems === 0 ? 0 : from}–{to} of {data.totalItems} transactions
             </span>
-
-            <div style={styles.pagerButtons}>
+            <div className="pager-actions">
               <button
-                disabled={page <= 1}
-                onClick={() =>
-                  setPage((p) => p - 1)
-                }
-                style={styles.pagerButton}
+                type="button"
+                disabled={page <= 1 || loading}
+                onClick={() => {
+                  setLoading(true);
+                  setPage((current) => current - 1);
+                }}
               >
-                Prev
+                Previous
               </button>
-
               <button
-                disabled={page >= data.totalPages}
-                onClick={() =>
-                  setPage((p) => p + 1)
-                }
-                style={styles.pagerButton}
+                type="button"
+                disabled={page >= data.totalPages || loading}
+                onClick={() => {
+                  setLoading(true);
+                  setPage((current) => current + 1);
+                }}
               >
                 Next
               </button>
             </div>
           </div>
         )}
-      </div>
+      </section>
     </AppLayout>
   );
 }
-
-const styles = {
-  heading: {
-    color: theme.colors.inkBase,
-    fontFamily: theme.fonts.display,
-    fontSize: '24px',
-    margin: 0,
-  },
-
-  subheading: {
-    color: theme.colors.textMuted,
-    fontFamily: theme.fonts.body,
-    fontSize: '14px',
-    marginTop: '4px',
-    marginBottom: '24px',
-  },
-
-  tableCard: {
-    backgroundColor: theme.colors.white,
-    border: `1px solid ${theme.colors.border}`,
-    borderRadius: theme.radius.md,
-    overflow: 'hidden',
-  },
-
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontFamily: theme.fonts.body,
-  },
-
-  th: {
-    textAlign: 'left',
-    padding: '12px 20px',
-    fontSize: '11px',
-    color: theme.colors.textMuted,
-    borderBottom: `1px solid ${theme.colors.border}`,
-  },
-
-  thRight: {
-    textAlign: 'right',
-    padding: '12px 20px',
-    fontSize: '11px',
-    color: theme.colors.textMuted,
-    borderBottom: `1px solid ${theme.colors.border}`,
-  },
-
-  row: {
-    borderBottom: `1px solid ${theme.colors.border}`,
-  },
-
-  td: {
-    padding: '14px 20px',
-    fontSize: '14px',
-    color: theme.colors.inkBase,
-  },
-
-  tdRight: {
-    padding: '14px 20px',
-    fontSize: '14px',
-    color: theme.colors.inkBase,
-    textAlign: 'right',
-    fontFamily: theme.fonts.mono,
-  },
-
-  categoryBadge: {
-    backgroundColor: theme.colors.surfaceWash,
-    color: theme.colors.primaryEmerald,
-    padding: '3px 10px',
-    borderRadius: theme.radius.sm,
-    fontSize: '12px',
-    fontWeight: 600,
-  },
-
-  overrideTag: {
-    fontWeight: 400,
-    fontStyle: 'italic',
-    opacity: 0.8,
-  },
-
-  categoryButton: {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    padding: 0,
-    textAlign: 'left',
-  },
-
-  categorySelect: {
-    padding: '4px 8px',
-    borderRadius: theme.radius.sm,
-    border: `1px solid ${theme.colors.border}`,
-    fontSize: '13px',
-    fontFamily: theme.fonts.body,
-    backgroundColor: theme.colors.white,
-  },
-
-  inlineError: {
-    fontSize: '11px',
-    color: theme.colors.error,
-    marginTop: '4px',
-  },
-
-  uncategorized: {
-    fontSize: '13px',
-    color: theme.colors.textMuted,
-    fontStyle: 'italic',
-  },
-
-  confidenceWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-  },
-
-  confidenceTrack: {
-    width: '60px',
-    height: '5px',
-    backgroundColor: theme.colors.border,
-    borderRadius: '3px',
-    overflow: 'hidden',
-  },
-
-  confidenceFill: {
-    height: '100%',
-    borderRadius: '3px',
-  },
-
-  confidenceLabel: {
-    fontSize: '12px',
-    color: theme.colors.textMuted,
-    fontFamily: theme.fonts.mono,
-  },
-
-  emptyCell: {
-    padding: '40px',
-    textAlign: 'center',
-    color: theme.colors.textMuted,
-    fontSize: '14px',
-  },
-
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '12px 20px',
-    backgroundColor: theme.colors.surfaceWash,
-  },
-
-  footerText: {
-    fontSize: '13px',
-    color: theme.colors.textMuted,
-  },
-
-  pagerButtons: {
-    display: 'flex',
-    gap: '8px',
-  },
-
-  pagerButton: {
-    padding: '6px 14px',
-    borderRadius: theme.radius.sm,
-    border: `1px solid ${theme.colors.border}`,
-    backgroundColor: theme.colors.white,
-    cursor: 'pointer',
-    fontSize: '13px',
-    color: theme.colors.inkBase,
-  },
-};
 
 export default TransactionsPage;

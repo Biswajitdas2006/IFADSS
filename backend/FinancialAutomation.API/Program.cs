@@ -115,6 +115,10 @@ builder.Services.AddScoped<
     IPredictionService,
     PredictionService>();
 
+builder.Services.AddScoped<
+    IDashboardService,
+    DashboardService>();
+
 // ============================================================
 // INVOICE BACKGROUND PROCESSING
 // ============================================================

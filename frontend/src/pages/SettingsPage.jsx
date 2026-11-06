@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { getCurrentUser } from '../services/authService';
 import './settings.css';
 
@@ -69,14 +69,13 @@ export default function SettingsPage() {
 
   return (
     <AppLayout>
-      <main className="settings-page">
-        <header className="settings-header">
+      <div className="settings-page">
+        <header className="settings-header page-header">
           <div>
             <span className="settings-eyebrow">ACCOUNT & SECURITY</span>
             <h1>Settings</h1>
-            <p>Manage your FinFlow account and review your access details.</p>
+            <p>Review the account details and access associated with IFADSS.</p>
           </div>
-          <span className="settings-header-icon" aria-hidden="true">⚙</span>
         </header>
 
         {error && (
@@ -96,7 +95,7 @@ export default function SettingsPage() {
             <div>
               <span className="settings-section-kicker">PERSONAL INFORMATION</span>
               <h2 id="profile-heading">Your profile</h2>
-              <p>Account details associated with your FinFlow login.</p>
+              <p>Account details associated with your IFADSS login.</p>
             </div>
             {loading && <span className="settings-loading">Refreshing…</span>}
           </div>
@@ -106,7 +105,7 @@ export default function SettingsPage() {
               {getInitials(fullName, email)}
             </div>
             <div className="profile-name-block">
-              <strong>{fullName || 'FinFlow user'}</strong>
+              <strong>{fullName || 'IFADSS user'}</strong>
               <span>{email || 'Email not available'}</span>
             </div>
             <span className="profile-role">{role}</span>
@@ -152,8 +151,8 @@ export default function SettingsPage() {
           <div className="access-details">
             <div className="access-detail-icon" aria-hidden="true">✓</div>
             <div>
-              <strong>Secure authenticated session</strong>
-              <p>Your FinFlow pages and financial records are available to this signed-in account.</p>
+              <strong>Signed-in session</strong>
+              <p>Workspace access is associated with this signed-in account.</p>
             </div>
           </div>
 
@@ -176,10 +175,10 @@ export default function SettingsPage() {
           <div className="settings-help-icon" aria-hidden="true">i</div>
           <div>
             <strong>Need to change your account details?</strong>
-            <p>Contact your FinFlow administrator. Account editing and password management are not enabled in this version.</p>
+            <p>Contact your account administrator. Profile editing and password management are not available in this version.</p>
           </div>
         </aside>
-      </main>
+      </div>
     </AppLayout>
   );
 }

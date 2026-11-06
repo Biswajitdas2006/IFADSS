@@ -2,17 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
 import AuthVisual from '../components/auth/AuthVisual';
-import { useAuth } from '../context/AuthContext';
-
-function AuthBrand() {
-  return (
-    <div className="auth-card__brand" aria-label="FinFlow by IFADSS">
-      <span className="auth-card__brand-mark"><FiArrowRight aria-hidden="true" /></span>
-      <span>FinFlow</span>
-      <small>by IFADSS</small>
-    </div>
-  );
-}
+import { useAuth } from '../hooks/useAuth';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -45,10 +35,9 @@ function LoginPage() {
       <AuthVisual />
       <section className="auth-content" aria-label="Log in">
         <form className="auth-card" onSubmit={handleSubmit}>
-          <AuthBrand />
           <p className="auth-card__eyebrow">Welcome back</p>
           <h1 className="auth-card__title">Log in to your account</h1>
-          <p className="auth-card__subtitle">Enter your details to continue to your financial workspace.</p>
+          <p className="auth-card__subtitle">Sign in to review your invoices, transactions, and financial activity.</p>
 
           {error && <div className="auth-error" role="alert">{error}</div>}
 

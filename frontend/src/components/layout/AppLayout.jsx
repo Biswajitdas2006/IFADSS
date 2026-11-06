@@ -1,23 +1,30 @@
+import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
-import { theme } from '../../styles/theme';
 
 function AppLayout({ children }) {
+  const [navigationOpen, setNavigationOpen] = useState(false);
+  const closeNavigation = () => setNavigationOpen(false);
+
   return (
-    <div style={styles.wrapper}>
-      <Sidebar />
-      <div style={styles.main}>
-        <Topbar />
-        <div style={styles.content}>{children}</div>
+    <div className="workspace-layout">
+      <button
+        className={`app-overlay${navigationOpen ? ' is-visible' : ''}`}
+        type="button"
+        aria-label="Close navigation"
+        tabIndex={navigationOpen ? 0 : -1}
+        onClick={closeNavigation}
+      />
+      <Sidebar isOpen={navigationOpen} onNavigate={closeNavigation} />
+      <div className="workspace-main">
+        <Topbar
+          navigationOpen={navigationOpen}
+          onMenuClick={() => setNavigationOpen(true)}
+        />
+        <main className="workspace-content">{children}</main>
       </div>
     </div>
   );
 }
-
-const styles = {
-  wrapper: { display: 'flex', minHeight: '100vh', backgroundColor: theme.colors.surfaceWash },
-  main: { flex: 1, display: 'flex', flexDirection: 'column' },
-  content: { padding: '32px' },
-};
 
 export default AppLayout;

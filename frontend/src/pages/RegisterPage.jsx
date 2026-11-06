@@ -2,17 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiCheck, FiEye, FiEyeOff, FiLayers, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import AuthVisual from '../components/auth/AuthVisual';
-import { useAuth } from '../context/AuthContext';
-
-function AuthBrand() {
-  return (
-    <div className="auth-card__brand" aria-label="FinFlow by IFADSS">
-      <span className="auth-card__brand-mark"><FiArrowRight aria-hidden="true" /></span>
-      <span>FinFlow</span>
-      <small>by IFADSS</small>
-    </div>
-  );
-}
+import { useAuth } from '../hooks/useAuth';
 
 function RegisterPage() {
   const { register } = useAuth();
@@ -56,7 +46,6 @@ function RegisterPage() {
       <section className="auth-content" aria-label={success ? 'Registration complete' : 'Create an account'}>
         {success ? (
           <div className="auth-card auth-success">
-            <AuthBrand />
             <span className="auth-success__icon"><FiCheck aria-hidden="true" /></span>
             <p className="auth-card__eyebrow">You&apos;re all set</p>
             <h1 className="auth-card__title">Account created</h1>
@@ -65,10 +54,9 @@ function RegisterPage() {
           </div>
         ) : (
           <form className="auth-card" onSubmit={handleSubmit}>
-            <AuthBrand />
             <p className="auth-card__eyebrow">Get started</p>
             <h1 className="auth-card__title">Create your account</h1>
-            <p className="auth-card__subtitle">Set up your account to explore your financial workspace.</p>
+            <p className="auth-card__subtitle">Create an account to organize invoices and review your business finances.</p>
 
             {error && <div className="auth-error" role="alert">{error}</div>}
 

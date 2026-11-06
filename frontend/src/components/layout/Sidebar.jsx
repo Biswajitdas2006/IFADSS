@@ -1,111 +1,81 @@
-import { NavLink } from 'react-router-dom';
-import { theme } from '../../styles/theme';
-import { useAuth } from '../../context/AuthContext';
+import { Link, NavLink } from 'react-router-dom';
+import {
+  FiAlertTriangle,
+  FiFileText,
+  FiGrid,
+  FiRepeat,
+  FiSettings,
+  FiTrendingUp,
+  FiX,
+} from 'react-icons/fi';
+import { useAuth } from '../../hooks/useAuth';
 
-const navItems = [
-  { label: 'Dashboard', path: '/dashboard' },
-  { label: 'Invoices', path: '/invoices' },
-  { label: 'Transactions', path: '/transactions' },
-  { label: 'Predictions', path: '/predictions' },
+const primaryItems = [
+  { label: 'Dashboard', path: '/dashboard', icon: FiGrid },
+  { label: 'Invoices', path: '/invoices', icon: FiFileText },
+  { label: 'Transactions', path: '/transactions', icon: FiRepeat },
+  { label: 'Anomalies', path: '/anomalies', icon: FiAlertTriangle, roles: ['Owner', 'Accountant'] },
+  { label: 'Predictions', path: '/predictions', icon: FiTrendingUp, roles: ['Owner', 'Accountant'] },
 ];
 
-const resourceItems = [
-  { label: 'Settings', path: '/settings' },
-];
-
-function Sidebar() {
+function Sidebar({ isOpen, onNavigate }) {
   const { user } = useAuth();
-  const canViewAnomalies = ['Owner', 'Accountant'].includes(user?.role);
-  const visibleNavItems = canViewAnomalies
-    ? [...navItems.slice(0, 3), { label: 'Anomalies', path: '/anomalies' }, ...navItems.slice(3)]
-    : navItems;
+  const visibleItems = primaryItems.filter(
+    (item) => !item.roles || item.roles.includes(user?.role),
+  );
 
   return (
-    <aside style={styles.sidebar}>
-      <div style={styles.brand}>
-        <div style={styles.brandName}>FinFlow</div>
-        <div style={styles.brandTag}>Institutional Grade</div>
+    <aside
+      className={`workspace-sidebar${isOpen ? ' is-open' : ''}`}
+      aria-label="Workspace navigation"
+      id="workspace-sidebar"
+    >
+      <Link className="workspace-brand" to="/dashboard" onClick={onNavigate} aria-label="IFADSS dashboard">
+        <span className="brand-mark" aria-hidden="true">I</span>
+        <span className="brand-wordmark">IFADSS</span>
+      </Link>
+
+      <button
+        className="sidebar-close"
+        type="button"
+        aria-label="Close navigation"
+        onClick={onNavigate}
+      >
+        <FiX aria-hidden="true" />
+      </button>
+
+      <p className="workspace-nav-label">Workspace</p>
+      <nav className="workspace-nav" aria-label="Primary">
+        {visibleItems.map(({ label, path, icon: Icon }) => (
+          <NavLink
+            className={({ isActive }) => `workspace-nav-link${isActive ? ' active' : ''}`}
+            key={path}
+            to={path}
+            onClick={onNavigate}
+          >
+            <Icon aria-hidden="true" />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+      </nav>
+
+      <p className="workspace-nav-label">Account</p>
+      <nav className="workspace-nav" aria-label="Account">
+        <NavLink
+          className={({ isActive }) => `workspace-nav-link${isActive ? ' active' : ''}`}
+          to="/settings"
+          onClick={onNavigate}
+        >
+          <FiSettings aria-hidden="true" />
+          <span>Settings</span>
+        </NavLink>
+      </nav>
+
+      <div className="workspace-sidebar-footer">
+        Intelligent Financial Automation and Decision Support System
       </div>
-
-      <nav style={styles.nav}>
-        {visibleNavItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            style={({ isActive }) => ({
-              ...styles.navLink,
-              ...(isActive ? styles.navLinkActive : {}),
-            })}
-          >
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
-
-      <div style={styles.sectionLabel}>RESOURCES</div>
-      <nav style={styles.nav}>
-        {resourceItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            style={({ isActive }) => ({
-              ...styles.navLink,
-              ...(isActive ? styles.navLinkActive : {}),
-            })}
-          >
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
     </aside>
   );
 }
-
-const styles = {
-  sidebar: {
-    width: '240px',
-    minHeight: '100vh',
-    backgroundColor: theme.colors.white,
-    borderRight: `1px solid ${theme.colors.border}`,
-    padding: '24px 16px',
-    display: 'flex',
-    flexDirection: 'column',
-    fontFamily: theme.fonts.body,
-  },
-  brand: { padding: '0 8px', marginBottom: '28px' },
-  brandName: {
-    color: theme.colors.primaryEmerald,
-    fontFamily: theme.fonts.display,
-    fontSize: '20px',
-    fontWeight: 700,
-  },
-  brandTag: {
-    color: theme.colors.textMuted,
-    fontSize: '11px',
-    marginTop: '2px',
-  },
-  nav: { display: 'flex', flexDirection: 'column', gap: '2px' },
-  navLink: {
-    display: 'block',
-    padding: '10px 12px',
-    borderRadius: theme.radius.sm,
-    color: theme.colors.inkBase,
-    textDecoration: 'none',
-    fontSize: '14px',
-  },
-  navLinkActive: {
-    backgroundColor: theme.colors.surfaceWash,
-    color: theme.colors.primaryEmerald,
-    fontWeight: 600,
-  },
-  sectionLabel: {
-    marginTop: '24px',
-    marginBottom: '8px',
-    padding: '0 12px',
-    color: theme.colors.textMuted,
-    fontSize: '11px',
-    letterSpacing: '0.05em',
-  },
-};
 
 export default Sidebar;

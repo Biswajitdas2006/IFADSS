@@ -1,53 +1,92 @@
 .forecast-widget {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  background: #fff;
-  margin-bottom: 16px;
+  min-width: 0;
+  padding: 18px;
+  margin: 0;
 }
 
 .forecast-head {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.forecast-head h3 {
+.forecast-head h2 {
   margin: 0;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
 }
 
 .forecast-controls {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 7px;
 }
 
 .forecast-controls select {
-  padding: 8px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: #f9fafb;
+  min-height: 32px;
+  max-width: 150px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--text-secondary);
+  font-size: 10px;
 }
 
 .forecast-chart {
   position: relative;
-  height: 320px;
+  height: 245px;
 }
 
 .forecast-summary {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.forecast-summary strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
 }
 
 .forecast-summary small {
-  color: #777;
+  color: var(--text-muted);
 }
 
 .forecast-msg {
-  color: #555;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 .forecast-error {
-  color: #dc2626;
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.forecast-chart canvas {
+  max-width: 100%;
+}
+
+.forecast-unavailable {
+  padding: 18px;
+}
+
+@media (max-width: 640px) {
+  .forecast-widget {
+    padding: 15px;
+  }
+
+  .forecast-chart {
+    height: 205px;
+  }
 }

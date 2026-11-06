@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { FiFileText, FiUploadCloud, FiX } from 'react-icons/fi';
 import { uploadInvoice } from '../../services/invoiceService';
-import { theme } from '../../styles/theme';
+import './invoice-modal.css';
 
 const MAX_SIZE_MB = 10;
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
@@ -13,167 +14,196 @@ function UploadInvoiceModal({ onClose, onUploaded }) {
   const [error, setError] = useState('');
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef(null);
+  const dialogRef = useRef(null);
+  const closeRef = useRef(onClose);
+  const uploadingRef = useRef(false);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    dialogRef.current?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && !uploadingRef.current) closeRef.current();
+      if (event.key !== 'Tab') return;
+
+      const focusable = dialogRef.current?.querySelectorAll(
+        'button:not(:disabled):not([tabindex="-1"]), input:not(:disabled):not([tabindex="-1"]), a[href]',
+      );
+      if (!focusable?.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (
+        document.activeElement === first ||
+        document.activeElement === dialogRef.current
+      )) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
+    };
+  }, []);
+
+  useEffect(() => {
+    closeRef.current = onClose;
+  }, [onClose]);
 
   const validateAndSetFile = (selected) => {
     setError('');
     if (!selected) return;
 
     if (!ALLOWED_TYPES.includes(selected.type)) {
-      setError('File must be a PDF, JPG, or PNG.');
+      setError('Choose a PDF, JPG, or PNG file.');
       return;
     }
     if (selected.size > MAX_SIZE_BYTES) {
-      setError(`File size must not exceed ${MAX_SIZE_MB}MB.`);
+      setError(`File size must not exceed ${MAX_SIZE_MB} MB.`);
       return;
     }
+
     setFile(selected);
+    setProgress(0);
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
+  const handleDrop = (event) => {
+    event.preventDefault();
     setDragActive(false);
-    validateAndSetFile(e.dataTransfer.files[0]);
+    validateAndSetFile(event.dataTransfer.files[0]);
   };
 
   const handleProcess = async () => {
     if (!file) return;
+    uploadingRef.current = true;
     setUploading(true);
     setError('');
     setProgress(0);
 
     try {
-      const result = await uploadInvoice(file, (percent) => setProgress(percent));
+      const result = await uploadInvoice(file, setProgress);
       onUploaded(result);
       onClose();
-    } catch (err) {
-      const message = err.response?.data?.error?.message || 'Upload failed. Please try again.';
-      setError(message);
+    } catch (requestError) {
+      setError(
+        requestError.response?.data?.error?.message || 'Upload failed. Please try again.',
+      );
+      uploadingRef.current = false;
       setUploading(false);
     }
   };
 
   return (
-    <div style={styles.overlay}>
-      <div style={styles.modal}>
-        <div style={styles.header}>
-          <h2 style={styles.title}>Upload Invoice</h2>
-          <button onClick={onClose} style={styles.closeButton}>×</button>
-        </div>
+    <div
+      className="invoice-modal-overlay"
+      onClick={(event) => {
+        if (event.target === event.currentTarget && !uploading) onClose();
+      }}
+    >
+      <section
+        className="invoice-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="invoice-modal-title"
+        tabIndex={-1}
+        ref={dialogRef}
+      >
+        <header className="invoice-modal-header">
+          <div>
+            <h2 id="invoice-modal-title">Upload an invoice</h2>
+            <p>Choose a document to extract invoice details.</p>
+          </div>
+          <button
+            className="invoice-modal-close"
+            type="button"
+            aria-label="Close upload dialog"
+            onClick={onClose}
+            disabled={uploading}
+          >
+            <FiX aria-hidden="true" />
+          </button>
+        </header>
 
         <div
-          style={{
-            ...styles.dropzone,
-            ...(dragActive ? styles.dropzoneActive : {}),
+          className={`invoice-dropzone${dragActive ? ' is-active' : ''}`}
+          onDragOver={(event) => {
+            event.preventDefault();
+            setDragActive(true);
           }}
-          onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
           onDragLeave={() => setDragActive(false)}
           onDrop={handleDrop}
         >
-          <div style={styles.dropzoneText}>Drag and drop an invoice here</div>
-          <div style={styles.dropzoneSubtext}>Supports PDF, JPG, PNG up to {MAX_SIZE_MB}MB</div>
+          <span className="invoice-dropzone-icon" aria-hidden="true">
+            {dragActive ? <FiUploadCloud /> : <FiFileText />}
+          </span>
+          <strong>{dragActive ? 'Drop the invoice to add it' : 'Drag an invoice here'}</strong>
+          <span>PDF, JPG, or PNG · Maximum file size {MAX_SIZE_MB} MB</span>
           <button
+            className="button-secondary"
             type="button"
-            style={styles.browseButton}
             onClick={() => inputRef.current?.click()}
+            disabled={uploading}
           >
-            Browse Files
+            Browse files
           </button>
           <input
             ref={inputRef}
             type="file"
             accept=".pdf,.jpg,.jpeg,.png"
-            style={{ display: 'none' }}
-            onChange={(e) => validateAndSetFile(e.target.files[0])}
+            aria-label="Choose invoice file"
+            tabIndex={-1}
+            onChange={(event) => validateAndSetFile(event.target.files[0])}
+            disabled={uploading}
           />
         </div>
 
-        {error && <div style={styles.errorBox}>{error}</div>}
+        {error && <p className="invoice-modal-error" role="alert">{error}</p>}
 
         {file && (
-          <div style={styles.fileRow}>
-            <span style={styles.fileName}>{file.name}</span>
-            <div style={styles.progressTrack}>
-              <div style={{ ...styles.progressFill, width: `${progress}%` }} />
+          <div className="invoice-file-row">
+            <div className="invoice-file-details">
+              <FiFileText aria-hidden="true" />
+              <span>{file.name}</span>
+              <small>{(file.size / (1024 * 1024)).toFixed(2)} MB</small>
             </div>
-            <span style={styles.progressLabel}>{progress}%</span>
-            {!uploading && (
-              <button onClick={() => setFile(null)} style={styles.removeButton}>×</button>
-            )}
+            <div className="invoice-progress-row">
+              <div
+                className="invoice-progress-track"
+                role="progressbar"
+                aria-label="Invoice upload progress"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={progress}
+              >
+                <span style={{ width: `${progress}%` }} />
+              </div>
+              <span>{progress}%</span>
+              {!uploading && (
+                <button type="button" onClick={() => setFile(null)} aria-label="Remove selected file">
+                  <FiX aria-hidden="true" />
+                </button>
+              )}
+            </div>
           </div>
         )}
 
-        <div style={styles.footer}>
-          <button onClick={onClose} style={styles.cancelButton} disabled={uploading}>
+        <footer className="invoice-modal-footer">
+          <button className="button-secondary" type="button" onClick={onClose} disabled={uploading}>
             Cancel
           </button>
-          <button
-            onClick={handleProcess}
-            disabled={!file || uploading}
-            style={styles.processButton}
-          >
-            {uploading ? 'Processing…' : 'Process Invoice →'}
+          <button className="button" type="button" onClick={handleProcess} disabled={!file || uploading}>
+            {uploading ? 'Uploading…' : 'Upload invoice'}
           </button>
-        </div>
-      </div>
+        </footer>
+      </section>
     </div>
   );
 }
-
-const styles = {
-  overlay: {
-    position: 'fixed', inset: 0, backgroundColor: 'rgba(43,50,32,0.4)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
-  },
-  modal: {
-    backgroundColor: theme.colors.white, borderRadius: theme.radius.lg,
-    width: '480px', boxShadow: theme.shadow.level2, fontFamily: theme.fonts.body,
-  },
-  header: {
-    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-    padding: '20px 24px', borderBottom: `1px solid ${theme.colors.border}`,
-  },
-  title: { fontFamily: theme.fonts.display, fontSize: '18px', color: theme.colors.inkBase, margin: 0 },
-  closeButton: {
-    background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: theme.colors.textMuted,
-  },
-  dropzone: {
-    margin: '24px', padding: '32px 16px', border: `1.5px dashed ${theme.colors.border}`,
-    borderRadius: theme.radius.md, textAlign: 'center', backgroundColor: theme.colors.surfaceWash,
-  },
-  dropzoneActive: { borderColor: theme.colors.primaryEmerald },
-  dropzoneText: { fontWeight: 600, color: theme.colors.inkBase, marginBottom: '4px' },
-  dropzoneSubtext: { fontSize: '13px', color: theme.colors.textMuted, marginBottom: '16px' },
-  browseButton: {
-    padding: '8px 16px', borderRadius: theme.radius.sm, border: `1px solid ${theme.colors.border}`,
-    backgroundColor: theme.colors.white, cursor: 'pointer', fontSize: '14px',
-  },
-  fileRow: {
-    margin: '0 24px 16px', padding: '12px', border: `1px solid ${theme.colors.border}`,
-    borderRadius: theme.radius.sm, display: 'flex', alignItems: 'center', gap: '10px',
-  },
-  fileName: { fontFamily: theme.fonts.mono, fontSize: '13px', color: theme.colors.inkBase, flexShrink: 0 },
-  progressTrack: { flex: 1, height: '6px', backgroundColor: theme.colors.border, borderRadius: '3px', overflow: 'hidden' },
-  progressFill: { height: '100%', backgroundColor: theme.colors.primaryEmerald, transition: 'width 0.2s' },
-  progressLabel: { fontSize: '12px', color: theme.colors.textMuted, width: '32px' },
-  removeButton: { background: 'none', border: 'none', cursor: 'pointer', color: theme.colors.textMuted },
-  errorBox: {
-    margin: '0 24px 16px', backgroundColor: '#FDECEC', color: theme.colors.error,
-    padding: '10px', borderRadius: theme.radius.sm, fontSize: '13px',
-  },
-  footer: {
-    display: 'flex', justifyContent: 'flex-end', gap: '12px',
-    padding: '16px 24px', backgroundColor: theme.colors.surfaceWash,
-    borderTop: `1px solid ${theme.colors.border}`, borderRadius: `0 0 ${theme.radius.lg} ${theme.radius.lg}`,
-  },
-  cancelButton: {
-    padding: '10px 18px', borderRadius: theme.radius.sm, border: 'none',
-    background: 'none', color: theme.colors.secondarySlate, cursor: 'pointer', fontSize: '14px',
-  },
-  processButton: {
-    padding: '10px 18px', borderRadius: theme.radius.sm, border: 'none',
-    backgroundColor: theme.colors.primaryEmerald, color: theme.colors.white,
-    fontWeight: 600, cursor: 'pointer', fontSize: '14px',
-  },
-};
 
 export default UploadInvoiceModal;

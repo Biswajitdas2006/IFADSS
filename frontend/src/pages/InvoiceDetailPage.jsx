@@ -1,31 +1,36 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { getInvoice } from '../services/invoiceService';
-import { anomalyService } from '../services/anomalyService';
-import { useAuth } from '../context/AuthContext';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
-import { theme } from '../styles/theme';
+import { useAuth } from '../hooks/useAuth';
+import { anomalyService } from '../services/anomalyService';
+import { getInvoice } from '../services/invoiceService';
+import { formatCurrency } from '../utils/formatCurrency';
+import { formatDate } from '../utils/formatDate';
+import './invoice-detail.css';
 
-const STATUS_STYLES = {
-  Processed: { bg: '#E5F5EF', text: theme.colors.success },
-  Pending: { bg: '#FEF3E2', text: theme.colors.warning },
-  Failed: { bg: '#FDECEC', text: theme.colors.error },
-};
-
-const money = (v) =>
-  `₹${Number(v ?? 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+function getStatusClass(status) {
+  if (status === 'Processed') return 'status-pill--success';
+  if (status === 'Pending') return 'status-pill--warning';
+  if (status === 'Failed') return 'status-pill--danger';
+  return '';
+}
 
 function InvoiceDetailPage() {
   const { id } = useParams();
   const { user } = useAuth();
   const canScan = ['Owner', 'Accountant'].includes(user?.role);
+  const [invoiceState, setInvoiceState] = useState({
+    id: null,
+    invoice: null,
+    loading: true,
+    error: '',
+  });
+  const [scanError, setScanError] = useState('');
+  const scannedInvoiceId = useRef(null);
+  const invoice = invoiceState.id === id ? invoiceState.invoice : null;
+  const loading = invoiceState.id !== id || invoiceState.loading;
+  const error = invoiceState.id === id ? invoiceState.error : '';
 
-  const [invoice, setInvoice] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const scanned = useRef(false);
-
-  // Load + poll while Pending
   useEffect(() => {
     let cancelled = false;
     let timer;
@@ -34,15 +39,24 @@ function InvoiceDetailPage() {
       try {
         const result = await getInvoice(id);
         if (cancelled) return;
-        setInvoice(result);
-        setLoading(false);
+        setInvoiceState({
+          id,
+          invoice: result,
+          loading: false,
+          error: '',
+        });
+
         if (result.status === 'Pending') {
           timer = setTimeout(load, 3000);
         }
-      } catch (err) {
+      } catch (requestError) {
         if (!cancelled) {
-          setError(err.response?.data?.error?.message || 'Could not load invoice.');
-          setLoading(false);
+          setInvoiceState({
+            id,
+            invoice: null,
+            loading: false,
+            error: requestError.response?.data?.error?.message || 'Could not load this invoice.',
+          });
         }
       }
     }
@@ -55,152 +69,139 @@ function InvoiceDetailPage() {
     };
   }, [id]);
 
-  // Once the invoice is processed, its transactions exist -> run anomaly scan
   useEffect(() => {
-    if (invoice?.status === 'Processed' && canScan && !scanned.current) {
-      scanned.current = true;
-      anomalyService.scan(90).catch(() => {});
-    }
-  }, [invoice?.status, canScan]);
+    if (
+      invoice?.status !== 'Processed' ||
+      !canScan ||
+      scannedInvoiceId.current === id
+    ) return undefined;
+    scannedInvoiceId.current = id;
+    let cancelled = false;
 
-  if (loading) {
-    return (
-      <AppLayout>
-        <p style={styles.loadingText}>Loading invoice…</p>
-      </AppLayout>
-    );
-  }
+    anomalyService.scan(90).catch((requestError) => {
+      if (!cancelled) {
+        setScanError({
+          id,
+          message: requestError.response?.data?.error?.message ||
+            'The anomaly scan could not be completed.',
+        });
+      }
+    });
 
-  if (error) {
-    return (
-      <AppLayout>
-        <div style={styles.errorBox}>{error}</div>
-        <Link to="/invoices" style={styles.backLink}>← Back to Invoices</Link>
-      </AppLayout>
-    );
-  }
-
-  const statusStyle = STATUS_STYLES[invoice.status] || {};
+    return () => {
+      cancelled = true;
+    };
+  }, [invoice?.status, canScan, id]);
 
   return (
     <AppLayout>
-      <Link to="/invoices" style={styles.backLink}>← Back to Invoices</Link>
+      <div className="invoice-detail">
+        <Link className="invoice-back-link" to="/invoices">← Invoices</Link>
 
-      <div style={styles.headerRow}>
-        <h1 style={styles.heading}>{invoice.vendorName ?? 'Processing invoice…'}</h1>
-        <span style={{ ...styles.badge, backgroundColor: statusStyle.bg, color: statusStyle.text }}>
-          {invoice.status}
-        </span>
-      </div>
+        {loading && <p className="invoice-loading" role="status">Loading invoice…</p>}
 
-      {invoice.status === 'Failed' && (
-        <div style={styles.failedBox}>
-          <strong>Processing failed.</strong>{' '}
-          {invoice.failureReason || 'The AI service could not process this invoice.'}
-        </div>
-      )}
-
-      <div style={styles.grid}>
-        <InfoCard label="Vendor" value={invoice.vendorName ?? '—'} />
-        <InfoCard label="Invoice Date" value={invoice.invoiceDate ?? '—'} />
-        <InfoCard
-          label="Total Amount"
-          value={invoice.totalAmount != null ? money(invoice.totalAmount) : '—'}
-          mono
-        />
-      </div>
-
-      <h2 style={styles.subheading}>Line Items</h2>
-      <div style={styles.tableCard}>
-        {invoice.transactions.length === 0 ? (
-          <div style={styles.emptyCell}>
-            {invoice.status === 'Processed'
-              ? 'No line items were extracted from this invoice.'
-              : 'Line items will appear here once processing completes.'}
+        {!loading && error && (
+          <div className="page-error" role="alert">
+            <span>{error}</span>
+            <Link className="inline-link" to="/invoices">Return to invoices</Link>
           </div>
-        ) : (
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th style={styles.th}>Description</th>
-                <th style={styles.th}>Category</th>
-                <th style={styles.thRight}>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoice.transactions.map((t) => (
-                <tr key={t.id} style={styles.row}>
-                  <td style={styles.td}>{t.description}</td>
-                  <td style={styles.td}>
-                    {t.category ? (
-                      <span style={styles.categoryBadge}>{t.category}</span>
-                    ) : (
-                      <span style={styles.uncategorized}>Uncategorized</span>
-                    )}
-                  </td>
-                  <td style={styles.tdRight}>{money(t.amount)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        )}
+
+        {!loading && !error && invoice && (
+          <>
+            <header className="page-header invoice-header">
+              <div>
+                <h1>{invoice.vendorName || 'Invoice processing'}</h1>
+                <p>Invoice details and extracted transaction line items.</p>
+              </div>
+              <span className={`status-pill ${getStatusClass(invoice.status)}`}>
+                {invoice.status}
+              </span>
+            </header>
+
+            {invoice.status === 'Failed' && (
+              <div className="page-error" role="status">
+                <span>
+                  <strong>Processing failed. </strong>
+                  {invoice.failureReason || 'The invoice could not be processed.'}
+                </span>
+              </div>
+            )}
+
+            {scanError?.id === id && (
+              <div className="page-notice" role="status">
+                <span>{scanError.message} You can run a scan from Anomalies.</span>
+                <Link className="inline-link" to="/anomalies">Open anomalies</Link>
+              </div>
+            )}
+
+            <section className="invoice-facts" aria-label="Invoice information">
+              <div className="surface-card invoice-fact">
+                <span>Vendor</span>
+                <strong>{invoice.vendorName || '—'}</strong>
+              </div>
+              <div className="surface-card invoice-fact">
+                <span>Invoice date</span>
+                <strong>{formatDate(invoice.invoiceDate)}</strong>
+              </div>
+              <div className="surface-card invoice-fact">
+                <span>Total amount</span>
+                <strong className="invoice-amount">
+                  {invoice.totalAmount == null
+                    ? '—'
+                    : formatCurrency(invoice.totalAmount, { minimumFractionDigits: 2 })}
+                </strong>
+              </div>
+            </section>
+
+            <section className="invoice-line-items">
+              <div className="invoice-section-heading">
+                <h2>Line items</h2>
+                <span>{invoice.transactions?.length ?? 0} items</span>
+              </div>
+              <div className="surface-card table-scroll">
+                {invoice.transactions?.length ? (
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Description</th>
+                        <th scope="col">Category</th>
+                        <th scope="col" className="cell-numeric">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {invoice.transactions.map((transaction) => (
+                        <tr key={transaction.id}>
+                          <td className="cell-primary">{transaction.description || '—'}</td>
+                          <td>
+                            {transaction.category
+                              ? <span className="category-pill">{transaction.category}</span>
+                              : <span className="text-muted">Uncategorized</span>}
+                          </td>
+                          <td className="cell-numeric">
+                            {formatCurrency(transaction.amount, { minimumFractionDigits: 2 })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="empty-state">
+                    <h2>{invoice.status === 'Processed' ? 'No line items extracted' : 'Processing invoice'}</h2>
+                    <p>
+                      {invoice.status === 'Processed'
+                        ? 'No transaction line items were returned for this invoice.'
+                        : 'Extracted line items will appear here when processing is complete.'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </section>
+          </>
         )}
       </div>
     </AppLayout>
   );
 }
-
-function InfoCard({ label, value, mono }) {
-  return (
-    <div style={styles.infoCard}>
-      <div style={styles.infoLabel}>{label}</div>
-      <div style={{ ...styles.infoValue, fontFamily: mono ? theme.fonts.mono : theme.fonts.body }}>
-        {value}
-      </div>
-    </div>
-  );
-}
-
-const styles = {
-  loadingText: { color: theme.colors.textMuted, fontFamily: theme.fonts.body },
-  backLink: {
-    display: 'inline-block', marginBottom: '16px', color: theme.colors.primaryEmerald,
-    textDecoration: 'none', fontSize: '13px', fontWeight: 600,
-  },
-  headerRow: { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' },
-  heading: { color: theme.colors.inkBase, fontFamily: theme.fonts.display, fontSize: '22px', margin: 0 },
-  badge: { padding: '4px 12px', borderRadius: theme.radius.sm, fontSize: '12px', fontWeight: 600 },
-  errorBox: {
-    backgroundColor: '#FDECEC', color: theme.colors.error, padding: '12px 16px',
-    borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '16px',
-  },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' },
-  infoCard: {
-    backgroundColor: theme.colors.white, border: `1px solid ${theme.colors.border}`,
-    borderRadius: theme.radius.md, padding: '16px',
-  },
-  infoLabel: { fontSize: '12px', color: theme.colors.textMuted, marginBottom: '6px' },
-  infoValue: { fontSize: '16px', color: theme.colors.inkBase, fontWeight: 600 },
-  subheading: { color: theme.colors.inkBase, fontFamily: theme.fonts.display, fontSize: '16px', marginBottom: '12px' },
-  tableCard: {
-    backgroundColor: theme.colors.white, border: `1px solid ${theme.colors.border}`,
-    borderRadius: theme.radius.md, overflow: 'hidden',
-  },
-  table: { width: '100%', borderCollapse: 'collapse', fontFamily: theme.fonts.body },
-  th: { textAlign: 'left', padding: '12px 20px', fontSize: '11px', color: theme.colors.textMuted, borderBottom: `1px solid ${theme.colors.border}` },
-  thRight: { textAlign: 'right', padding: '12px 20px', fontSize: '11px', color: theme.colors.textMuted, borderBottom: `1px solid ${theme.colors.border}` },
-  row: { borderBottom: `1px solid ${theme.colors.border}` },
-  td: { padding: '14px 20px', fontSize: '14px', color: theme.colors.inkBase },
-  tdRight: { padding: '14px 20px', fontSize: '14px', color: theme.colors.inkBase, textAlign: 'right', fontFamily: theme.fonts.mono },
-  categoryBadge: {
-    backgroundColor: theme.colors.surfaceWash, color: theme.colors.primaryEmerald,
-    padding: '3px 10px', borderRadius: theme.radius.sm, fontSize: '12px', fontWeight: 600,
-  },
-  uncategorized: { fontSize: '13px', color: theme.colors.textMuted, fontStyle: 'italic' },
-  emptyCell: { padding: '40px', textAlign: 'center', color: theme.colors.textMuted, fontSize: '14px' },
-  failedBox: {
-    backgroundColor: '#FDECEC', color: theme.colors.error, padding: '12px 16px',
-    borderRadius: theme.radius.sm, fontSize: '13px', marginBottom: '20px',
-  },
-};
 
 export default InvoiceDetailPage;

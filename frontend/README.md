@@ -1,31 +1,22 @@
-# React + Vite
+# IFADSS frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The React application for the Intelligent Financial Automation and Decision Support System. It provides public sign-in and registration pages and an authenticated workspace for invoice processing, transaction review, anomaly review, forecasting, and account settings.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+npm install
+npm run dev
+```
 
-## React Compiler
+Use `npm run lint` to check the frontend and `npm run build` to create the production bundle.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Workspace
 
-## Expanding the ESLint configuration
+- **Invoices:** upload PDF, JPG, or PNG files up to 10 MB and review extraction status and line items.
+- **Transactions:** review invoice-derived records, model confidence, and editable categories.
+- **Anomalies:** available to Owner and Accountant roles for scanning, filtering, and recording reviews.
+- **Predictions:** Owner and Accountant roles can explore revenue, expense, or cash-flow forecasts for supported horizons.
+- **Settings:** view account details and sign out. Profile editing and password management are not available in this version.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-### Color palette
-
-| Color | Hex |
-| --- | --- |
-| Primary emerald | `#006C49` |
-| Ink base | `#2B3220` |
-| Secondary slate | `#565E74` |
-| Surface wash | `#E8F0E9` |
-| Error | `#BA1A1A` |
-| Warning | `#F59E0B` |
-| Success | `#108981` |
-| White | `#FFFFFF` |   
-| Border | `#DDE5DE` |
-| Muted text | `#6B7A6D` |
+Financial amounts are displayed in Indian rupees (INR). Forecasts are estimates; anomaly flags require human review.

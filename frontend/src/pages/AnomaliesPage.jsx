@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { anomalyService } from '../services/anomalyService';
 import AnomalyCard from '../components/anomaly/AnomalyCard';
 import AppLayout from '../components/layout/AppLayout';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import '../components/anomaly/anomaly.css';
 
 const PAGE_SIZE = 10;
@@ -30,11 +30,13 @@ export default function AnomaliesPage() {
   const [severity, setSeverity] = useState('');
   const [reviewed, setReviewed] = useState('');
   const [page, setPage] = useState(1);
+  const [reloadKey, setReloadKey] = useState(0);
 
   const [scanWindow, setScanWindow] = useState(90);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [scanError, setScanError] = useState('');
 
   const [scanning, setScanning] = useState(false);
   const [scanMsg, setScanMsg] = useState('');
@@ -42,45 +44,73 @@ export default function AnomaliesPage() {
 
   const autoScanned = useRef(false);
 
-  const load = useCallback(async () => {
-    if (!hasAccess) return;
+  useEffect(() => {
+    let cancelled = false;
 
+    async function fetchAnomalies() {
+      try {
+        const result = await anomalyService.list({
+          severity,
+          reviewed,
+          page,
+          pageSize: PAGE_SIZE,
+        });
+
+        if (!cancelled) {
+          setData(result);
+          setError('');
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(
+            requestError.response?.data?.error?.message ||
+            'Could not load anomalies'
+          );
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    if (hasAccess) fetchAnomalies();
+    return () => {
+      cancelled = true;
+    };
+  }, [severity, reviewed, page, hasAccess, reloadKey]);
+
+  const refreshList = (requestedPage = page) => {
     setLoading(true);
     setError('');
+    setPage(requestedPage);
+    setReloadKey((current) => current + 1);
+  };
 
-    try {
-      const result = await anomalyService.list({
-        severity,
-        reviewed,
-        page,
-        pageSize: PAGE_SIZE,
-      });
-
-      setData(result);
-    } catch (e) {
-      setError(
-        e.response?.data?.error?.message ||
-        'Could not load anomalies'
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, [severity, reviewed, page, hasAccess]);
-
-  useEffect(() => {
-    load();
-  }, [load]);
-
-  // Auto-scan once when the page opens (backend skips already-flagged transactions)
   useEffect(() => {
     if (!hasAccess || autoScanned.current) return;
     autoScanned.current = true;
+    let cancelled = false;
 
     anomalyService
-      .scan(scanWindow)
-      .then(() => load())
-      .catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      .scan(90)
+      .then(() => {
+        if (!cancelled) {
+          setLoading(true);
+          setPage(1);
+          setReloadKey((current) => current + 1);
+        }
+      })
+      .catch((requestError) => {
+        if (!cancelled) {
+          setScanError(
+            requestError.response?.data?.error?.message ||
+            'Could not run the initial anomaly scan.'
+          );
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [hasAccess]);
 
   const runScan = async () => {
@@ -88,6 +118,7 @@ export default function AnomaliesPage() {
     setScanMsg('');
     setScanResult(null);
     setError('');
+    setScanError('');
 
     try {
       const result = await anomalyService.scan(scanWindow);
@@ -107,20 +138,11 @@ export default function AnomaliesPage() {
         setScanMsg('Scan completed — no new anomalies detected');
       }
 
-      setPage(1);
-
-      const refreshed = await anomalyService.list({
-        severity,
-        reviewed,
-        page: 1,
-        pageSize: PAGE_SIZE,
-      });
-
-      setData(refreshed);
+      refreshList(1);
     } catch (e) {
-      setError(
+      setScanError(
         e.response?.data?.error?.message ||
-        'Scan failed. Is the AI service running?'
+        'Scan failed. Check that the anomaly service is available and try again.'
       );
     } finally {
       setScanning(false);
@@ -132,7 +154,7 @@ export default function AnomaliesPage() {
       await anomalyService.markReviewed(id);
 
       if (reviewed === 'false') {
-        await load();
+        refreshList();
         return;
       }
 
@@ -163,11 +185,15 @@ export default function AnomaliesPage() {
   }, [data.items]);
 
   const handleFilter = (setter) => (event) => {
+    setLoading(true);
+    setError('');
     setter(event.target.value);
     setPage(1);
   };
 
   const clearFilters = () => {
+    setLoading(true);
+    setError('');
     setSeverity('');
     setReviewed('');
     setPage(1);
@@ -178,54 +204,44 @@ export default function AnomaliesPage() {
   if (!hasAccess) {
     return (
       <AppLayout>
-        <main className="anomaly-page">
+        <div className="anomaly-page">
           <section className="anomaly-access-denied">
             <div className="access-icon">!</div>
             <h2>Access restricted</h2>
             <p>You do not have permission to access anomaly detection.</p>
           </section>
-        </main>
+        </div>
       </AppLayout>
     );
   }
 
   return (
     <AppLayout>
-      <main className="anomaly-page">
+      <div className="anomaly-page">
         <section className="anomaly-page-header">
           <div>
             <div className="anomaly-eyebrow">
               <span className="eyebrow-dot" />
-              AI FINANCIAL MONITORING
+              TRANSACTION REVIEW
             </div>
 
-            <h1>Anomaly Detection</h1>
+            <h1>Anomalies</h1>
 
             <p className="anomaly-subheading">
-              Identify unusual financial transactions using behavioral
-              machine learning. Review risk signals, investigate flagged activity,
-              and record each decision.
+              Review transactions flagged for unusual patterns. A flag is a prompt
+              to investigate, not a conclusion of fraud.
             </p>
-          </div>
-
-          <div className="model-status">
-            <span className="model-status-dot" />
-            <div>
-              <strong>AI model ready</strong>
-              <span>Isolation Forest</span>
-            </div>
           </div>
         </section>
 
         <section className="anomaly-scan-panel">
           <div className="scan-panel-info">
-            <div className="scan-icon">AI</div>
+            <div className="scan-icon" aria-hidden="true">Scan</div>
 
             <div>
-              <h2>Run anomaly analysis</h2>
+              <h2>Scan transaction activity</h2>
               <p>
-                Analyze transactions within the selected time window
-                and detect unusual spending behavior.
+                Choose a time period to compare recent transactions with historical activity.
               </p>
             </div>
           </div>
@@ -261,13 +277,26 @@ export default function AnomaliesPage() {
                 </>
               ) : (
                 <>
-                  Run AI scan
+                  Run scan
                   <span className="button-arrow">→</span>
                 </>
               )}
             </button>
           </div>
         </section>
+
+        {scanError && (
+          <div className="page-error" role="alert">
+            <span>{scanError}</span>
+            <button
+              type="button"
+              className="anomaly-secondary-button"
+              onClick={() => setScanError('')}
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
 
         {scanMsg && (
           <section
@@ -285,8 +314,8 @@ export default function AnomaliesPage() {
 
               <span>
                 {scanResult?.count > 0
-                  ? `The model found unusual transactions in the last ${scanResult.window} days.`
-                  : `The model analyzed the last ${scanResult?.window || scanWindow} days and found no new transactions requiring an anomaly flag.`}
+                  ? `The scan flagged activity in the last ${scanResult.window} days for review.`
+                  : `The scan reviewed the last ${scanResult?.window || scanWindow} days and found no new activity to flag.`}
               </span>
             </div>
           </section>
@@ -367,7 +396,7 @@ export default function AnomaliesPage() {
               <button
                 type="button"
                 className="anomaly-secondary-button"
-                onClick={load}
+                onClick={() => refreshList()}
                 disabled={loading}
               >
                 {loading ? 'Refreshing…' : 'Refresh'}
@@ -404,7 +433,7 @@ export default function AnomaliesPage() {
                 <button
                   type="button"
                   className="anomaly-secondary-button error-retry-button"
-                  onClick={load}
+                  onClick={() => refreshList()}
                   disabled={loading}
                 >
                   Try again
@@ -415,14 +444,14 @@ export default function AnomaliesPage() {
 
           {!loading && !error && data.items.length === 0 && (
             <div className="anomaly-empty">
-              <div className="empty-icon">✓</div>
+              <div className="empty-icon" aria-hidden="true">✓</div>
 
-              <h2>{hasActiveFilters ? 'No matching anomalies' : 'No anomalies found'}</h2>
+              <h2>{hasActiveFilters ? 'No matching anomalies' : 'No flagged activity'}</h2>
 
               <p>
                 {hasActiveFilters
-                  ? 'There are no flagged transactions for the selected severity and review status. Clear the filters to see all results.'
-                  : 'No transactions have been flagged by the anomaly model yet. Run a scan to analyze recent activity.'}
+                  ? 'No flagged transactions match these filters. Clear the filters to see all results.'
+                  : 'No transactions have been flagged in the current results. Run a scan to review recent activity.'}
               </p>
 
               {hasActiveFilters ? (
@@ -440,7 +469,7 @@ export default function AnomaliesPage() {
                   onClick={runScan}
                   disabled={scanning}
                 >
-                  {scanning ? 'Analyzing…' : 'Run AI scan'}
+                  {scanning ? 'Scanning…' : 'Run scan'}
                 </button>
               )}
             </div>
@@ -464,7 +493,10 @@ export default function AnomaliesPage() {
             <button
               type="button"
               disabled={page <= 1}
-              onClick={() => setPage((current) => current - 1)}
+              onClick={() => {
+                setLoading(true);
+                setPage((current) => current - 1);
+              }}
             >
               ← Previous
             </button>
@@ -477,13 +509,16 @@ export default function AnomaliesPage() {
             <button
               type="button"
               disabled={page >= data.totalPages}
-              onClick={() => setPage((current) => current + 1)}
+              onClick={() => {
+                setLoading(true);
+                setPage((current) => current + 1);
+              }}
             >
               Next →
             </button>
           </div>
         )}
-      </main>
+      </div>
     </AppLayout>
   );
 }

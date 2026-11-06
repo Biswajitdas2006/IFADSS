@@ -1,52 +1,43 @@
-import { useAuth } from '../../context/AuthContext';
-import { theme } from '../../styles/theme';
+import { FiMenu } from 'react-icons/fi';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-function Topbar() {
+const pageTitles = {
+  '/dashboard': 'Dashboard',
+  '/invoices': 'Invoices',
+  '/transactions': 'Transactions',
+  '/anomalies': 'Anomalies',
+  '/predictions': 'Predictions',
+  '/settings': 'Settings',
+};
+
+function Topbar({ onMenuClick, navigationOpen }) {
+  const { pathname } = useLocation();
   const { user, logout } = useAuth();
+  const title = pageTitles[pathname] || (pathname.startsWith('/invoices/') ? 'Invoice details' : 'Workspace');
 
   return (
-    <header style={styles.topbar}>
-      <div />
-      <div style={styles.userSection}>
-        <span style={styles.email}>{user?.email}</span>
-        <span style={styles.roleBadge}>{user?.role}</span>
-        <button onClick={logout} style={styles.logoutButton}>
-          Log out
+    <header className="workspace-topbar">
+      <button
+        className="mobile-menu-button"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded={navigationOpen}
+        aria-controls="workspace-sidebar"
+        onClick={onMenuClick}
+      >
+        <FiMenu aria-hidden="true" />
+      </button>
+      <p className="workspace-topbar-title">{title}</p>
+      <div className="workspace-user">
+        <span className="workspace-user-email">{user?.email}</span>
+        <span className="workspace-user-role">{user?.role}</span>
+        <button className="workspace-signout" type="button" onClick={logout}>
+          Sign out
         </button>
       </div>
     </header>
   );
 }
-
-const styles = {
-  topbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '16px 32px',
-    backgroundColor: theme.colors.white,
-    borderBottom: `1px solid ${theme.colors.border}`,
-  },
-  userSection: { display: 'flex', alignItems: 'center', gap: '12px' },
-  email: { color: theme.colors.inkBase, fontSize: '14px', fontFamily: theme.fonts.body },
-  roleBadge: {
-    backgroundColor: theme.colors.surfaceWash,
-    color: theme.colors.primaryEmerald,
-    padding: '4px 10px',
-    borderRadius: theme.radius.sm,
-    fontSize: '12px',
-    fontWeight: 600,
-  },
-  logoutButton: {
-    backgroundColor: 'transparent',
-    border: `1px solid ${theme.colors.border}`,
-    color: theme.colors.secondarySlate,
-    padding: '6px 14px',
-    borderRadius: theme.radius.sm,
-    cursor: 'pointer',
-    fontSize: '13px',
-    fontFamily: theme.fonts.body,
-  },
-};
 
 export default Topbar;

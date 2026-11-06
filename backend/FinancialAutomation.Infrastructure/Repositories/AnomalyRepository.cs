@@ -13,6 +13,10 @@ public class AnomalyRepository : IAnomalyRepository
     private readonly AppDbContext _db;
     public AnomalyRepository(AppDbContext db) => _db = db;
 
+    public Task<int> CountOpenAsync(Guid userId)
+        => _db.Anomalies.CountAsync(
+            a => !a.Reviewed && a.Transaction != null && a.Transaction.UserId == userId);
+
     // ---- IRepository<Anomaly> base ----
     public async Task<Anomaly?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         => await _db.Anomalies.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);

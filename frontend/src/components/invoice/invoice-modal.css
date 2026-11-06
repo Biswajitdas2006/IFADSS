@@ -1,0 +1,227 @@
+.invoice-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgb(20 31 25 / 38%);
+}
+
+.invoice-modal {
+  width: min(100%, 500px);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.invoice-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.invoice-modal-header h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.invoice-modal-header p {
+  margin: 5px 0 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.invoice-modal-close {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.invoice-modal-close:hover:not(:disabled) {
+  background: var(--surface-raised);
+}
+
+.invoice-modal-close:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.invoice-dropzone {
+  display: flex;
+  min-height: 192px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 9px;
+  padding: 24px;
+  margin: 18px 20px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+  text-align: center;
+  transition: border-color 130ms ease, background-color 130ms ease;
+}
+
+.invoice-dropzone.is-active {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.invoice-dropzone-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--brand);
+  font-size: 16px;
+}
+
+.invoice-dropzone strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.invoice-dropzone > span:not(.invoice-dropzone-icon) {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.invoice-dropzone input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.invoice-modal-error {
+  padding: 9px 11px;
+  margin: 0 20px 14px;
+  border: 1px solid #f1c7c3;
+  border-radius: var(--radius-md);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.invoice-file-row {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  margin: 0 20px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.invoice-file-details,
+.invoice-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.invoice-file-details > svg {
+  flex: 0 0 auto;
+  color: var(--brand);
+}
+
+.invoice-file-details > span {
+  overflow: hidden;
+  flex: 1;
+  color: var(--ink);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.invoice-file-details small,
+.invoice-progress-row > span {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.invoice-progress-track {
+  height: 5px;
+  flex: 1;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--surface-raised);
+}
+
+.invoice-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--brand);
+  transition: width 150ms ease;
+}
+
+.invoice-progress-row button {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.invoice-progress-row button:hover {
+  background: var(--surface-raised);
+}
+
+.invoice-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 13px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-subtle);
+}
+
+@media (max-width: 480px) {
+  .invoice-modal-overlay {
+    align-items: end;
+    padding: 0;
+  }
+
+  .invoice-modal {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .invoice-dropzone {
+    margin-inline: 14px;
+  }
+
+  .invoice-modal-header,
+  .invoice-modal-footer {
+    padding-inline: 14px;
+  }
+}

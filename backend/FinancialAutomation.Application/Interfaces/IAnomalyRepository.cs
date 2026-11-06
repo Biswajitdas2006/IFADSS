@@ -6,6 +6,8 @@ namespace FinancialAutomation.Application.Interfaces;
 
 public interface IAnomalyRepository : IRepository<Anomaly>
 {
+    Task<int> CountOpenAsync(Guid userId);
+
     Task<PagedResult<Anomaly>> GetPagedByUserAsync(
         Guid userId, AnomalySeverity? severity, bool? reviewed, int page, int pageSize);
 
